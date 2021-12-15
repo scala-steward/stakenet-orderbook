@@ -1,0 +1,16 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+GET /health controllers.HealthController.check(service: Option[String], currency: Option[String])
+
+GET /ws controllers.WebSocketController.ws(walletId: Option[String] ?= None)
+
+GET /lnd-channels controllers.LndChannelsController.get()
+
+GET /trading-pairs/:tradingPair/volume controllers.TradesController.getVolume(tradingPair, lastDays: Int ?= 1)
+
+GET /trading-pairs/:tradingPair/trades-number controllers.TradesController.getNumberOfTrades(tradingPair, lastDays: Int ?= 1)
+
+GET /trading-pairs/:tradingPair/nodes-info controllers.TradesController.getNodesInfo(tradingPair)
