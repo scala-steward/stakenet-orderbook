@@ -1,0 +1,96 @@
+<div class="landing-page">
+
+  <div class="header">
+    <div class="periods-container">
+      <label [ngClass]="(volumePeriod===volumePeriods.day)?'period_selected':'period'"
+        (click)="onPeriodChanged(volumePeriods.day)">{{volumePeriods.day.name}}
+      </label>
+      <label [ngClass]="(volumePeriod===volumePeriods.week)?'period_selected':'period'"
+        (click)="onPeriodChanged(volumePeriods.week)">{{volumePeriods.week.name}} </label>
+      <label [ngClass]="(volumePeriod===volumePeriods.month)?'period_selected':'period'"
+        (click)="onPeriodChanged(volumePeriods.month)">{{volumePeriods.month.name}}</label>
+      <label [ngClass]="(volumePeriod===volumePeriods.all)?'period_selected':'period'"
+        (click)="onPeriodChanged(volumePeriods.all)">{{volumePeriods.all.name}}</label>
+    </div>
+
+    <img src="assets/monitor/logo.svg" class="title-header" alt="">
+  </div>
+
+  <div class="horizontal-div-container show-mobile">
+    <div class="horizontal__divisor"></div>
+  </div>
+
+  <div class="trading-pair-container" (click)="onClickTradingPair()">
+    <label class="pair-label">TRADING PAIR <i class="fas"
+        [ngClass]="menuOpened ? 'fa-angle-up' : 'fa-angle-down'"></i></label>
+    <div class="currency-span currency-span-1">{{tradingPair.secondary}}</div>
+    <div class="icon-currency currency-1"><img src="{{tradingPair.secondary.urlIcon}}" alt=""></div>
+    <div class="icon-currency currency-2"><img src="{{tradingPair.principal.urlIcon}}" alt=""></div>
+    <div class="currency-span currency-span-2">{{tradingPair.principal}}</div>
+  </div>
+
+  <div class="dropdown-content" [ngClass]="menuOpened ? 'show': ''">
+    <a *ngFor="let item of monitorPairs" href="monitor/{{item.name}}" class="dropdown-item">
+      <div class="currency-span currency-span-1">{{item.secondary}}</div>
+      <div class="icon-currency currency-1"><img src="{{item.secondary.urlIcon}}" alt=""></div>
+      <div class="icon-currency currency-2"><img src="{{item.principal.urlIcon}}" alt=""></div>
+      <div class="currency-span currency-span-2">{{item.principal}}</div>
+    </a>
+  </div>
+
+  <div class="horizontal-div-container">
+    <div class="horizontal__divisor"></div>
+  </div>
+
+  <div class="monitor-content">
+
+    <div class="monitor-item volume-content">
+      <label class="volume-label">TOTAL VOLUME</label>
+      <label class="amount volume-amount">
+        <span [ngClass]="{animation_volume:animations.volume}" (animationend)="animations.volume=false" *ngIf="volume">$
+          {{toCurrencyFormat(volume.volumeUSD)}} USD
+        </span>
+        <span *ngIf="!volume">UNAVAILABLE</span>
+      </label>
+      <div class="volume-cripto-amount">
+        <span *ngIf="volume">{{toCurrencyFormat(volume.volumeBTC,8)}} BTC</span>
+        <span *ngIf="!volume">UNAVAILABLE</span>
+      </div>
+    </div>
+    <img src="assets/monitor/ic-volume.png" alt="ic-volume" class="ic-monitor">
+    <img src="assets/monitor/ic-burned.png" alt="ic-burned" class="ic-monitor">
+
+    <div class="monitor-item burned-content">
+      <div class="burned-coming">
+        <label class="burned-amount-label">BURNED AMOUNT </label>
+        <label class="coming-soon-label">COMING SOON</label>
+      </div>
+      <label class="amount burned-amount opacity">
+        <span [ngClass]="{animation_burned:animations.burned}">${{calculateBurnedAmount()}} USD</span>
+      </label>
+      <label class="burned-crypto-amount opacity">
+        <span *ngIf="burnedAddress">{{toCurrencyFormat(burnedAddress.available,8)}} XSN</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="horizontal-div-container show-mobile">
+    <div class="horizontal__divisor"></div>
+  </div>
+
+  <div class="footer">
+    <div class="rectangle">
+      <label class="footer_number">{{numberOfChannels}}</label>
+      <label class="footer_label">Number of channels</label>
+    </div>
+    <div class="rectangle">
+      <label class="footer_number">{{numberOfNodes}}</label>
+      <label class="footer_label">Number of connected nodes</label>
+    </div>
+    <div class="rectangle">
+      <label class="footer_number">{{numberOfTrades}}</label>
+      <label class="footer_label">Number of trades</label>
+    </div>
+  </div>
+
+</div>

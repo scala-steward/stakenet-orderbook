@@ -1,0 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/ngx-toastr/toastr.css';
+
+html, body {
+  background-color: #090d1c !important;
+  height: 100%;
+  margin: 0px;
+}

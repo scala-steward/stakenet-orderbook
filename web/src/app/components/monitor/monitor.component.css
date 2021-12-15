@@ -1,0 +1,595 @@
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-position: center;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: black no-repeat padding-box;
+  height: 100%;
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.periods-container {
+  display: flex;
+  align-self: flex-end;
+  max-width: 21rem;
+  margin: 1rem;
+  border-radius: 6px;
+  background-color: rgba(118, 118, 128, 0.15);
+  text-align: center;
+  font: normal normal normal 13px/15px Rubik;
+  color: #ffffff;
+}
+
+.period {
+  letter-spacing: 0px;
+  padding: .5rem .5rem;
+  margin: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+}
+
+.period_selected {
+  margin-bottom: 0px;
+  padding: .5rem 1em;
+  border-radius: 6px;
+  min-width: 3rem;
+  background-image: linear-gradient(to bottom, #aaaaac7a, rgba(58, 58, 59, 0.493) 60%);
+}
+
+
+.title-header {
+  display: flex;
+  align-self: center;
+  margin: 1vh auto 4vh;
+  background: black no-repeat padding-box;
+  max-width: 80%;
+}
+
+.trading-pair-container {
+  margin: 4rem auto 0rem;
+  text-align: center;
+  width: 13rem;
+  height: 5rem;
+  border-radius: 8px;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+}
+
+.pair-label {
+  font-family: Rubik;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 2px;
+  text-align: center;
+  color: rgba(216, 216, 216);
+  margin-bottom: 1.5rem;
+  border-radius: 15.5px;
+  background-color: rgba(216, 216, 216, 0.2);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.icon-currency {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+.currency-1 {
+  bottom: 32px;
+  left: 27%;
+}
+
+.currency-2 {
+  bottom: 82px;
+  left: 50%;
+}
+
+.currency-span {
+  font-family: Rubik;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  width: 3rem;
+  margin: 0rem;
+  padding: 0rem;
+}
+
+.currency-span-1 {
+  bottom: -1px;
+  left: 3%;
+}
+
+.currency-span-2 {
+  bottom: 117px;
+  left: 75%;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  margin: 0rem auto 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  min-width: 160px;
+  width: 15rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  min-height: 8rem;
+}
+
+.dropdown-item {
+  margin: 0 1rem;
+  text-align: center;
+  width: 13rem;
+  height: 3rem;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: block;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0em;
+}
+
+
+.dropdown-item:hover {
+  border: 1px solid rgba(235, 235, 235, 0.5);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 1rem 0px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Show the dropdown menu on hover */
+.show {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: rgba(0, 0, 0, 0.7);
+
+}
+
+.horizontal__divisor {
+  width: 100%;
+  height: 1px;
+  background-image: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(235, 235, 235, 0.5) 27%, rgba(219, 219, 219, 0.5) 75%, rgba(216, 216, 216, 0) 99%);
+  background-position: center;
+  background-size: 80% 2px;
+  background-repeat: no-repeat;
+  margin: 2rem auto;
+}
+
+.monitor-content {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  justify-content: center;
+  margin: 2rem;
+}
+
+.monitor-item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  margin: 1rem;
+  text-align: right;
+  color: white;
+  width: 17rem;
+}
+
+.animation_volume {
+  animation: blinker-volume 1s linear;
+}
+
+@keyframes blinker-volume {
+  50% {
+    background-color: #b7f1e2;
+  }
+}
+
+.animation_burned {
+  animation: blinker-burned 1s linear;
+}
+
+@keyframes blinker-burned {
+  50% {
+    background-color: #CEAB65;
+  }
+}
+
+.icon-item {
+  width: 91px;
+  height: 71px;
+}
+
+.volume-label {
+  display: flex;
+  align-self: flex-end;
+  margin-top: 1rem;
+  height: 22px;
+  font-family: Rubik;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.burned-coming {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  padding: 0rem;
+}
+
+.burned-amount-label {
+  display: flex;
+  align-self: flex-start;
+  margin-top: 1rem;
+  font-family: Rubik;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.coming-soon-label {
+  display: flex;
+  align-self: center;
+  font-family: Rubik;
+  height: 1.2rem;
+  font-size: 12px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 10px;
+  border: 1px solid rgba(235, 235, 235, 0.5);
+  margin: .5rem;
+  margin-right: 0;
+  min-width: 6.5rem;
+  text-align: center;
+}
+
+.amount {
+  display: flex;
+  align-self: flex-end;
+  margin-top: 1rem;
+  font: normal normal normal 16px/19px Rubik;
+  font-weight: 300;
+  letter-spacing: -0.8px;
+  font-size: 25px;
+}
+
+.volume-amount {
+  display: flex;
+  align-self: flex-end;
+  background: white;
+  padding: 0em;
+  font-family: Rubik;
+  font-size: 26px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.37px;
+  text-align: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.burned-amount {
+  display: flex;
+  align-self: flex-start;
+  background: white;
+  padding: 0em;
+  font-family: Rubik;
+  font-size: 26px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.37px;
+  text-align: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.cripto-amount {
+  display: flex;
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.23px;
+  text-align: center;
+  color: white;
+}
+
+.volume-cripto-amount {
+  display: flex;
+  align-self: flex-end;
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.23px;
+}
+
+.burned-crypto-amount {
+  display: flex;
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.23px;
+  color: white;
+}
+
+.opacity {
+  opacity: 0.4;
+}
+
+
+.ic-monitor {
+  width: 47px;
+  height: 50px;
+  margin: .5rem;
+}
+
+.footer {
+  margin: 8rem auto 0rem;
+  width: 66rem;
+  max-width: 100%;
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rectangle {
+  width: 19rem;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.footer_number {
+  display: flex;
+  align-self: center;
+  margin: 0% 1rem 5%;
+  font-family: Rubik;
+  font-size: 36px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+
+.footer_label {
+  font-family: Rubik;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  vertical-align: text-top;
+  margin-top: 6px;
+}
+
+.show-mobile {
+  display: none;
+}
+
+/*Mobile version*/
+@media screen and (max-width: 800px) {
+
+  .header {
+    margin: 2rem auto;
+    flex-direction: column-reverse;
+  }
+
+  .title-header {
+    margin: 1vh auto 1vh;
+  }
+
+  .trading-pair-container {
+    margin: 1rem auto 0rem;
+  }
+
+  .ic-monitor {
+    display: none;
+    opacity: 0;
+  }
+
+  .periods-container {
+    align-self: center;
+  }
+
+  .period_selected {
+    margin-bottom: 0px;
+    padding: .5rem .5em;
+  }
+
+  .volume-content {
+    margin-left: 0;
+  }
+
+  .burned-content {
+    margin-right: 0;
+  }
+
+}
+
+/*Mobile version*/
+@media screen and (max-width: 641px) {
+
+  .period {
+    margin: 0 .5rem;
+  }
+
+  .monitor-item {
+    margin: 1rem 0%;
+  }
+
+  .burned-content {
+    align-self: flex-start;
+    display: flex;
+  }
+
+  .amount {
+    margin-top: .5rem;
+  }
+
+  .rectangle {
+    width: 100%;
+    height: 6rem;
+    margin: .5rem auto;
+  }
+
+  .footer {
+    margin: 1rem 10%;
+    justify-content: center;
+  }
+
+  .monitor-content {
+    justify-content: center;
+    flex-direction: column;
+    margin: 2rem 10%;
+  }
+
+  .volume-label {
+    align-self: flex-start;
+    font-weight: normal;
+  }
+
+  .burned-amount-label {
+    font-weight: normal;
+  }
+
+  .volume-amount {
+    align-self: flex-start;
+  }
+
+  .volume-cripto-amount {
+    align-self: flex-start;
+  }
+
+  .rectangle {
+    flex-direction: column-reverse;
+    align-self: flex-start;
+  }
+
+  .footer_number {
+    display: flex;
+    align-self: flex-start;
+    margin: 0% 1rem 5% 0;
+    font-size: 36px;
+  }
+
+  .footer_label {
+    margin-top: 10px;
+    display: flex;
+    align-self: flex-start;
+    margin: 0%;
+    font-size: 13px;
+    font-weight: normal;
+    opacity: 0.8;
+    letter-spacing: 1px;
+  }
+
+  .show-mobile {
+    display: block;
+  }
+
+  .horizontal__divisor {
+    margin: 1rem auto;
+  }
+}

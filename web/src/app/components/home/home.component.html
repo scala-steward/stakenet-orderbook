@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <div class="row no-margin-left">
+
+    <div class="graph">
+      <div class="header-content row">
+        <div class="col-12">
+          <img src="../../../assets/ic_logo_complete.png">
+        </div>
+      </div>
+
+      <div class="row">
+        <select class="trading-pair form-control" (change)="onTradingPairChanged($event)" [formControl]="tradingPair"
+          name="tradingPair">
+          <option *ngFor="let tradingPair of tradingPairs" [value]="tradingPair">{{tradingPair.replace('_','/')}}
+          </option>
+        </select>
+        <span class="currency-price">
+          <label class="color-white" for="tradingPair">{{getLastPrice()}}</label>
+        </span>
+      </div>
+
+      <div class="chart-container">
+        <app-tv-chart-container></app-tv-chart-container>
+      </div>
+
+      <div class="lightblue">
+        <h6 class="bold">ORDER BOOK</h6>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-12 col-lg-6">
+          <table class="table-sm">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">SUM <small>({{getCurrency(0)}})</small></th>
+                <th scope="col">VALUE <small>({{getCurrency(1)}})</small></th>
+                <th scope="col">AMOUNT <small>({{getCurrency(0)}})</small></th>
+                <th scope="col">BID <small>({{getCurrency(1)}})</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center new-order-green lines"
+                *ngFor="let order of buyOrdersGrouped.values.slice(0, NUMBER_OF_ROWS);let i = index">
+                <td>{{getBidSum(i)}}</td>
+                <td>{{transformSatoshis(order.amount).toFixed(8)}}</td>
+                <td>{{calculateAmount(order).toFixed(8)}}</td>
+                <td class="color-green">{{transformSatoshis(order.price).toFixed(8)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-12 col-sm-12 col-lg-6">
+          <table class="table-sm">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">ASK <small>({{getCurrency(1)}})</small></th>
+                <th scope="col">AMOUNT <small>({{getCurrency(0)}})</small></th>
+                <th scope="col">VALUE <small>({{getCurrency(1)}})</small></th>
+                <th scope="col">SUM <small>({{getCurrency(0)}})</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center new-order-red lines"
+                *ngFor="let order of sellOrdersGrouped.values.slice(0, NUMBER_OF_ROWS);let i = index">
+                <td class="color-red">{{transformSatoshis(order.price).toFixed(8)}}</td>
+                <td>{{transformSatoshis(order.amount).toFixed(8)}}</td>
+                <td>{{calculateValue(order).toFixed(8)}}</td>
+                <td>{{getAskSum(i)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="trade-history">
+      <div class="lightblue">
+        <h6 class="bold">TRADE HISTORY</h6>
+      </div>
+      <table class="table-sm">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">AMOUNT <small>({{getCurrency(0)}})</small></th>
+            <th scope="col">TIME</th>
+            <th scope="col">PRICE <small>({{getCurrency(1)}})</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-center new-order"
+            *ngFor="let trade of historicTradesList.slice(0, NUMBER_OF_ROWS); let i = index">
+            <td>
+              <div>{{transformSatoshis(trade.size.value).toFixed(8)}}</div>
+            </td>
+            <td>{{getExecutedTime(trade.executedon)}}</td>
+            <td
+              [ngClass]="{'color-green': trade.executingorderside === 'Buy', 'color-red': trade.executingorderside === 'Sell'}">
+              {{transformSatoshis(trade.price.value).toFixed(8)}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

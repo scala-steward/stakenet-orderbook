@@ -1,0 +1,158 @@
+.header-content {
+  margin-top: 1rem;
+  margin-bottom: 8px;
+  color: aliceblue;
+}
+
+tr {
+  font-family: 'Rubik', sans-serif;
+  color: white;
+}
+
+
+div.graph {
+  overflow: hidden;
+  width: calc(100% - 19rem);
+}
+
+tr.lines:nth-child(odd) {
+  background: #151b33
+}
+
+tr.lines>td {
+  padding: .5rem 0;
+}
+
+select.trading-pair {
+  font-family: 'Rubik', sans-serif;
+  color: #234ac9;
+  border: 0px solid #090d1c;
+  background: #090d1c;
+  width: 120px;
+  margin-left: 1rem;
+  -moz-appearance: none
+}
+
+.lightblue {
+  margin-top: 1rem;
+  color: aliceblue;
+  font-size: medium;
+}
+
+table.table-sm {
+  margin-top: 5px;
+  margin-bottom: 2rem;
+  width: 100%;
+  font-size: small;
+}
+
+th {
+  color: #5b6087;
+}
+
+button.trash {
+  padding: 0%;
+}
+
+i.fa-trash {
+  color: #00DCFE
+}
+
+.new-order {
+  animation: blinker 1s linear;
+}
+
+.new-order-green {
+  animation: blinker-green 1s linear;
+}
+
+.new-order-red {
+  animation: blinker-red 1s linear;
+}
+
+@keyframes blinker {
+  50% {
+    background-color: rgb(151, 214, 243);
+  }
+}
+
+@keyframes blinker-green {
+  50% {
+    background-color: rgb(18, 124, 18);
+  }
+}
+
+@keyframes blinker-red {
+  50% {
+    background-color: rgb(168, 13, 13);
+  }
+}
+
+td {
+  font-size: 13px;
+  font-family: 'Rubik', sans-serif;
+}
+
+div.trade-history {
+  background-color: #0f1223;
+  width: 18rem;
+  float: right;
+  min-height: 50px;
+  margin-left: 10px;
+}
+
+h6.bold {
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  padding-top: 1rem;
+  padding-left: 2rem;
+}
+
+span.currency-price {
+  font-family: 'Rubik', sans-serif;
+  margin: auto 1rem;
+  color: aliceblue;
+  font-size: small;
+  font-weight: bold;
+}
+
+.color-green {
+  color: #37a53d;
+}
+
+.color-red {
+  color: #c54445
+}
+
+@media only screen and (max-width: 600px) {
+  select.dark {
+    font-size: small;
+  }
+
+  table {
+    margin: 0 1rem;
+  }
+
+  td {
+    font-size: 11px;
+  }
+
+  div.graph {
+    overflow: hidden;
+    width: 100%;
+  }
+
+
+  div.trade-history {
+    width: 100%;
+    margin: 0 1rem;
+  }
+}
+
+.no-margin-left {
+  margin-left: 0px;
+}
+
+.chart-container {
+  margin-top: 1rem;
+}
