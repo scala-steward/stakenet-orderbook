@@ -78,7 +78,7 @@ libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.6.10" % Test
 libraryDependencies += "com.typesafe.akka" %% "akka-stream-typed" % "2.6.10"
 
 libraryDependencies ++= Seq(
-  "com.beachape" %% "enumeratum" % "1.6.1"
+  "com.beachape" %% "enumeratum" % "1.7.0"
 )
 
 libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.4.0" % Compile exclude ("org.slf4j", "slf4j-simple")
