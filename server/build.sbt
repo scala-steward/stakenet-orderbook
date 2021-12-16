@@ -81,7 +81,7 @@ libraryDependencies ++= Seq(
   "com.beachape" %% "enumeratum" % "1.6.1"
 )
 
-libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.3.0" % Compile exclude ("org.slf4j", "slf4j-simple")
+libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.4.0" % Compile exclude ("org.slf4j", "slf4j-simple")
 libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18"
 
 libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.4"
