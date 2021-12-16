@@ -1,4 +1,4 @@
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.7")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.11")
 
 addSbtPlugin("org.duhemm" % "sbt-errors-summary" % "0.6.3")
 
