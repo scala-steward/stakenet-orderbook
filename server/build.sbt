@@ -68,8 +68,8 @@ RoutesKeys.routesImport := Seq.empty
 libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
 
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.30"
-libraryDependencies += "ch.qos.logback" % "logback-core" % "1.2.3"
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
+libraryDependencies += "ch.qos.logback" % "logback-core" % "1.2.8"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.8"
 
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test
 libraryDependencies += "org.mockito" %% "mockito-scala" % "1.16.23" % Test
