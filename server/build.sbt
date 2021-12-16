@@ -67,7 +67,7 @@ RoutesKeys.routesImport := Seq.empty
 //
 libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
 
-libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.30"
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.32"
 libraryDependencies += "ch.qos.logback" % "logback-core" % "1.2.3"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
@@ -85,7 +85,7 @@ libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.3.
 libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18"
 
 libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.10"
-libraryDependencies += "org.postgresql" % "postgresql" % "42.2.6"
+libraryDependencies += "org.postgresql" % "postgresql" % "42.2.24"
 
 libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
 
