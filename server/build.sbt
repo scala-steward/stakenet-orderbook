@@ -104,6 +104,6 @@ resolvers += Resolver.JCenterRepository
 libraryDependencies += "net.katsstuff" %% "ackcord" % "0.17.1"
 
 // required because AckCord is overriding the akka version to 2.6.6, see https://github.com/akka/akka/issues/29351
-libraryDependencies += "com.typesafe.akka" %% "akka-serialization-jackson" % "2.6.6"
+libraryDependencies += "com.typesafe.akka" %% "akka-serialization-jackson" % "2.6.17"
 
 libraryDependencies += "org.web3j" % "core" % "5.0.0"
