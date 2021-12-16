@@ -65,7 +65,7 @@ import play.sbt.routes.RoutesKeys
 RoutesKeys.routesImport := Seq.empty
 
 //
-libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
+libraryDependencies += "com.google.inject" % "guice" % "5.0.1"
 
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.30"
 libraryDependencies += "ch.qos.logback" % "logback-core" % "1.2.3"
