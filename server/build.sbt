@@ -91,8 +91,8 @@ libraryDependencies += "io.scalaland" %% "chimney" % "0.6.1"
 
 libraryDependencies += "io.sentry" % "sentry-logback" % "5.5.0"
 
-libraryDependencies += "io.kamon" %% "kamon-bundle" % "2.1.21"
-libraryDependencies += "io.kamon" %% "kamon-apm-reporter" % "2.1.21"
+libraryDependencies += "io.kamon" %% "kamon-bundle" % "2.4.2"
+libraryDependencies += "io.kamon" %% "kamon-apm-reporter" % "2.4.2"
 
 libraryDependencies ++= Seq(
   "com.spotify" % "docker-client" % "8.16.0" % "test",
