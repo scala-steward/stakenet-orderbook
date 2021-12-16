@@ -89,7 +89,7 @@ libraryDependencies += "org.postgresql" % "postgresql" % "42.2.6"
 
 libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
 
-libraryDependencies += "io.sentry" % "sentry-logback" % "4.1.0"
+libraryDependencies += "io.sentry" % "sentry-logback" % "4.3.0"
 
 libraryDependencies += "io.kamon" %% "kamon-bundle" % "2.1.11"
 libraryDependencies += "io.kamon" %% "kamon-apm-reporter" % "2.1.11"
