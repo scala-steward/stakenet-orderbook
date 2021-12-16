@@ -84,7 +84,7 @@ libraryDependencies ++= Seq(
 libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.3.0" % Compile exclude ("org.slf4j", "slf4j-simple")
 libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18"
 
-libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.4"
+libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.10"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.24"
 
 libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
