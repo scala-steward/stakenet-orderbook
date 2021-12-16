@@ -15,8 +15,9 @@ object IPCountryCodesRepository {
   type Id[T] = T
   trait Blocking extends IPCountryCodesRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends IPCountryCodesRepository[scala.concurrent.Future] {
+
     override def createCountryCode(ip: String, countryCode: String): Future[Unit] = Future {
       blocking.createCountryCode(ip, countryCode)
     }

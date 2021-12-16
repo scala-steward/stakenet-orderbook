@@ -17,8 +17,8 @@ private[discord] class DiscordEventHandler(
     discordAPI: DiscordAPI,
     sharedState: SharedState,
     externalCommandHandler: ExternalCommandHandler
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
 
   private val logger = LoggerFactory.getLogger(this.getClass)
@@ -51,9 +51,8 @@ private[discord] class DiscordEventHandler(
 
     val result = for {
       guilds <- discordAPI.getSupportedGuilds
-      guildsChannelF = guilds.map {
-        case (guild) =>
-          getDetails(guild.id)
+      guildsChannelF = guilds.map { case (guild) =>
+        getDetails(guild.id)
       }
       guildChannels <- Future.sequence(guildsChannelF)
     } yield {

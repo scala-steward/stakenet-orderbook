@@ -21,8 +21,9 @@ import io.stakenet.orderbook.actors.peers.protocol.TaggedCommandResponse
  * This actor also has a list of active peers and notifies them when server maintenance is started/completed
  */
 class PeerMessageFilterActor extends Actor with ActorLogging {
-  override def receive: Receive = {
-    case message => log.info(s"Unexpected message: $message")
+
+  override def receive: Receive = { case message =>
+    log.info(s"Unexpected message: $message")
   }
 
   override def preStart(): Unit = {

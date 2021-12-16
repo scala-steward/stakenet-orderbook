@@ -7,6 +7,7 @@ trait ClientIdentifier {
 }
 
 object ClientIdentifier {
+
   case class ClientLndPublicKey(
       clientPublicKeyId: ClientPublicKeyId,
       key: Identifier.LndPublicKey,

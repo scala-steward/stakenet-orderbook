@@ -5,6 +5,7 @@ case class AuthenticationInformation(
     walletId: Option[String],
     websocketSubprotocol: Option[String]
 ) {
+
   override def toString: String = {
     val secret = botMakerSecret.map(_ => "******")
 

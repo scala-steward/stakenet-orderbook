@@ -7,7 +7,8 @@ import io.stakenet.orderbook.repositories.makerPayments.MakerPaymentsRepository.
 import javax.inject.Inject
 import play.api.db.Database
 
-class MakerPaymentsPostgresRepository @Inject()(database: Database) extends MakerPaymentsRepository.Blocking {
+class MakerPaymentsPostgresRepository @Inject() (database: Database) extends MakerPaymentsRepository.Blocking {
+
   override def createMakerPayment(
       makerPaymentId: MakerPaymentId,
       tradeId: Trade.Id,

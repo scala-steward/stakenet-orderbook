@@ -12,7 +12,7 @@ import org.lightningj.lnd.wrapper.{MacaroonClientInterceptor, StaticFileMacaroon
 import verrpc.verrpc.VersionerGrpc
 import routerrpc.router.RouterGrpc
 
-class LightningClientBuilder @Inject()(configBuilder: LightningConfigBuilder) {
+class LightningClientBuilder @Inject() (configBuilder: LightningConfigBuilder) {
 
   private var cache: Map[Currency, LightningGrpc.Lightning] = Map.empty
 

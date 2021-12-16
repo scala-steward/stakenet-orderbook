@@ -53,21 +53,20 @@ trait CommandHandler[C <: Command] {
     val start = System.currentTimeMillis()
 
     f.recover {
-        case timeoutError: AskTimeoutException =>
-          log.warning(s"An error occurred on the command response", timeoutError)
-          Event.CommandResponse.CommandFailed.Reason(
-            s"A timeout error occurred, please try again later"
-          )
-        case NonFatal(ex) => Event.CommandResponse.CommandFailed.Reason(ex.getMessage)
-      }
-      .foreach { response =>
-        timer.stop()
-        val took = System.currentTimeMillis() - start
-        val tagged = TaggedCommandResponse(ctx.requestId, response)
-        ctx.self ! tagged
+      case timeoutError: AskTimeoutException =>
+        log.warning(s"An error occurred on the command response", timeoutError)
+        Event.CommandResponse.CommandFailed.Reason(
+          s"A timeout error occurred, please try again later"
+        )
+      case NonFatal(ex) => Event.CommandResponse.CommandFailed.Reason(ex.getMessage)
+    }.foreach { response =>
+      timer.stop()
+      val took = System.currentTimeMillis() - start
+      val tagged = TaggedCommandResponse(ctx.requestId, response)
+      ctx.self ! tagged
 
-        logResult(timeTaken = took, response = response)
-      }
+      logResult(timeTaken = took, response = response)
+    }
 
     Result.Async
   }

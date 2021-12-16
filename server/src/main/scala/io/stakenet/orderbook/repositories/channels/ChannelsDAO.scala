@@ -44,8 +44,8 @@ private[channels] object ChannelsDAO {
     val connextChannelContractDeploymentFeesClientIdUnique = "connext_channel_contract_deployment_fees_client_id_unique"
   }
 
-  def createChannelPayment(channelFeePayment: ChannelFeePayment, paymentRHash: PaymentRHash, fee: Satoshis)(
-      implicit conn: Connection
+  def createChannelPayment(channelFeePayment: ChannelFeePayment, paymentRHash: PaymentRHash, fee: Satoshis)(implicit
+      conn: Connection
   ): Unit = {
     try {
       val paymentHash = paymentRHash.value.toArray
@@ -70,8 +70,8 @@ private[channels] object ChannelsDAO {
     }
   }
 
-  def findChannelFeePayment(paymentRHash: PaymentRHash, currency: Currency)(
-      implicit conn: Connection
+  def findChannelFeePayment(paymentRHash: PaymentRHash, currency: Currency)(implicit
+      conn: Connection
   ): Option[ChannelFeePayment] = {
     val hashValue = paymentRHash.value.toArray
 
@@ -160,8 +160,8 @@ private[channels] object ChannelsDAO {
     }
   }
 
-  def findChannel(channelId: ChannelId.LndChannelId)(
-      implicit conn: Connection
+  def findChannel(channelId: ChannelId.LndChannelId)(implicit
+      conn: Connection
   ): Option[Channel.LndChannel] = {
 
     SQL"""
@@ -173,8 +173,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.channelParser.singleOpt)
   }
 
-  def findChannel(paymentHash: PaymentRHash, currency: Currency)(
-      implicit conn: Connection
+  def findChannel(paymentHash: PaymentRHash, currency: Currency)(implicit
+      conn: Connection
   ): Option[Channel.LndChannel] = {
     val hash = paymentHash.value.toArray
 
@@ -187,8 +187,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.channelParser.singleOpt)
   }
 
-  def findConnextChannel(paymentHash: PaymentRHash, currency: Currency)(
-      implicit conn: Connection
+  def findConnextChannel(paymentHash: PaymentRHash, currency: Currency)(implicit
+      conn: Connection
   ): Option[Channel.ConnextChannel] = {
     val hash = paymentHash.value.toArray
 
@@ -202,8 +202,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.connextChannelParser.singleOpt)
   }
 
-  def findConnextChannel(id: ChannelId.ConnextChannelId)(
-      implicit conn: Connection
+  def findConnextChannel(id: ChannelId.ConnextChannelId)(implicit
+      conn: Connection
   ): Option[Channel.ConnextChannel] = {
     SQL"""
         SELECT
@@ -215,8 +215,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.connextChannelParser.singleOpt)
   }
 
-  def findChannelForUpdate(channelId: ChannelId.LndChannelId)(
-      implicit conn: Connection
+  def findChannelForUpdate(channelId: ChannelId.LndChannelId)(implicit
+      conn: Connection
   ): Option[Channel.LndChannel] = {
 
     SQL"""
@@ -229,8 +229,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.channelParser.singleOpt)
   }
 
-  def findChannelForUpdate(channelId: ChannelId.ConnextChannelId)(
-      implicit conn: Connection
+  def findChannelForUpdate(channelId: ChannelId.ConnextChannelId)(implicit
+      conn: Connection
   ): Option[Channel.ConnextChannel] = {
     SQL"""
         SELECT
@@ -243,8 +243,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.connextChannelParser.singleOpt)
   }
 
-  def updateChannelStatus(channelId: ChannelId.LndChannelId, channelStatus: ChannelStatus)(
-      implicit conn: Connection
+  def updateChannelStatus(channelId: ChannelId.LndChannelId, channelStatus: ChannelStatus)(implicit
+      conn: Connection
   ): Unit = {
 
     val updatedRows = SQL"""
@@ -259,8 +259,8 @@ private[channels] object ChannelsDAO {
     )
   }
 
-  def updateChannelStatus(channelAddress: ConnextChannelAddress, channelStatus: ConnextChannelStatus)(
-      implicit conn: Connection
+  def updateChannelStatus(channelAddress: ConnextChannelAddress, channelStatus: ConnextChannelStatus)(implicit
+      conn: Connection
   ): Unit = {
 
     val updatedRows = SQL"""
@@ -276,8 +276,8 @@ private[channels] object ChannelsDAO {
     )
   }
 
-  def updateChannelPoint(channelId: ChannelId.LndChannelId, outPoint: LndOutpoint)(
-      implicit conn: Connection
+  def updateChannelPoint(channelId: ChannelId.LndChannelId, outPoint: LndOutpoint)(implicit
+      conn: Connection
   ): Unit = {
     val fundingTransaction = outPoint.txid.bigEndianBytes.toArray
     val updatedRows = SQL"""
@@ -294,8 +294,8 @@ private[channels] object ChannelsDAO {
     )
   }
 
-  def updateActiveChannel(channelId: ChannelId.LndChannelId, createdAt: Instant, expiresAt: Instant)(
-      implicit conn: Connection
+  def updateActiveChannel(channelId: ChannelId.LndChannelId, createdAt: Instant, expiresAt: Instant)(implicit
+      conn: Connection
   ): Unit = {
     val updatedRows = SQL"""
         UPDATE channels
@@ -311,8 +311,8 @@ private[channels] object ChannelsDAO {
     )
   }
 
-  def updateActiveChannel(outpoint: LndOutpoint, createdAt: Instant, expiresAt: Instant)(
-      implicit conn: Connection
+  def updateActiveChannel(outpoint: LndOutpoint, createdAt: Instant, expiresAt: Instant)(implicit
+      conn: Connection
   ): Unit = {
     val fundingTransaction = outpoint.txid.bigEndianBytes.toArray
     val outputIndex = outpoint.index
@@ -332,8 +332,8 @@ private[channels] object ChannelsDAO {
     )
   }
 
-  def updateClosedChannel(outPoint: LndOutpoint, closingType: String, closedBy: String, closedOn: Instant)(
-      implicit conn: Connection
+  def updateClosedChannel(outPoint: LndOutpoint, closingType: String, closedBy: String, closedOn: Instant)(implicit
+      conn: Connection
   ): Unit = {
     val fundingTransaction = outPoint.txid.bigEndianBytes.toArray
     val outputIndex = outPoint.index
@@ -355,8 +355,8 @@ private[channels] object ChannelsDAO {
     )
   }
 
-  def updateChannelExpirationDate(channelId: ChannelId.LndChannelId, expiresAt: Instant)(
-      implicit conn: Connection
+  def updateChannelExpirationDate(channelId: ChannelId.LndChannelId, expiresAt: Instant)(implicit
+      conn: Connection
   ): Unit = {
     val updatedRows = SQL"""
         UPDATE channels
@@ -368,8 +368,8 @@ private[channels] object ChannelsDAO {
     assert(updatedRows == 1, s"The Channel expiration date wasn't updated, channelId = $channelId")
   }
 
-  def updateChannelExpirationDate(channelId: ChannelId.ConnextChannelId, expiresAt: Instant)(
-      implicit conn: Connection
+  def updateChannelExpirationDate(channelId: ChannelId.ConnextChannelId, expiresAt: Instant)(implicit
+      conn: Connection
   ): Unit = {
     val updatedRows = SQL"""
         UPDATE connext_channels
@@ -381,8 +381,8 @@ private[channels] object ChannelsDAO {
     assert(updatedRows == 1, s"The Channel expiration date wasn't updated, channelId = $channelId")
   }
 
-  def getExpiredChannels(currency: Currency)(
-      implicit conn: Connection
+  def getExpiredChannels(currency: Currency)(implicit
+      conn: Connection
   ): List[LndChannel] = {
     SQL"""
         SELECT c.channel_id, fp.currency, c.funding_transaction, c.output_index, fp.life_time_seconds, c.channel_status
@@ -411,8 +411,8 @@ private[channels] object ChannelsDAO {
       .as(ChannelParsers.connextChannelParser.*)
   }
 
-  def getProcessingChannels(currency: Currency)(
-      implicit conn: Connection
+  def getProcessingChannels(currency: Currency)(implicit
+      conn: Connection
   ): List[LndChannel] = {
     SQL"""
         SELECT c.channel_id, fp.currency, c.funding_transaction, c.output_index, fp.life_time_seconds, c.channel_status
@@ -583,8 +583,8 @@ private[channels] object ChannelsDAO {
     }
   }
 
-  def findChannelExtension(paymentHash: PaymentRHash, payingCurrency: Currency)(
-      implicit conn: Connection
+  def findChannelExtension(paymentHash: PaymentRHash, payingCurrency: Currency)(implicit
+      conn: Connection
   ): Option[ChannelExtension[ChannelId.LndChannelId]] = {
     val hash = paymentHash.value.toArray
 
@@ -598,8 +598,8 @@ private[channels] object ChannelsDAO {
        """.as(ChannelParsers.channelExtensionParser.singleOpt)
   }
 
-  def findConnextChannelExtension(paymentHash: PaymentRHash, payingCurrency: Currency)(
-      implicit conn: Connection
+  def findConnextChannelExtension(paymentHash: PaymentRHash, payingCurrency: Currency)(implicit
+      conn: Connection
   ): Option[ChannelExtension[ChannelId.ConnextChannelId]] = {
     val hash = paymentHash.value.toArray
 
@@ -641,8 +641,8 @@ private[channels] object ChannelsDAO {
      """.as(ChannelParsers.channelPaymentParser.singleOpt)
   }
 
-  def createCloseExpiredChannelRequest(channelId: ChannelId, active: Boolean, requestedOn: Instant)(
-      implicit conn: Connection
+  def createCloseExpiredChannelRequest(channelId: ChannelId, active: Boolean, requestedOn: Instant)(implicit
+      conn: Connection
   ): Unit = {
     try {
       SQL"""

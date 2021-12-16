@@ -7,6 +7,7 @@ import scala.util.Try
 sealed trait Identifier extends Product with Serializable
 
 object Identifier {
+
   case class LndPublicKey(value: Vector[Byte]) extends Identifier {
     override def toString: String = DatatypeConverter.printHexBinary(value.toArray)
   }

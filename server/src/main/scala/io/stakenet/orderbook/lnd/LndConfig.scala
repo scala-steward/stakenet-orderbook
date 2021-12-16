@@ -1,4 +1,5 @@
 package io.stakenet.orderbook.lnd
+
 // TODO: remove channel attributes ?
 case class LndConfig(
     host: String,

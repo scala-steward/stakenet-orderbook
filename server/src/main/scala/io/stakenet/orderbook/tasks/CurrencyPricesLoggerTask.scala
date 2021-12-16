@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-class CurrencyPricesLoggerTask @Inject()(
+class CurrencyPricesLoggerTask @Inject() (
     currencyPricesRepository: CurrencyPricesRepository.FutureImpl,
     priceApi: PriceApi,
     actorSystem: ActorSystem

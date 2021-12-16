@@ -17,8 +17,8 @@ private[preimages] object PreimagesDAO {
     val preimagesHashUnique = "preimages_hash_currency_unique"
   }
 
-  def createPreimage(preimage: Preimage, hash: PaymentRHash, currency: Currency, createdAt: Instant)(
-      implicit conn: Connection
+  def createPreimage(preimage: Preimage, hash: PaymentRHash, currency: Currency, createdAt: Instant)(implicit
+      conn: Connection
   ): Unit = {
     val preimageBytes = preimage.value.toArray
     val hashBytes = hash.value.toArray

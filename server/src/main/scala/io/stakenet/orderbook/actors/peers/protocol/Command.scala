@@ -62,6 +62,7 @@ object Command {
 
   final case class GetInvoicePayment(currency: Currency, amount: Satoshis) extends OrderFeeCommand
   final case class GetConnextPaymentInformation(currency: Currency) extends OrderFeeCommand
+
   final case class GetRefundableAmount(currency: Currency, refundablePaymentList: List[RefundablePayment])
       extends OrderFeeCommand
   final case class RefundFee(currency: Currency, refundedFees: List[RefundablePayment]) extends OrderFeeCommand
@@ -71,30 +72,36 @@ object Command {
   final case class RentChannel(paymentRHash: PaymentRHash, payingCurrency: Currency) extends ChannelCommand
   final case class GetChannelStatus(channelId: UUID) extends ChannelCommand
   final case class GetFeeToRentChannel(channelFeePayment: ChannelFeePayment) extends ChannelCommand
+
   final case class GetFeeToExtendRentedChannel(
       channelId: UUID,
       payingCurrency: Currency,
       lifetimeSeconds: Long
   ) extends ChannelCommand
+
   final case class GenerateInvoiceToExtendRentedChannel(
       channelId: ChannelId.LndChannelId,
       payingCurrency: Currency,
       lifetimeSeconds: Long
   ) extends ChannelCommand
+
   final case class GeneratePaymentHashToExtendConnextRentedChannel(
       channelId: ChannelId.ConnextChannelId,
       payingCurrency: Currency,
       lifetimeSeconds: Long
   ) extends ChannelCommand
   final case class ExtendRentedChannelTime(paymentHash: PaymentRHash, payingCurrency: Currency) extends ChannelCommand
+
   final case class RegisterPublicKey(
       currency: Currency,
       nodePublicKey: Identifier.LndPublicKey
   ) extends UncategorizedCommand
+
   final case class RegisterPublicIdentifier(
       currency: Currency,
       publicIdentifier: Identifier.ConnextPublicIdentifier
   ) extends UncategorizedCommand
+
   final case class RegisterConnextChannelContractDeploymentFee(
       transactionHash: String
   ) extends ChannelCommand

@@ -25,7 +25,7 @@ object TradesRepository {
 
   trait Blocking extends TradesRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends TradesRepository[scala.concurrent.Future] {
 
     override def create(trade: Trade): Future[Unit] = Future {

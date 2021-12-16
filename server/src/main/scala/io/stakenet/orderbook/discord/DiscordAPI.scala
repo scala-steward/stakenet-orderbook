@@ -12,8 +12,8 @@ import scala.util.{Failure, Success, Try}
 /**
  * A high-level API to interact with discord based on our config
  */
-class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(
-    implicit c: CacheSnapshot,
+class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(implicit
+    c: CacheSnapshot,
     ec: ExecutionContext
 ) {
 
@@ -47,13 +47,12 @@ class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(
     def keepUntil(text: String, maxSize: Int): List[String] = {
       val (pieces, last) = text
         .split("\n")
-        .foldLeft((List.empty[String], "")) {
-          case ((previous, acc), cur) =>
-            if (acc.length + cur.length + 1 < maxSize) {
-              (previous, acc + "\n" + cur)
-            } else {
-              (acc :: previous, cur)
-            }
+        .foldLeft((List.empty[String], "")) { case ((previous, acc), cur) =>
+          if (acc.length + cur.length + 1 < maxSize) {
+            (previous, acc + "\n" + cur)
+          } else {
+            (acc :: previous, cur)
+          }
         }
       (last :: pieces).reverse
     }
@@ -68,12 +67,11 @@ class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(
     }
 
     val textChannelId = TextChannelId(channel.id.toString)
-    val result = keepUntil(msg, 2000).foldLeft(Future.unit) {
-      case (acc, cur) =>
-        for {
-          _ <- acc
-          _ <- doSend(textChannelId, cur)
-        } yield ()
+    val result = keepUntil(msg, 2000).foldLeft(Future.unit) { case (acc, cur) =>
+      for {
+        _ <- acc
+        _ <- doSend(textChannelId, cur)
+      } yield ()
     }
 
     result.onComplete {

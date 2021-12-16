@@ -14,12 +14,12 @@ trait IpInfoService {
 
 object IpInfoService {
 
-  class IpInfoImpl @Inject()(
+  class IpInfoImpl @Inject() (
       ws: WSClient,
       ipInfoConfig: IpInfoConfig,
       ipCountryCodesRepository: IPCountryCodesRepository.FutureImpl
-  )(
-      implicit ec: ExecutionContext
+  )(implicit
+      ec: ExecutionContext
   ) extends IpInfoService {
     private val logger = LoggerFactory.getLogger(this.getClass)
 
@@ -59,6 +59,7 @@ sealed trait IpInfoErrors { def getMessage: String }
 object IpInfoErrors {
 
   case class GetCountryError(ip: String, code: Int, body: String) extends IpInfoErrors {
+
     override def getMessage: String =
       s"Failed to retrieve the ip info, Ip: $ip, code: $code, $body"
   }

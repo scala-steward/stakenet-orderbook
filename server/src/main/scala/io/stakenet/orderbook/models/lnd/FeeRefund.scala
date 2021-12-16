@@ -15,6 +15,7 @@ case class FeeRefund(
 )
 
 object FeeRefund {
+
   case class Id(uuid: UUID) {
     override def toString: String = uuid.toString
   }

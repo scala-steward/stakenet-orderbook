@@ -31,6 +31,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
     ProtoCodec[protos.events.MaintenanceCompleted, peers.protocol.Event.ServerEvent.MaintenanceCompleted]
 
   implicit val myOrderMatchedCodec: MyOrderMatchedCodec = new MyOrderMatchedCodec {
+
     override def decode(proto: protos.events.MyOrderMatched): peers.protocol.Event.ServerEvent.MyOrderMatched = {
       val tradeProto = proto.trade.getOrThrow("Missing or invalid trade")
       val trade = tradeCodec.decode(tradeProto)
@@ -46,6 +47,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val matchedOrderCanceledCodec: MatchedOrderCanceledCodec = new MatchedOrderCanceledCodec {
+
     override def decode(
         proto: protos.events.MyMatchedOrderCanceled
     ): peers.protocol.Event.ServerEvent.MyMatchedOrderCanceled = {
@@ -64,6 +66,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val orderPlacedCodec: OrderPlacedCodec = new OrderPlacedCodec {
+
     override def decode(proto: protos.events.OrderPlaced): peers.protocol.Event.ServerEvent.OrderPlaced = {
       val orderProto = proto.order.getOrThrow("Missing or invalid order")
       val order = orderCodec.decode(orderProto)
@@ -77,6 +80,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val orderCanceledCodec: OrderCanceledCodec = new OrderCanceledCodec {
+
     override def decode(proto: protos.events.OrderCanceled): peers.protocol.Event.ServerEvent.OrderCanceled = {
       val order = orderCodec.decode(proto.order.getOrThrow("Missing or invalid order"))
       peers.protocol.Event.ServerEvent.OrderCanceled(order)
@@ -93,6 +97,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val ordersMatchedCodec: OrdersMatchedCodec = new OrdersMatchedCodec {
+
     override def decode(proto: protos.events.OrdersMatched): peers.protocol.Event.ServerEvent.OrdersMatched = {
       val tradeProto = proto.trade.getOrThrow("Missing or invalid trade")
       val trade = tradeCodec.decode(tradeProto)
@@ -106,6 +111,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val newOrderMessageCodec: NewOrderMessageCodec = new NewOrderMessageCodec {
+
     override def decode(proto: protos.events.NewOrderMessage): peers.protocol.Event.ServerEvent.NewOrderMessage = {
       val orderId = OrderId.from(proto.orderId).getOrThrow("Invalid or missing order id")
       val message = proto.message.toByteArray.toVector
@@ -118,6 +124,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val swapSuccessCodec: SwapSuccessCodec = new SwapSuccessCodec {
+
     override def decode(proto: protos.events.SwapSuccess): peers.protocol.Event.ServerEvent.SwapSuccess = {
       val tradeProto = proto.trade.getOrThrow("Missing or invalid trade")
       val trade = tradeCodec.decode(tradeProto)
@@ -131,6 +138,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val swapFailureCodec: SwapFailureCodec = new SwapFailureCodec {
+
     override def decode(proto: protos.events.SwapFailure): peers.protocol.Event.ServerEvent.SwapFailure = {
       val tradeProto = proto.trade.getOrThrow("Missing or invalid trade")
       val trade = tradeCodec.decode(tradeProto)
@@ -144,6 +152,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val maintenanceStartedCodec: MaintenanceStartedCodec = new MaintenanceStartedCodec {
+
     override def decode(
         proto: protos.events.MaintenanceInProgress
     ): peers.protocol.Event.ServerEvent.MaintenanceInProgress = {
@@ -158,6 +167,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val maintenanceCompletedCodec: MaintenanceCompletedCodec = new MaintenanceCompletedCodec {
+
     override def decode(
         proto: protos.events.MaintenanceCompleted
     ): peers.protocol.Event.ServerEvent.MaintenanceCompleted = {
@@ -172,6 +182,7 @@ trait ServerEventCodecs extends CommonProtoCodecs {
   }
 
   implicit val serverEventCodec: ServerEventCodec = new ServerEventCodec {
+
     override def decode(proto: protos.api.Event.ServerEvent): peers.protocol.Event.ServerEvent = {
       val event = proto.value match {
         case protos.api.Event.ServerEvent.Value.Empty => throw new RuntimeException("Missing or invalid server event")

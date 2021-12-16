@@ -8,7 +8,7 @@ import io.stakenet.orderbook.repositories.trades.TradesRepository.Id
 import javax.inject.Inject
 import play.api.db.Database
 
-class TradesPostgresRepository @Inject()(database: Database, dao: TradesDAO) extends TradesRepository.Blocking {
+class TradesPostgresRepository @Inject() (database: Database, dao: TradesDAO) extends TradesRepository.Blocking {
 
   override def create(trade: Trade): Unit = {
     database.withConnection { implicit conn =>

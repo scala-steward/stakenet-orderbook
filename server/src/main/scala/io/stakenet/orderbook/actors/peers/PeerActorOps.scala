@@ -32,7 +32,7 @@ import kamon.Kamon
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-private[peers] class PeerActorOps @Inject()(
+private[peers] class PeerActorOps @Inject() (
     orderManager: OrderManagerActor.Ref,
     orderValidator: OrderValidator,
     feeService: FeeService,
@@ -98,8 +98,8 @@ private[peers] class PeerActorOps @Inject()(
     }
   }
 
-  def placeOrder(order: TradingOrder, paymentHash: Option[PaymentRHash], clientId: ClientId, self: ActorRef)(
-      implicit state: PeerState,
+  def placeOrder(order: TradingOrder, paymentHash: Option[PaymentRHash], clientId: ClientId, self: ActorRef)(implicit
+      state: PeerState,
       peerUser: PeerUser,
       timeout: Timeout
   ): Future[Event.CommandResponse] = traceAsync("placeOrder") {
@@ -281,8 +281,8 @@ private[peers] class PeerActorOps @Inject()(
         paymentRHash: Option[PaymentRHash]
     ): Unit = {
       val partialOrder = PartialOrder(orderId, ownerId, paymentRHash, currency, amount, Instant.now())
-      feeService.savePartialOrder(partialOrder).recover {
-        case e => log.error(e, s"Failed to create the partial order register $partialOrder")
+      feeService.savePartialOrder(partialOrder).recover { case e =>
+        log.error(e, s"Failed to create the partial order register $partialOrder")
       }
       ()
     }

@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-class ClientsStatusCommandHandler @Inject()(reportsRepository: ReportsRepository.FutureImpl, discordAPI: DiscordAPI)(
+class ClientsStatusCommandHandler @Inject() (reportsRepository: ReportsRepository.FutureImpl, discordAPI: DiscordAPI)(
     implicit ec: ExecutionContext
 ) {
 

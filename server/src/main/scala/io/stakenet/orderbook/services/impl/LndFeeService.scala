@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class LndFeeService @Inject()(
+class LndFeeService @Inject() (
     feesRepository: FeesRepository.FutureImpl,
     feeRefundsRepository: FeeRefundsRepository.FutureImpl,
     orderFeesConfig: OrderFeesConfig,
@@ -44,8 +44,8 @@ class LndFeeService @Inject()(
     connextHelper: ConnextHelper,
     clientService: ClientService,
     preimagesRepository: PreimagesRepository.FutureImpl
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) extends FeeService {
 
   private val logger = LoggerFactory.getLogger(this.getClass)
@@ -345,8 +345,8 @@ class LndFeeService @Inject()(
     validateFeesAreUnique(refundedFees) match {
       case Right(_) =>
         Future.sequence(refundedFees.map(r => getRefundableAmount(r.paymentRHash, currency))).map { refundedAmounts =>
-          val invalidAmounts = refundedAmounts.collect {
-            case Left(error) => error
+          val invalidAmounts = refundedAmounts.collect { case Left(error) =>
+            error
           }
 
           if (invalidAmounts.isEmpty) {

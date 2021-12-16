@@ -30,6 +30,7 @@ object Event {
     sealed trait ChannelStatus
 
     object ChannelStatus {
+
       case class Lnd(
           status: lnd.ChannelStatus,
           expiresAt: Option[Instant],
@@ -47,6 +48,7 @@ object Event {
     final case class PingResponse() extends CommandResponse
 
     final case class GetTradingPairsResponse(tradingPairs: List[TradingPair], paysFees: Boolean) extends CommandResponse
+
     final case class SubscribeResponse(
         pair: TradingPair,
         bidsSummary: List[OrderSummary],
@@ -67,38 +69,46 @@ object Event {
     final case class CancelOpenOrderResponse(result: Option[TradingOrder]) extends CommandResponse
     final case class CancelMatchedOrderResponse(result: Option[Trade]) extends CommandResponse
     final case class SendOrderMessageResponse() extends CommandResponse
+
     final case class CleanTradingPairOrdersResponse(
         pair: TradingPair,
         openOrdersRemoved: List[OrderId],
         matchedOrdersRemoved: List[OrderId]
     ) extends CommandResponse
+
     final case class GetInvoicePaymentResponse(
         currency: Currency,
         noFeeRequired: Boolean,
         paymentRequest: Option[String] // None when noFeeRequired is true
     ) extends CommandResponse
+
     final case class GetConnextPaymentInformationResponse(
         currency: Currency,
         noFeeRequired: Boolean,
         publicIdentifier: String,
         paymentHash: Option[PaymentRHash] // None when noFeeRequired is true
     ) extends CommandResponse
+
     final case class GenerateInvoiceToRentChannelResponse(channelFeePayment: ChannelFeePayment, paymentRequest: String)
         extends CommandResponse
+
     final case class GeneratePaymentHashToRentChannelResponse(
         channelFeePayment: ChannelFeePayment,
         paymentHash: PaymentRHash
     ) extends CommandResponse
+
     final case class RentChannelResponse(
         paymentHash: PaymentRHash,
         clientIdentifier: Identifier,
         channelId: ChannelId,
         channelIdentifier: ChannelIdentifier
     ) extends CommandResponse
+
     final case class GetChannelStatusResponse(
         channelId: ChannelId,
         status: ChannelStatus
     ) extends CommandResponse
+
     final case class GetFeeToRentChannelResponse(
         fee: Satoshis,
         rentingFee: Satoshis,
@@ -111,39 +121,47 @@ object Event {
         refundedFees: List[RefundablePayment],
         refundedOn: Instant
     ) extends CommandResponse
+
     final case class GetRefundableAmountResponse(
         currency: Currency,
         amount: Satoshis
     ) extends CommandResponse
     final case class GetFeeToExtendRentedChannelResponse(fee: Satoshis) extends CommandResponse
+
     final case class GenerateInvoiceToExtendRentedChannelResponse(
         channelId: ChannelId.LndChannelId,
         payingCurrency: Currency,
         lifetimeSeconds: Long,
         paymentRequest: String
     ) extends CommandResponse
+
     final case class GeneratePaymentHashToExtendConnextRentedChannelResponse(
         channelId: ChannelId.ConnextChannelId,
         payingCurrency: Currency,
         lifetimeSeconds: Long,
         paymentHash: PaymentRHash
     ) extends CommandResponse
+
     final case class ExtendRentedChannelTimeResponse(
         paymentHash: PaymentRHash,
         channelId: ChannelId,
         lifeTimeSeconds: Long
     ) extends CommandResponse
+
     final case class RegisterPublicKeyResponse(
         currency: Currency,
         nodePublicKey: Identifier.LndPublicKey
     ) extends CommandResponse
+
     final case class RegisterPublicIdentifierResponse(
         currency: Currency,
         publicIdentifier: Identifier.ConnextPublicIdentifier
     ) extends CommandResponse
+
     final case class RegisterConnextChannelContractDeploymentFeeResponse(
         transactionHash: String
     ) extends CommandResponse
+
     final case class GetConnextChannelContractDeploymentFeeResponse(
         hubAddress: String,
         amount: Satoshis

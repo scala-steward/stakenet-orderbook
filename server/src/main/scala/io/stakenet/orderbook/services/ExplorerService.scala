@@ -23,8 +23,8 @@ trait ExplorerService {
 
 object ExplorerService {
 
-  class WSImpl @Inject()(ws: WSClient, explorerConfig: ExplorerConfig)(
-      implicit ec: ExecutionContext
+  class WSImpl @Inject() (ws: WSClient, explorerConfig: ExplorerConfig)(implicit
+      ec: ExecutionContext
   ) extends ExplorerService {
 
     def getUSDPrice(currency: Currency): Future[Either[ExplorerErrors, BigDecimal]] = {
@@ -135,7 +135,9 @@ object ExplorerService {
   sealed trait ExplorerErrors { def getMessage: String }
 
   object ExplorerErrors {
+
     case class GetPriceError(code: Int) extends ExplorerErrors {
+
       override def getMessage: String =
         s"An error occurred while retrieving the USD price from block explorer. code: $code"
     }
@@ -145,11 +147,13 @@ object ExplorerService {
     }
 
     case class GetTransactionError(currency: Currency, transaction: String, code: Int) extends ExplorerErrors {
+
       override def getMessage: String =
         s"An error occurred while retrieving the ${currency.entryName} transaction = $transaction from block explorer. code: $code"
     }
 
     case class GetEstimateFeeError(code: Int) extends ExplorerErrors {
+
       override def getMessage: String =
         s"An error occurred while retrieving the estimated fee from block explorer. code: $code"
     }

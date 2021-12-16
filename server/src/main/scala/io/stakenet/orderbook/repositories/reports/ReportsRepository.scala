@@ -36,7 +36,7 @@ object ReportsRepository {
   type Id[T] = T
   trait Blocking extends ReportsRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends ReportsRepository[scala.concurrent.Future] {
 
     override def createOrderFeePayment(orderFeePayment: OrderFeePayment): Future[Unit] = Future {

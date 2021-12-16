@@ -8,7 +8,7 @@ import io.stakenet.orderbook.discord.commands.maintenance.{MaintenanceCommand, M
 import io.stakenet.orderbook.discord.commands.report.{ReportCommand, ReportCommandHandler}
 import javax.inject.Inject
 
-class ExternalCommandHandler @Inject()(
+class ExternalCommandHandler @Inject() (
     reportCommandHandler: ReportCommandHandler,
     maintenanceCommandHandler: MaintenanceCommandHandler,
     clientsStatusCommandHandler: ClientsStatusCommandHandler,

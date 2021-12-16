@@ -13,7 +13,9 @@ import io.stakenet.orderbook.models.{ChannelIdentifier, Satoshis}
 import javax.inject.Inject
 import play.api.db.Database
 
-class LiquidityProvidersPostgresRepository @Inject()(database: Database) extends LiquidityProvidersRepository.Blocking {
+class LiquidityProvidersPostgresRepository @Inject() (database: Database)
+    extends LiquidityProvidersRepository.Blocking {
+
   override def createLiquidityProvider(
       liquidityProviderId: LiquidityProviderId,
       clientId: ClientId,

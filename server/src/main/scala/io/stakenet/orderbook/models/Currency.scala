@@ -25,6 +25,7 @@ object Currency extends Enum[Currency] {
     override def forceChannelCloseAverageTime: FiniteDuration = 144.minutes
     override def digits: Int = 8
   }
+
   final case object BTC extends Currency {
     override def rentChannelFeePercentage: BigDecimal = BigDecimal(0.00004)
 
@@ -34,6 +35,7 @@ object Currency extends Enum[Currency] {
     override def forceChannelCloseAverageTime: FiniteDuration = 24.hours
     override def digits: Int = 8
   }
+
   final case object LTC extends Currency {
     override def rentChannelFeePercentage: BigDecimal = BigDecimal(0.00004)
 
@@ -43,6 +45,7 @@ object Currency extends Enum[Currency] {
     override def forceChannelCloseAverageTime: FiniteDuration = 144.minutes
     override def digits: Int = 8
   }
+
   final case object WETH extends Currency {
     override def rentChannelFeePercentage: BigDecimal = BigDecimal(0.00004)
 
@@ -53,6 +56,7 @@ object Currency extends Enum[Currency] {
     override def forceChannelCloseAverageTime: FiniteDuration = 0.seconds
     override def digits: Int = 18
   }
+
   final case object USDT extends Currency {
     override def rentChannelFeePercentage: BigDecimal = BigDecimal(0.00004)
 
@@ -63,6 +67,7 @@ object Currency extends Enum[Currency] {
     override def forceChannelCloseAverageTime: FiniteDuration = 0.seconds
     override def digits: Int = 6
   }
+
   final case object ETH extends Currency {
     override def rentChannelFeePercentage: BigDecimal = BigDecimal(0.00004)
 
@@ -73,6 +78,7 @@ object Currency extends Enum[Currency] {
     override def forceChannelCloseAverageTime: FiniteDuration = 0.seconds
     override def digits: Int = 18
   }
+
   final case object USDC extends Currency {
     override def rentChannelFeePercentage: BigDecimal = BigDecimal(0.00004)
 

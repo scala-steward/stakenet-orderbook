@@ -150,6 +150,7 @@ trait PeerCommandCodecs extends CommonProtoCodecs {
   }
 
   implicit lazy val cancelOrderCommandCodec: CancelOrderCommandCodec = new CancelOrderCommandCodec {
+
     override def decode(proto: protos.commands.CancelOpenOrderCommand): peers.protocol.Command.CancelOpenOrder = {
       val orderId = OrderId.from(proto.orderId).getOrThrow("Missing or invalid order id")
       peers.protocol.Command.CancelOpenOrder(orderId)
@@ -203,6 +204,7 @@ trait PeerCommandCodecs extends CommonProtoCodecs {
   }
 
   implicit lazy val sendOrderMessageCommandCodec: SendOrderMessageCommandCodec = new SendOrderMessageCommandCodec {
+
     override def decode(proto: protos.commands.SendOrderMessageCommand): peers.protocol.Command.SendOrderMessage = {
       val orderId = OrderId.from(proto.orderId).getOrThrow("Missing or invalid order id")
       peers.protocol.Command.SendOrderMessage(OrderMessage(proto.message.toByteArray.toVector, orderId))
@@ -219,6 +221,7 @@ trait PeerCommandCodecs extends CommonProtoCodecs {
 
   implicit lazy val cancelMatchedOrderCommandCodec: CancelMatchedOrderCommandCodec =
     new CancelMatchedOrderCommandCodec {
+
       override def decode(
           proto: protos.commands.CancelMatchedOrderCommand
       ): peers.protocol.Command.CancelMatchedOrder = {
@@ -234,6 +237,7 @@ trait PeerCommandCodecs extends CommonProtoCodecs {
     }
 
   implicit lazy val getHistoricTradesCommandCodec: GetHistoricTradesCommandCodec = new GetHistoricTradesCommandCodec {
+
     override def decode(proto: protos.commands.GetHistoricTradesCommand): peers.protocol.Command.GetHistoricTrades = {
       val lastSeenTradeId = Try(UUID.fromString(proto.lastSeenTradeId)).map(Trade.Id.apply).toOption
       val tradingPair = decodeTradingPair(proto.tradingPair)
@@ -274,6 +278,7 @@ trait PeerCommandCodecs extends CommonProtoCodecs {
 
   implicit lazy val getTradingOrderByIdCommandCodec: GetTradingOrderByIdCommandCodec =
     new GetTradingOrderByIdCommandCodec {
+
       override def decode(proto: protos.commands.GetOpenOrderByIdCommand): peers.protocol.Command.GetOpenOrderById = {
         val orderId = OrderId.from(proto.orderId).getOrThrow("Missing or invalid order id")
         peers.protocol.Command.GetOpenOrderById(orderId)
@@ -712,6 +717,7 @@ trait PeerCommandCodecs extends CommonProtoCodecs {
   }
 
   implicit lazy val commandCodec: CommandCodec = new CommandCodec {
+
     override def decode(proto: protos.api.Command): peers.ws.WebSocketIncomingMessage = {
       val command = proto.value match {
         case protos.api.Command.Value.Empty => throw new RuntimeException("Missing command")

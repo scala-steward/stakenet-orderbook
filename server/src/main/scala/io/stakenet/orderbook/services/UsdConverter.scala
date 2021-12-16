@@ -7,7 +7,7 @@ import io.stakenet.orderbook.services.apis.PriceApi
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class UsdConverter @Inject()(priceApi: PriceApi)(implicit ec: ExecutionContext) {
+class UsdConverter @Inject() (priceApi: PriceApi)(implicit ec: ExecutionContext) {
 
   def convert(amount: Satoshis, currency: Currency): Future[Either[UsdConverter.Error, BigDecimal]] = {
     priceApi.getUSDPrice(currency).map {

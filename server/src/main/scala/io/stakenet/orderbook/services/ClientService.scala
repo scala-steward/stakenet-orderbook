@@ -42,7 +42,7 @@ trait ClientService {
 
 object ClientService {
 
-  class ClientServiceImpl @Inject()(clientsRepository: ClientsRepository.FutureImpl, usdConverter: UsdConverter)(
+  class ClientServiceImpl @Inject() (clientsRepository: ClientsRepository.FutureImpl, usdConverter: UsdConverter)(
       implicit ec: ExecutionContext
   ) extends ClientService {
 

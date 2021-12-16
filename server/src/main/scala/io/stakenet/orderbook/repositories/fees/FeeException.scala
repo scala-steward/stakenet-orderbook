@@ -5,6 +5,7 @@ import io.stakenet.orderbook.models.{Currency, OrderId, Satoshis}
 import io.stakenet.orderbook.repositories.fees.requests.{BurnFeeRequest, LinkFeeToOrderRequest}
 
 object FeeException {
+
   case class FeeLocked(paymentHash: PaymentRHash, lockedForOrderId: OrderId)
       extends RuntimeException(
         s"The paid fee already locked by order = ${lockedForOrderId.value}, hash = $paymentHash"

@@ -4,7 +4,7 @@ import io.stakenet.orderbook.models.Currency
 import javax.inject.Inject
 import play.api.Configuration
 
-class LightningConfigBuilder @Inject()(config: Configuration) {
+class LightningConfigBuilder @Inject() (config: Configuration) {
 
   def getAll: Map[Currency, LndConfig] = {
     Currency.forLnd.map { c =>

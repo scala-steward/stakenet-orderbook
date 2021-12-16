@@ -23,7 +23,7 @@ object FeesRepository {
 
   trait Blocking extends FeesRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends FeesRepository[scala.concurrent.Future] {
 
     override def findInvoice(paymentHash: PaymentRHash, currency: Currency): Future[Option[FeeInvoice]] = Future {

@@ -20,8 +20,8 @@ private[reports] object ReportsDAO {
     val channelRentalFeesDetailPK = "channel_rental_fees_detail_pk"
   }
 
-  def createOrderFeePayment(orderFeePayment: OrderFeePayment)(
-      implicit conn: Connection
+  def createOrderFeePayment(orderFeePayment: OrderFeePayment)(implicit
+      conn: Connection
   ): Unit = {
     try {
       val paymentHash = orderFeePayment.paymentRHash.value.toArray
@@ -43,8 +43,8 @@ private[reports] object ReportsDAO {
     }
   }
 
-  def createPartialOrder(partialOrder: PartialOrder)(
-      implicit conn: Connection
+  def createPartialOrder(partialOrder: PartialOrder)(implicit
+      conn: Connection
   ): Unit = {
     try {
       val paymentHash = partialOrder.paymentHash.map(_.value.toArray)
@@ -66,8 +66,8 @@ private[reports] object ReportsDAO {
     }
   }
 
-  def createChannelRentalFee(channelRentalFee: ChannelRentalFee)(
-      implicit conn: Connection
+  def createChannelRentalFee(channelRentalFee: ChannelRentalFee)(implicit
+      conn: Connection
   ): Unit = {
     try {
       val paymentHash = channelRentalFee.paymentHash.value.toArray
@@ -109,8 +109,8 @@ private[reports] object ReportsDAO {
     }
   }
 
-  def createFeeRefundedReport(feeRefundsReport: FeeRefundsReport)(
-      implicit conn: Connection
+  def createFeeRefundedReport(feeRefundsReport: FeeRefundsReport)(implicit
+      conn: Connection
   ): Unit = {
     try {
 
@@ -134,8 +134,8 @@ private[reports] object ReportsDAO {
     }
   }
 
-  def getChannelRentRevenue(currency: Currency, from: Instant, to: Instant)(
-      implicit conn: Connection
+  def getChannelRentRevenue(currency: Currency, from: Instant, to: Instant)(implicit
+      conn: Connection
   ): ChannelRentRevenue = {
     SQL"""
         SELECT
@@ -151,8 +151,8 @@ private[reports] object ReportsDAO {
          """.as(ReportsParsers.channelRevenueParser.singleOpt).getOrElse(ChannelRentRevenue.empty(currency))
   }
 
-  def getChannelTransactionFees(currency: Currency, from: Instant, to: Instant)(
-      implicit conn: Connection
+  def getChannelTransactionFees(currency: Currency, from: Instant, to: Instant)(implicit
+      conn: Connection
   ): ChannelTransactionFee = {
     SQL"""
        SELECT
@@ -169,8 +169,8 @@ private[reports] object ReportsDAO {
          """.as(ReportsParsers.channelTransactionFeeParser.singleOpt).getOrElse(ChannelTransactionFee.empty(currency))
   }
 
-  def getTradesFeeReport(currency: Currency, from: Instant, to: Instant)(
-      implicit conn: Connection
+  def getTradesFeeReport(currency: Currency, from: Instant, to: Instant)(implicit
+      conn: Connection
   ): TradesFeeReport = {
     SQL"""
       SELECT currency,
@@ -202,8 +202,8 @@ private[reports] object ReportsDAO {
       .getOrElse(TradesFeeReport.empty(currency))
   }
 
-  def createChannelRentalExtensionFee(fee: ChannelRentalExtensionFee)(
-      implicit conn: Connection
+  def createChannelRentalExtensionFee(fee: ChannelRentalExtensionFee)(implicit
+      conn: Connection
   ): Unit = {
     try {
       val paymentHash = fee.paymentHash.value.toArray
@@ -229,8 +229,8 @@ private[reports] object ReportsDAO {
     }
   }
 
-  def getChannelRentExtensionsRevenue(currency: Currency, from: Instant, to: Instant)(
-      implicit conn: Connection
+  def getChannelRentExtensionsRevenue(currency: Currency, from: Instant, to: Instant)(implicit
+      conn: Connection
   ): ChannelRentExtensionsRevenue = {
     SQL"""
          SELECT

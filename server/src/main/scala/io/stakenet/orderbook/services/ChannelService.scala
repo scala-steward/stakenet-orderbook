@@ -101,6 +101,7 @@ object ChannelService {
       outputIndex: Int,
       cause: Option[Throwable]
   ) extends RuntimeException {
+
     override def getMessage: String = {
       s"Failed to set outpoint for pending channel, publicKey: $nodePublicKey, txid = $fundingTransaction, outputIndex = $outputIndex"
     }
@@ -109,10 +110,11 @@ object ChannelService {
   }
 
   case class ChannelNotFound(channelId: ChannelId) extends RuntimeException(s"Channel $channelId not found")
+
   case class ChannelExtensionNotFound(paymentHash: PaymentRHash, payingCurrency: Currency)
       extends RuntimeException(s"Channel extension for $paymentHash in ${payingCurrency.entryName} was not found")
 
-  class ChannelImp @Inject()(
+  class ChannelImp @Inject() (
       lnd: MulticurrencyLndClient,
       channelsRepository: ChannelsRepository.FutureImpl,
       discordHelper: DiscordHelper,
@@ -127,8 +129,8 @@ object ChannelService {
       channelDepositMonitor: ChannelDepositMonitor,
       feeService: FeeService,
       ethService: ETHService
-  )(
-      implicit ec: ExecutionContext,
+  )(implicit
+      ec: ExecutionContext,
       scheduler: Scheduler
   ) extends ChannelService {
 
@@ -265,8 +267,8 @@ object ChannelService {
         fee.forceClosingFee
       )
 
-      reportsRepository.createChannelRentalFeeDetail(detail).recover {
-        case error => logger.error(s"Error reporting channel rental fee detail $paymentRHash.", error)
+      reportsRepository.createChannelRentalFeeDetail(detail).recover { case error =>
+        logger.error(s"Error reporting channel rental fee detail $paymentRHash.", error)
       }
 
       channelsRepository.createChannelFeePayment(channelFeePayment, paymentRHash, fee.totalFee)
@@ -500,15 +502,16 @@ object ChannelService {
           .toRight("Invalid state, active channel without expiration date")
           .toFutureEither()
 
-        response <- if (extension.isApplied) {
-          Right((channel.channelId, channelExpirationDate)).withLeft[String].toFutureEither()
-        } else {
-          reportChannelRentalExtensionFee(channel.channelId, paymentHash, payingCurrency, extension.fee)
+        response <-
+          if (extension.isApplied) {
+            Right((channel.channelId, channelExpirationDate)).withLeft[String].toFutureEither()
+          } else {
+            reportChannelRentalExtensionFee(channel.channelId, paymentHash, payingCurrency, extension.fee)
 
-          payRentedChannelExtensionFee(extension)
-            .toFutureEither()
-            .map(_ => (channel.channelId, channelExpirationDate.plusSeconds(extension.seconds)))
-        }
+            payRentedChannelExtensionFee(extension)
+              .toFutureEither()
+              .map(_ => (channel.channelId, channelExpirationDate.plusSeconds(extension.seconds)))
+          }
       } yield response
 
       extensionResponse.toFuture
@@ -558,8 +561,8 @@ object ChannelService {
               logger.warn(s"Error reporting channel rental extension fee $paymentHash, fee payment not found")
             )
         }
-        .recover {
-          case error => logger.error(s"Error reporting channel rental extension fee $paymentHash.", error)
+        .recover { case error =>
+          logger.error(s"Error reporting channel rental extension fee $paymentHash.", error)
         }
     }
 

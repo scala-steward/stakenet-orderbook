@@ -13,12 +13,12 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class ReportCommandHandler @Inject()(
+class ReportCommandHandler @Inject() (
     reportsRepository: ReportsRepository.FutureImpl,
     priceApi: PriceApi,
     discordAPI: DiscordAPI
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
 
   private val logger = LoggerFactory.getLogger(this.getClass)

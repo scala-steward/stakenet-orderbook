@@ -10,13 +10,13 @@ import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponent
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TradesController @Inject()(
+class TradesController @Inject() (
     cc: ControllerComponents,
     tradingPairsConfig: TradingPairsConfig,
     tradingPairService: TradingPairService,
     channelsService: ChannelService
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) extends AbstractController(cc) {
   import TradesController._
 

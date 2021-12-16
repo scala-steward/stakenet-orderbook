@@ -11,7 +11,7 @@ import io.stakenet.orderbook.repositories.channels.ChannelsRepository.Id
 import javax.inject.Inject
 import play.api.db.Database
 
-class ChannelsPostgresRepository @Inject()(database: Database) extends ChannelsRepository.Blocking {
+class ChannelsPostgresRepository @Inject() (database: Database) extends ChannelsRepository.Blocking {
 
   override def createChannelFeePayment(
       channelFeePayment: ChannelFeePayment,

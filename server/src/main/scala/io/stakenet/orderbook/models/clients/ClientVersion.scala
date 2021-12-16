@@ -6,11 +6,11 @@ class ClientVersion private (val components: List[Int]) extends Ordered[ClientVe
   override def compare(that: ClientVersion): Int = {
     components
       .zip(that.components)
-      .find {
-        case (component1, component2) => component1 != component2
+      .find { case (component1, component2) =>
+        component1 != component2
       }
-      .map {
-        case (component1, component2) => component1.compare(component2)
+      .map { case (component1, component2) =>
+        component1.compare(component2)
       }
       .getOrElse(0)
   }

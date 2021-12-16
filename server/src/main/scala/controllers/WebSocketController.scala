@@ -26,7 +26,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
 @Singleton
-class WebSocketController @Inject()(
+class WebSocketController @Inject() (
     cc: ControllerComponents,
     peerActorFactory: PeerActor.Factory,
     messageFilter: PeerMessageFilterActor.Ref,
@@ -35,8 +35,8 @@ class WebSocketController @Inject()(
     webSocketValidator: WebSocketValidator,
     connectionManager: ConnectionManagerActor.Ref,
     makerPaymentService: MakerPaymentService
-)(
-    implicit system: ActorSystem,
+)(implicit
+    system: ActorSystem,
     mat: Materializer,
     ec: ExecutionContext
 ) extends AbstractController(cc)
@@ -133,8 +133,8 @@ class WebSocketController @Inject()(
   }
 
   // NOTE: the codecs depend on the tradingPairsConfig
-  implicit def peerProtoTransformer(
-      implicit commandCodec: CommandCodec,
+  implicit def peerProtoTransformer(implicit
+      commandCodec: CommandCodec,
       eventCodecs: EventCodec
   ): WebSocket.MessageFlowTransformer[WebSocketIncomingMessage, WebSocketOutgoingMessage] = {
     WebSocket.MessageFlowTransformer.byteArrayMessageFlowTransformer.map(

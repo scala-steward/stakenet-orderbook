@@ -10,8 +10,8 @@ import io.stakenet.orderbook.utils.Extensions._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class OrderValidator @Inject()(usdConverter: UsdConverter, currencyConverter: CurrencyConverter)(
-    implicit ec: ExecutionContext
+class OrderValidator @Inject() (usdConverter: UsdConverter, currencyConverter: CurrencyConverter)(implicit
+    ec: ExecutionContext
 ) {
 
   def validate(tradingOrder: TradingOrder): Future[Either[OrderValidator.Error, Unit]] = {

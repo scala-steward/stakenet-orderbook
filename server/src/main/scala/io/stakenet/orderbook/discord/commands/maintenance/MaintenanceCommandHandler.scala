@@ -12,8 +12,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-class MaintenanceCommandHandler @Inject()(messageFilter: PeerMessageFilterActor.Ref, discordAPI: DiscordAPI)(
-    implicit ec: ExecutionContext
+class MaintenanceCommandHandler @Inject() (messageFilter: PeerMessageFilterActor.Ref, discordAPI: DiscordAPI)(implicit
+    ec: ExecutionContext
 ) {
 
   private val logger = LoggerFactory.getLogger(this.getClass)

@@ -24,12 +24,12 @@ case class InvalidPaymentHash(value: String)
     extends RuntimeException(s"LND Returned something that's not a payment hash: $value")
 
 // TODO: Remove timers when the spans are used to compute the latency dashboard
-class LndHelper @Inject()(
+class LndHelper @Inject() (
     clientBuilder: LightningClientBuilder,
     usdConverter: UsdConverter,
     lnd: MulticurrencyLndClient
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
   import LndTraceHelper._
 
@@ -248,6 +248,7 @@ object LndHelper {
   sealed trait SendPaymentError { def getMessage: String }
 
   object SendPaymentError {
+
     case class IncorrectPaymentDetails() extends SendPaymentError {
       override def getMessage: String = "Invalid payment data"
     }
@@ -272,6 +273,7 @@ object LndHelper {
   sealed trait CreatePaymentRequestError { def getMessage: String }
 
   object CreatePaymentRequestError {
+
     case class FeeUsdLimitExceeded(
         amount: Satoshis,
         currency: Currency,

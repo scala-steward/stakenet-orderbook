@@ -7,7 +7,7 @@ import io.stakenet.orderbook.services.apis.PriceApi
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CurrencyConverter @Inject()(priceApi: PriceApi)(implicit ec: ExecutionContext) {
+class CurrencyConverter @Inject() (priceApi: PriceApi)(implicit ec: ExecutionContext) {
 
   def convert(amount: Satoshis, currency: Currency, target: Currency): Future[Satoshis] = {
     val tradingPair = TradingPair.from(currency, target)

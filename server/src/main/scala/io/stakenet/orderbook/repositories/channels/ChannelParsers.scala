@@ -10,12 +10,15 @@ import io.stakenet.orderbook.repositories.CommonParsers._
 private[channels] object ChannelParsers {
 
   implicit val channelIdColumn: Column[ChannelId.LndChannelId] = Column.columnToUUID.map(ChannelId.LndChannelId.apply)
+
   implicit val connextChannelIdColumn: Column[ChannelId.ConnextChannelId] =
     Column.columnToUUID.map(ChannelId.ConnextChannelId.apply)
   implicit val channelStatusColumn: Column[ChannelStatus] = enumColumn(ChannelStatus.withNameInsensitiveOption)
+
   implicit val connextChannelStatusColumn: Column[ConnextChannelStatus] =
     enumColumn(ConnextChannelStatus.withNameInsensitiveOption)
   implicit val fundingTxidColumn: Column[LndTxid] = Column.columnToByteArray.map(x => LndTxid(x.toVector))
+
   implicit val channelAddressColumn: Column[ConnextChannelAddress] = Column.columnToString
     .map(ConnextChannelAddress.apply)
     .map(_.getOrElse(throw new RuntimeException("Invalid connext channel address retrieved from the database")))

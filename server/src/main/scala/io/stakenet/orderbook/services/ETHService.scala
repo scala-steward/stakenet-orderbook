@@ -16,7 +16,8 @@ trait ETHService {
 
 }
 
-class ETHServiceRPCImpl @Inject()(ethClient: Web3j)(implicit ec: ExecutionContext) extends ETHService {
+class ETHServiceRPCImpl @Inject() (ethClient: Web3j)(implicit ec: ExecutionContext) extends ETHService {
+
   override def getLatestBlockNumber(): Future[BigInt] = {
     FutureConverters
       .toScala(ethClient.ethBlockNumber().sendAsync())
@@ -61,24 +62,28 @@ object ETHService {
   object Error {
 
     class CouldNotGetLatestBlockNumber(code: Int, message: String) extends RuntimeException {
+
       override def getMessage: String = {
         s"An error occurred getting latest block number: $message(error code: $code)"
       }
     }
 
     class UnexpectedResponse() extends RuntimeException {
+
       override def getMessage: String = {
         s"Unexpected response"
       }
     }
 
     class CouldNotGetTransaction(hash: String, code: Int, message: String) extends RuntimeException {
+
       override def getMessage: String = {
         s"An error occurred getting transaction $hash: $message(error code: $code)"
       }
     }
 
     class InvalidSatohis(amount: BigInt) extends RuntimeException {
+
       override def getMessage: String = {
         amount.toString
       }

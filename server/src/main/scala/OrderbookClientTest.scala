@@ -17,20 +17,19 @@ class OrderbookClient(url: String)(implicit actorSystem: ActorSystem) extends Pe
 
   var firstPong = true
 
-  val wsHandler: PartialFunction[ByteBuf, Unit] = {
-    case byteBuf: ByteBuf =>
-      val bytes = Array.ofDim[Byte](byteBuf.readableBytes())
-      byteBuf.readBytes(bytes)
-      val proto = io.stakenet.orderbook.protos.api.Event.parseFrom(bytes)
-      val msg = eventCodec.decode(proto)
-      if (msg.event == Event.CommandResponse.PingResponse()) {
-        if (firstPong) {
-          firstPong = false
-          println(s"<<| ${msg.event}, next ping responses won't be printed")
-        }
-      } else {
-        println(s"<<| ${msg.event}")
+  val wsHandler: PartialFunction[ByteBuf, Unit] = { case byteBuf: ByteBuf =>
+    val bytes = Array.ofDim[Byte](byteBuf.readableBytes())
+    byteBuf.readBytes(bytes)
+    val proto = io.stakenet.orderbook.protos.api.Event.parseFrom(bytes)
+    val msg = eventCodec.decode(proto)
+    if (msg.event == Event.CommandResponse.PingResponse()) {
+      if (firstPong) {
+        firstPong = false
+        println(s"<<| ${msg.event}, next ping responses won't be printed")
       }
+    } else {
+      println(s"<<| ${msg.event}")
+    }
 
   }
 

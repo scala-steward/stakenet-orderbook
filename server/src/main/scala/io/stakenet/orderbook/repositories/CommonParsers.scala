@@ -15,19 +15,24 @@ private[repositories] object CommonParsers {
   }
 
   implicit val currencyColumn: Column[Currency] = enumColumn(Currency.withNameInsensitiveOption)
+
   implicit val satoshisColumn: Column[Satoshis] =
     Column.columnToBigInt
       .map(Satoshis.from(_, Satoshis.Digits))
       .map(_.getOrElse(throw new RuntimeException("Corrupted satoshis")))
   implicit val orderIdColumn: Column[OrderId] = Column.columnToUUID.map(OrderId.apply)
+
   implicit val PaymentHashColumn: Column[PaymentRHash] =
     Column.columnToByteArray.map(_.toVector).map(PaymentRHash.apply)
+
   implicit val publicKeyColumn: Column[Identifier.LndPublicKey] =
     Column.columnToByteArray.map(x => Identifier.LndPublicKey(x.toVector))
+
   implicit val connextPublicIdentifierColumn: Column[ConnextPublicIdentifier] = Column.columnToString
     .map(ConnextPublicIdentifier.untrusted)
     .map(_.getOrElse(throw new RuntimeException("Invalid connext public identifier retrieved from the database")))
   implicit val clientPublicKeyIdColumn: Column[ClientPublicKeyId] = Column.columnToUUID.map(ClientPublicKeyId.apply)
+
   implicit val clientPublicIdentifierIdColumn: Column[ClientPublicIdentifierId] =
     Column.columnToUUID.map(ClientPublicIdentifierId.apply)
   implicit val clientIdColumn: Column[ClientId] = Column.columnToUUID.map(ClientId.apply)

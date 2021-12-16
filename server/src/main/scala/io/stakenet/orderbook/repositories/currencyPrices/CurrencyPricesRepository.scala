@@ -16,7 +16,7 @@ object CurrencyPricesRepository {
 
   trait Blocking extends CurrencyPricesRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends CurrencyPricesRepository[Future] {
 
     override def create(currencyPrices: CurrencyPrices): Future[Unit] = Future {

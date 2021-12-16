@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
-class UnlinkAllFeesTask @Inject()(feesRepository: FeesRepository.FutureImpl)(implicit ec: ExecutionContext) {
+class UnlinkAllFeesTask @Inject() (feesRepository: FeesRepository.FutureImpl)(implicit ec: ExecutionContext) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
   start()

@@ -6,6 +6,7 @@ import play.api.libs.functional.syntax._
 case class TransactionValue(address: Option[String], value: BigDecimal) {}
 
 object TransactionValue {
+
   implicit val InputsReads: Reads[TransactionValue] = (
     (JsPath \ "address").readNullable[String] and
       (JsPath \ "value").read[BigDecimal]

@@ -48,13 +48,13 @@ trait PaymentService {
 object PaymentService {
   type Response[E <: Error, A] = Either[E, A]
 
-  class LndImpl @Inject()(
+  class LndImpl @Inject() (
       lndHelper: LndHelper,
       lnd: MulticurrencyLndClient,
       retryConfig: RetryConfig,
       preimagesRepository: PreimagesRepository.FutureImpl
-  )(
-      implicit ec: ExecutionContext,
+  )(implicit
+      ec: ExecutionContext,
       scheduler: Scheduler
   ) extends PaymentService {
 

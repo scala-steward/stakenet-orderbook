@@ -8,7 +8,7 @@ import io.stakenet.orderbook.repositories.fees.requests.{BurnFeeRequest, LinkFee
 import javax.inject.Inject
 import play.api.db.Database
 
-class FeesPostgresRepository @Inject()(database: Database) extends FeesRepository.Blocking {
+class FeesPostgresRepository @Inject() (database: Database) extends FeesRepository.Blocking {
 
   override def createInvoice(paymentHash: PaymentRHash, currency: Currency, amount: Satoshis): Id[Unit] = {
     val feeInvoice = FeeInvoice(paymentHash, currency, amount, Instant.now)

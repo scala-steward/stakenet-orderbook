@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.ExecutionContext
 import scala.util.{Success, Try}
 
-class ChannelDepositMonitor @Inject()(
+class ChannelDepositMonitor @Inject() (
     ethService: ETHService,
     connextHelper: ConnextHelper,
     channelsRepository: ChannelsRepository.FutureImpl,

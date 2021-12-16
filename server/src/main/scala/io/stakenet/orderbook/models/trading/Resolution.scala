@@ -12,6 +12,7 @@ package io.stakenet.orderbook.models.trading
 
 case class Resolution(months: Int = 0, weeks: Int = 0, days: Int = 0, minutes: Int = 0) {
   require(List(months > 0, weeks > 0, days > 0, minutes > 0).count(identity) == 1)
+
   override def toString: String = {
     if (months > 0) s"${months}M"
     else if (weeks > 0) s"${weeks}W"

@@ -20,8 +20,9 @@ object PreimagesRepository {
   type Id[T] = T
   trait Blocking extends PreimagesRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends PreimagesRepository[Future] {
+
     override def createPreimage(
         preimage: Preimage,
         hash: PaymentRHash,

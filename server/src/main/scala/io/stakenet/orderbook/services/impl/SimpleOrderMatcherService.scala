@@ -69,14 +69,14 @@ class SimpleOrderMatcherService extends OrderMatcherService {
   /**
    * Find the highest price in the candidate orders
    * in case of two orders with the same price, it will take the one with the higher funds
-   *
    */
   private def findMaxPrice(pair: TradingPair)(targetOrders: List[pair.LimitOrder]): Option[pair.LimitOrder] = {
     if (targetOrders.isEmpty) {
       None
     } else {
       val maxPrice = targetOrders.maxBy(_.details.price).details.price
-      val bestOrder = targetOrders.filter(_.details.price == maxPrice).min // min gets the one with higher funds on price ties
+      val bestOrder =
+        targetOrders.filter(_.details.price == maxPrice).min // min gets the one with higher funds on price ties
       Some(bestOrder)
     }
   }
@@ -90,7 +90,8 @@ class SimpleOrderMatcherService extends OrderMatcherService {
       None
     } else {
       val minPrice = targetOrders.minBy(_.details.price).details.price
-      val bestOrder = targetOrders.filter(_.details.price == minPrice).min // min gets the one with higher funds on price ties
+      val bestOrder =
+        targetOrders.filter(_.details.price == minPrice).min // min gets the one with higher funds on price ties
       Some(bestOrder)
     }
   }

@@ -28,8 +28,9 @@ object MakerPaymentsRepository {
   type Id[T] = T
   trait Blocking extends MakerPaymentsRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends MakerPaymentsRepository[Future] {
+
     override def createMakerPayment(
         makerPaymentId: MakerPaymentId,
         tradeId: Trade.Id,

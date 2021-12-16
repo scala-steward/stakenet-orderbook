@@ -8,8 +8,8 @@ import play.api.mvc.{AbstractController, ControllerComponents}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class LndChannelsController @Inject()(cc: ControllerComponents, configBuilder: LightningConfigBuilder)(
-    implicit ec: ExecutionContext
+class LndChannelsController @Inject() (cc: ControllerComponents, configBuilder: LightningConfigBuilder)(implicit
+    ec: ExecutionContext
 ) extends AbstractController(cc) {
 
   import LndChannelsController._
@@ -24,6 +24,7 @@ class LndChannelsController @Inject()(cc: ControllerComponents, configBuilder: L
 }
 
 object LndChannelsController {
+
   implicit val writes: Writes[LndConfig] = (obj: LndConfig) => {
     Json.obj("publicKey" -> obj.publicKey, "ipAddress" -> obj.channelIpAddress, "port" -> obj.port)
   }

@@ -25,8 +25,8 @@ class SubscribeChannelsObserver(
     reportsRepository: ReportsRepository.FutureImpl,
     onError: () => Unit,
     explorerService: ExplorerService
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) extends StreamObserver[ChannelEventUpdate] {
   private val logger = LoggerFactory.getLogger(this.getClass)
 

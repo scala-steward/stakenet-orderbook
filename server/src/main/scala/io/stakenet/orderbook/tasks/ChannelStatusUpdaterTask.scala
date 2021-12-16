@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-class ChannelStatusUpdaterTask @Inject()(
+class ChannelStatusUpdaterTask @Inject() (
     channelService: ChannelService,
     lndHelper: LndHelper,
     lnd: MulticurrencyLndClient,
@@ -25,8 +25,8 @@ class ChannelStatusUpdaterTask @Inject()(
     actorSystem: ActorSystem,
     reportsRepository: ReportsRepository.FutureImpl,
     explorerService: ExplorerService
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 

@@ -4,7 +4,7 @@ import io.stakenet.orderbook.models.Currency
 import javax.inject.Inject
 import play.api.Configuration
 
-class ConnextConfigBuilder @Inject()(config: Configuration) {
+class ConnextConfigBuilder @Inject() (config: Configuration) {
 
   def getConfig(currency: Currency): ConnextConfig = {
     val currencyConfig = config.get[Configuration](s"connext.${currency.entryName}")

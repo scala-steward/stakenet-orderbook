@@ -8,7 +8,7 @@ import io.stakenet.orderbook.repositories.reports.ReportsRepository.Id
 import javax.inject.Inject
 import play.api.db.Database
 
-class ReportsPostgresRepository @Inject()(database: Database) extends ReportsRepository.Blocking {
+class ReportsPostgresRepository @Inject() (database: Database) extends ReportsRepository.Blocking {
 
   override def createOrderFeePayment(orderFeePayment: OrderFeePayment): Unit = {
     database.withConnection { implicit conn =>

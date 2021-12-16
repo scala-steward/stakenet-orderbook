@@ -7,8 +7,8 @@ import io.stakenet.orderbook.models.trading.CurrencyPrices
 
 private[currencyPrices] object CurrencyPricesDAO {
 
-  def create(currencyPrices: CurrencyPrices)(
-      implicit conn: Connection
+  def create(currencyPrices: CurrencyPrices)(implicit
+      conn: Connection
   ): Unit = {
     SQL"""
         INSERT INTO currency_prices(currency, btc_price, usd_price, created_at)

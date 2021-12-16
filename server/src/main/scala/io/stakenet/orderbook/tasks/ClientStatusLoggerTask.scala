@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 
-class ClientStatusLoggerTask @Inject()(
+class ClientStatusLoggerTask @Inject() (
     clientService: ClientService,
     lnd: MulticurrencyLndClient,
     actorSystem: ActorSystem
-)(
-    implicit ex: ExecutionContext
+)(implicit
+    ex: ExecutionContext
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
@@ -44,8 +44,8 @@ class ClientStatusLoggerTask @Inject()(
           _ <- clientService.logClientStatus(clientId, rentedCapacityUSD, hubLocalBalanceUSD)
         } yield ()
 
-        result.recover {
-          case error => logger.error(s"could log client $clientId status", error)
+        result.recover { case error =>
+          logger.error(s"could log client $clientId status", error)
         }
       }
     }
@@ -56,8 +56,8 @@ class ClientStatusLoggerTask @Inject()(
   private def getClientIdsList(): Future[List[ClientId]] = {
     val clients = clientService.getAllClientIds()
 
-    clients.recover {
-      case error => logger.error("Could not get clients list", error)
+    clients.recover { case error =>
+      logger.error("Could not get clients list", error)
     }
 
     clients
@@ -70,8 +70,8 @@ class ClientStatusLoggerTask @Inject()(
       allBalances + (currencyBalance.currency -> currencyBalance)
     }
 
-    clientsHubBalance.recover {
-      case error => logger.error("Could not get hub's channels local balance", error)
+    clientsHubBalance.recover { case error =>
+      logger.error("Could not get hub's channels local balance", error)
     }
 
     clientsHubBalance

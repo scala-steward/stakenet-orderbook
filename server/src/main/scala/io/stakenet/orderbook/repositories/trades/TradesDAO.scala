@@ -71,8 +71,8 @@ private[repositories] class TradesDAO {
       .as(TradeParsers.tradeParser.*)
   }
 
-  def getBars(tradingPair: TradingPair, resolution: Resolution, from: Instant, to: Instant, limit: Int)(
-      implicit conn: Connection
+  def getBars(tradingPair: TradingPair, resolution: Resolution, from: Instant, to: Instant, limit: Int)(implicit
+      conn: Connection
   ): List[Bars] = {
     SQL"""
           with intervals as (

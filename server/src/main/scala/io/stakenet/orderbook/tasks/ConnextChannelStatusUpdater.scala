@@ -6,11 +6,11 @@ import io.stakenet.orderbook.repositories.channels.ChannelsRepository
 
 import scala.concurrent.ExecutionContext
 
-class ConnextChannelStatusUpdater @Inject()(
+class ConnextChannelStatusUpdater @Inject() (
     channelsRepository: ChannelsRepository.FutureImpl,
     channelDepositMonitor: ChannelDepositMonitor
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
 
   start()

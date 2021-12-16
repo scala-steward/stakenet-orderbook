@@ -63,7 +63,6 @@ class TreeBasedOrderMatcherService extends OrderMatcherService {
   /**
    * Find the highest price in the candidate orders
    * in case of two orders with the same price, it will take the one with the higher funds
-   *
    */
   private def findMaxPrice(
       pair: TradingPair

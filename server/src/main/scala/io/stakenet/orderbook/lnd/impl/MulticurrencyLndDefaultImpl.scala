@@ -13,7 +13,7 @@ import lnrpc.rpc.{ChannelEventUpdate, ListChannelsRequest, OpenStatusUpdate, Tra
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MulticurrencyLndDefaultImpl @Inject()(clientBuilder: LightningClientBuilder)(implicit ec: ExecutionContext)
+class MulticurrencyLndDefaultImpl @Inject() (clientBuilder: LightningClientBuilder)(implicit ec: ExecutionContext)
     extends MulticurrencyLndClient {
 
   override def healthCheck(currency: Currency): Future[Unit] = {

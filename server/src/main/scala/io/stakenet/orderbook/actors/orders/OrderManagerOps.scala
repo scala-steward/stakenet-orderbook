@@ -17,8 +17,8 @@ private[orders] object OrderManagerOps {
   /**
    * Find the orders involving the given trading pair, and send them to the given actor.
    */
-  def sendOrders(pair: TradingPair, replyTo: ActorRef)(
-      implicit state: OrderManagerState
+  def sendOrders(pair: TradingPair, replyTo: ActorRef)(implicit
+      state: OrderManagerState
   ): List[ActorMessage] = {
     val (summaryBuy, summarySell) = state.groupedOrders.summaryView(pair)
 
@@ -42,8 +42,8 @@ private[orders] object OrderManagerOps {
    * @param state the current state
    * @return the new state after cancelling the given order
    */
-  def cancelOrder(id: OrderId, owner: ActorRef, sender: ActorRef)(
-      implicit state: OrderManagerState
+  def cancelOrder(id: OrderId, owner: ActorRef, sender: ActorRef)(implicit
+      state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
     val cancelledOrder = state.find(id, owner)
 
@@ -92,8 +92,8 @@ private[orders] object OrderManagerOps {
       peerOrder: PeerOrder,
       sender: ActorRef,
       tradesConfig: TradesConfig
-  )(
-      implicit state: OrderManagerState
+  )(implicit
+      state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
     val order = peerOrder.order
     val orderOwner = peerOrder.peer
@@ -156,7 +156,10 @@ private[orders] object OrderManagerOps {
 
         val notificationEvents = for {
           subscriber <- state.subscriptors(order.pair)
-        } yield InstantMessage(subscriber, peers.protocol.Event.ServerEvent.OrdersMatched(trade)) // TODO: Decouple from peer actor
+        } yield InstantMessage(
+          subscriber,
+          peers.protocol.Event.ServerEvent.OrdersMatched(trade)
+        ) // TODO: Decouple from peer actor
 
         UpdateStateResult(state.remove(matchedPeerOrder), actorMessages ++ notificationEvents.toList)
       }
@@ -202,8 +205,8 @@ private[orders] object OrderManagerOps {
     List(InstantMessage(replyTo, Event.OrdersRetrieved(orders)))
   }
 
-  def sendOrder(orderId: OrderId, replyTo: ActorRef)(
-      implicit state: OrderManagerState
+  def sendOrder(orderId: OrderId, replyTo: ActorRef)(implicit
+      state: OrderManagerState
   ): List[ActorMessage] = {
 
     val order = state.find(orderId).map(_.order)
@@ -221,8 +224,8 @@ private[orders] object OrderManagerOps {
    * @param state the current state
    * @return the new state after removing the open orders
    */
-  def cleanOpenOrders(tradingPair: TradingPair, owner: ActorRef, replyTo: ActorRef)(
-      implicit state: OrderManagerState
+  def cleanOpenOrders(tradingPair: TradingPair, owner: ActorRef, replyTo: ActorRef)(implicit
+      state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
     val removedOrders = state.find(owner, tradingPair)
 
@@ -242,8 +245,8 @@ private[orders] object OrderManagerOps {
     UpdateStateResult(state.remove(tradingPair, owner), notificationEvents.toList ++ ownerEvents)
   }
 
-  def swapSuccess(trade: Trade)(
-      implicit state: OrderManagerState
+  def swapSuccess(trade: Trade)(implicit
+      state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
     val notificationEvents = for {
       subscriber <- state.subscriptors(trade.pair)
@@ -255,8 +258,8 @@ private[orders] object OrderManagerOps {
     UpdateStateResult(state, notificationEvents.toList)
   }
 
-  def swapFailure(trade: Trade)(
-      implicit state: OrderManagerState
+  def swapFailure(trade: Trade)(implicit
+      state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
     val notificationEvents = for {
       subscriber <- state.subscriptors(trade.pair)
@@ -268,8 +271,8 @@ private[orders] object OrderManagerOps {
     UpdateStateResult(state, notificationEvents.toList)
   }
 
-  def subscribe(pair: TradingPair, includeOrderSummary: Boolean, subscriber: ActorRef, replyTo: ActorRef)(
-      implicit state: OrderManagerState
+  def subscribe(pair: TradingPair, includeOrderSummary: Boolean, subscriber: ActorRef, replyTo: ActorRef)(implicit
+      state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
     val newState = state.subscribe(pair, subscriber)
 

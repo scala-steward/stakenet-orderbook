@@ -24,8 +24,8 @@ class OrderManagerActor(orderMatcher: OrderMatcherService, tradesConfig: TradesC
     context become withState(OrderManagerState.empty)
   }
 
-  override def receive: Receive = {
-    case x => log.info(s"Unexpected message: $x")
+  override def receive: Receive = { case x =>
+    log.info(s"Unexpected message: $x")
   }
 
   private def handle(cmd: Command)(implicit state: OrderManagerState) = cmd match {
@@ -140,8 +140,8 @@ object OrderManagerActor {
 
   object Ref {
 
-    def apply(orderMatcher: OrderMatcherService, tradesConfig: TradesConfig, name: String = "order-manager")(
-        implicit system: ActorSystem
+    def apply(orderMatcher: OrderMatcherService, tradesConfig: TradesConfig, name: String = "order-manager")(implicit
+        system: ActorSystem
     ): Ref = {
       val actor = system.actorOf(props(orderMatcher, tradesConfig), name)
       new Ref(actor)
@@ -170,6 +170,7 @@ object OrderManagerActor {
 
   object Event {
     final case class OrderPlaced(order: TradingOrder) extends Event
+
     final case class Subscribed(pair: TradingPair, bidsSummary: List[OrderSummary], asksSummary: List[OrderSummary])
         extends Event
     final case class Unsubscribed(pair: TradingPair) extends Event

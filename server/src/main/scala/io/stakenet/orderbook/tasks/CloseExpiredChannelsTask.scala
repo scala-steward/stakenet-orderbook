@@ -14,14 +14,14 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
 import scala.util.{Failure, Success}
 
-class CloseExpiredChannelsTask @Inject()(
+class CloseExpiredChannelsTask @Inject() (
     channelService: ChannelService,
     lndHelper: LndHelper,
     lnd: MulticurrencyLndClient,
     actorSystem: ActorSystem,
     explorerService: ExplorerService
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
@@ -85,12 +85,11 @@ class CloseExpiredChannelsTask @Inject()(
   }
 
   private def updateChannelStatus(expiredChannel: LndChannel, channelStatus: ChannelStatus): Unit = {
-    channelService.updateChannelStatus(expiredChannel.channelId, channelStatus).recover {
-      case e =>
-        logger.error(
-          s"Failed to update the channel status to ${channelStatus.entryName}, id: ${expiredChannel.channelId}",
-          e
-        )
+    channelService.updateChannelStatus(expiredChannel.channelId, channelStatus).recover { case e =>
+      logger.error(
+        s"Failed to update the channel status to ${channelStatus.entryName}, id: ${expiredChannel.channelId}",
+        e
+      )
     }
     ()
   }

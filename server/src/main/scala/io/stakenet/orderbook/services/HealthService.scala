@@ -9,7 +9,10 @@ import play.api.db.Database
 
 import scala.concurrent.Future
 
-class HealthService @Inject()(databaseHealthChecker: HealthService.DatabaseHealthChecker, lnd: MulticurrencyLndClient) {
+class HealthService @Inject() (
+    databaseHealthChecker: HealthService.DatabaseHealthChecker,
+    lnd: MulticurrencyLndClient
+) {
 
   import HealthService._
 
@@ -44,7 +47,7 @@ object HealthService {
     final case object Lnd extends Service
   }
 
-  class DatabaseHealthChecker @Inject()(database: Database)(implicit ec: DatabaseExecutionContext) {
+  class DatabaseHealthChecker @Inject() (database: Database)(implicit ec: DatabaseExecutionContext) {
     import anorm._
 
     def check(): Future[Unit] = Future {

@@ -22,7 +22,7 @@ trait MakerPaymentService {
 
 object MakerPaymentService {
 
-  class Impl @Inject()(
+  class Impl @Inject() (
       makerPaymentsRepository: MakerPaymentsRepository.FutureImpl,
       feesRepository: FeesRepository.FutureImpl,
       clientsRepository: ClientsRepository.FutureImpl,
@@ -102,10 +102,9 @@ object MakerPaymentService {
             case Left(error) =>
               setPaymentFailed(makerPaymentId).map(_ => Left(error.reason))
           }
-          .recoverWith {
-            case error =>
-              logger.error(s"An error occurred paying maker $makerId, takerOrder = $takerOrderId", error)
-              setPaymentFailed(makerPaymentId).map(_ => Left(error.getMessage))
+          .recoverWith { case error =>
+            logger.error(s"An error occurred paying maker $makerId, takerOrder = $takerOrderId", error)
+            setPaymentFailed(makerPaymentId).map(_ => Left(error.getMessage))
           }
           .toFutureEither()
       } yield ()

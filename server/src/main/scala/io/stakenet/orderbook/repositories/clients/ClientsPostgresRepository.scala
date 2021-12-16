@@ -11,7 +11,7 @@ import io.stakenet.orderbook.repositories.clients.ClientsRepository.Id
 import javax.inject.Inject
 import play.api.db.Database
 
-class ClientsPostgresRepository @Inject()(database: Database) extends ClientsRepository.Blocking {
+class ClientsPostgresRepository @Inject() (database: Database) extends ClientsRepository.Blocking {
 
   override def createWalletClient(walletId: WalletId): ClientId = {
     database.withTransaction { implicit conn =>

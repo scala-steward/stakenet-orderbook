@@ -15,9 +15,10 @@ class UncategorizedCommandHandler(
     orderManager: OrderManagerActor.Ref,
     peerActorOps: PeerActorOps,
     tradingPairsConfig: TradingPairsConfig
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) extends CommandHandler[UncategorizedCommand] {
+
   override def handle(
       cmd: UncategorizedCommand
   )(implicit ctx: CommandContext, log: LoggingAdapter): CommandHandler.Result = cmd match {

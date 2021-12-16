@@ -17,6 +17,7 @@ import io.stakenet.orderbook.repositories.reports.{ReportsPostgresRepository, Re
 import io.stakenet.orderbook.repositories.trades.{TradesPostgresRepository, TradesRepository}
 
 class RepositoriesModule extends AbstractModule {
+
   override def configure(): Unit = {
     val _ = (
       bind(classOf[TradesRepository.Blocking]).to(classOf[TradesPostgresRepository]),

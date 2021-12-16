@@ -88,6 +88,7 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
   }
 
   object Order {
+
     // compare by price, breaking ties by funds (highest first) and then by id
     // Satoshis.MaxValue - o.funds is a trick to negate the price as Satoshis can't be negative
     implicit val orderingBySmallerPriceHigherFunds: Ordering[self.LimitOrder] =
@@ -110,6 +111,7 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
    * Order to buy/sell the [[principal]] currency at the market price.
    */
   case class MarketOrder(id: OrderId, side: OrderSide, funds: Satoshis) extends Order {
+
     override def matches(other: LimitOrder): Boolean = {
       this.side != other.side
     }

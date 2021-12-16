@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-class PriceApi @Inject()(
+class PriceApi @Inject() (
     tradesRepository: TradesRepository.FutureImpl,
     explorerService: ExplorerService,
     retryConfig: RetryConfig
-)(
-    implicit ec: ExecutionContext,
+)(implicit
+    ec: ExecutionContext,
     scheduler: Scheduler
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)

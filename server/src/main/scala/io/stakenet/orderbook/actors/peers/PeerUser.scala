@@ -16,6 +16,7 @@ object PeerUser {
 
   final case class Wallet(id: ClientId, override val name: String, override val maxAllowedOrders: Int)
       extends PeerUser(name, maxAllowedOrders)
+
   final case class Bot(id: ClientId, paysFees: Boolean, override val name: String, override val maxAllowedOrders: Int)
       extends PeerUser(name, maxAllowedOrders)
 }

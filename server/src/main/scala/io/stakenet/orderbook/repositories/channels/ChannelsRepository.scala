@@ -79,7 +79,7 @@ object ChannelsRepository {
   type Id[T] = T
   trait Blocking extends ChannelsRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends ChannelsRepository[scala.concurrent.Future] {
 
     override def createChannelFeePayment(

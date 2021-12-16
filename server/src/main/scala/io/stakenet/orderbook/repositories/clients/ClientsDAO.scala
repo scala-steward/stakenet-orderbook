@@ -75,8 +75,8 @@ private[clients] object ClientsDAO {
     }
   }
 
-  def createClientPublicKey(clientId: ClientId, publicKey: Identifier.LndPublicKey, currency: Currency)(
-      implicit conn: Connection
+  def createClientPublicKey(clientId: ClientId, publicKey: Identifier.LndPublicKey, currency: Currency)(implicit
+      conn: Connection
   ): Unit = {
     val id = ClientPublicKeyId.random()
     val key = publicKey.value.toArray
@@ -168,8 +168,8 @@ private[clients] object ClientsDAO {
        """.as(ClientParsers.clientPublicKeyParser.singleOpt)
   }
 
-  def findPublicIdentifier(clientId: ClientId, currency: Currency)(
-      implicit conn: Connection
+  def findPublicIdentifier(clientId: ClientId, currency: Currency)(implicit
+      conn: Connection
   ): Option[ClientConnextPublicIdentifier] = {
     SQL"""
          SELECT client_public_identifier_id, public_identifier, currency, client_id

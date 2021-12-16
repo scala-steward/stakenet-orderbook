@@ -81,9 +81,8 @@ private[orders] case class OrderManagerState(
   }
 
   def remove(owner: ActorRef): OrderManagerState = {
-    TradingPair.values.foldLeft(this) {
-      case (acc, pair) =>
-        acc.remove(pair, owner)
+    TradingPair.values.foldLeft(this) { case (acc, pair) =>
+      acc.remove(pair, owner)
     }
   }
 
@@ -94,9 +93,8 @@ private[orders] case class OrderManagerState(
       .filter(_.order.pair == pair)
 
     removedOrders
-      .foldLeft(this) {
-        case (acc, order) =>
-          acc.remove(order)
+      .foldLeft(this) { case (acc, order) =>
+        acc.remove(order)
       }
       .unsubscribe(pair, owner)
   }

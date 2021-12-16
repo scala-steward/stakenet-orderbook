@@ -11,12 +11,12 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
 import scala.util.{Failure, Success}
 
-class WithdrawExpiredConnextChannelsTask @Inject()(
+class WithdrawExpiredConnextChannelsTask @Inject() (
     channelsRepository: ChannelsRepository.FutureImpl,
     connextHelper: ConnextHelper,
     actorSystem: ActorSystem
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 

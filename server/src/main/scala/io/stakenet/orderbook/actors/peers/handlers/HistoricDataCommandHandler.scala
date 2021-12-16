@@ -9,6 +9,7 @@ import scala.concurrent.ExecutionContext
 
 class HistoricDataCommandHandler(tradesRepository: TradesRepository.FutureImpl)(implicit ec: ExecutionContext)
     extends CommandHandler[HistoricDataCommand] {
+
   override def handle(
       cmd: HistoricDataCommand
   )(implicit ctx: CommandContext, log: LoggingAdapter): CommandHandler.Result = cmd match {

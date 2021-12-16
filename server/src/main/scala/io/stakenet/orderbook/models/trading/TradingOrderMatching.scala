@@ -35,11 +35,11 @@ object TradingOrderMatching {
   ): TradingOrderMatching = {
     val groupedOrders = GroupedOrders(_available)
     val initial = groupedOrders.availableFor(_pair, OrderSide.Buy)
-    val result = groupedOrders.availableFor(_pair, OrderSide.Sell).values.flatMap(_.toList).foldLeft(initial) {
-      case (acc, cur) =>
+    val result =
+      groupedOrders.availableFor(_pair, OrderSide.Sell).values.flatMap(_.toList).foldLeft(initial) { case (acc, cur) =>
         val tree = acc.getOrElse(cur.details.price, TreeSet.empty[_pair.LimitOrder]) + cur
         acc + (cur.details.price -> tree)
-    }
+      }
     apply(_pair)(_candidate, result)
   }
 

@@ -90,28 +90,27 @@ class OrderCommandHandler(
           .find(_ != orderId)
           .getOrElse(throw new RuntimeException("Impossible, the second order wasn't found"))
 
-        val result = Packet.validate(message.toArray).map {
-          case Packet(swap, _) =>
-            log.info(s"$orderId received a swap message $swap")
-            swap match {
-              case Swap.Fail(_) =>
-                val trade = peerTrade.trade
-                log.info(
-                  s"${ctx.peerUser.name}: Swap failed on ${trade.pair}: existingOrder = ${trade.existingOrder}, executingOrder = ${trade.executingOrder}, executingSide = ${trade.executingOrderSide}, " +
-                    s"size = ${trade.size.toString(trade.sellingCurrency)}"
-                )
-                peerActorOps.updateSwapFailure(peerTrade, ctx.self)(log)(ctx.peerUser)
-              case Swap.Complete(_) =>
-                val trade = peerTrade.trade
-                log.info(
-                  s"${ctx.peerUser.name}: Swap completed on ${trade.pair}: existingOrder = ${trade.existingOrder}, executingOrder = ${trade.executingOrder}, executingSide = ${trade.executingOrderSide}, " +
-                    s"size = ${trade.size.toString(trade.sellingCurrency)}"
-                )
-                peerActorOps.updateSwapSuccess(peerTrade, ctx.self)(log)(ctx.peerUser)
-              case message =>
-                log.info(s"$orderId received an unknown message $message")
-                Future.unit
-            }
+        val result = Packet.validate(message.toArray).map { case Packet(swap, _) =>
+          log.info(s"$orderId received a swap message $swap")
+          swap match {
+            case Swap.Fail(_) =>
+              val trade = peerTrade.trade
+              log.info(
+                s"${ctx.peerUser.name}: Swap failed on ${trade.pair}: existingOrder = ${trade.existingOrder}, executingOrder = ${trade.executingOrder}, executingSide = ${trade.executingOrderSide}, " +
+                  s"size = ${trade.size.toString(trade.sellingCurrency)}"
+              )
+              peerActorOps.updateSwapFailure(peerTrade, ctx.self)(log)(ctx.peerUser)
+            case Swap.Complete(_) =>
+              val trade = peerTrade.trade
+              log.info(
+                s"${ctx.peerUser.name}: Swap completed on ${trade.pair}: existingOrder = ${trade.existingOrder}, executingOrder = ${trade.executingOrder}, executingSide = ${trade.executingOrderSide}, " +
+                  s"size = ${trade.size.toString(trade.sellingCurrency)}"
+              )
+              peerActorOps.updateSwapSuccess(peerTrade, ctx.self)(log)(ctx.peerUser)
+            case message =>
+              log.info(s"$orderId received an unknown message $message")
+              Future.unit
+          }
         }
 
         processResponseF {

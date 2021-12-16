@@ -11,7 +11,7 @@ import lnrpc.rpc.{ChannelEventUpdate, OpenStatusUpdate, Transaction}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MulticurrencyLndTracedImpl @Inject()(impl: MulticurrencyLndDefaultImpl)(implicit ec: ExecutionContext)
+class MulticurrencyLndTracedImpl @Inject() (impl: MulticurrencyLndDefaultImpl)(implicit ec: ExecutionContext)
     extends MulticurrencyLndClient {
 
   import io.stakenet.orderbook.lnd.LndTraceHelper._

@@ -10,7 +10,8 @@ import io.stakenet.orderbook.repositories.fees.{FeeException, FeesDAO}
 import javax.inject.Inject
 import play.api.db.Database
 
-class FeeRefundsPostgresRepository @Inject()(database: Database) extends FeeRefundsRepository.Blocking {
+class FeeRefundsPostgresRepository @Inject() (database: Database) extends FeeRefundsRepository.Blocking {
+
   override def createRefund(
       refundedHashes: List[PaymentRHash],
       currency: Currency,

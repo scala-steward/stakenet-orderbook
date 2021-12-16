@@ -8,7 +8,8 @@ import io.stakenet.orderbook.models.lnd.PaymentRHash
 import javax.inject.Inject
 import play.api.db.Database
 
-class PreimagesPostgresRepository @Inject()(database: Database) extends PreimagesRepository.Blocking {
+class PreimagesPostgresRepository @Inject() (database: Database) extends PreimagesRepository.Blocking {
+
   override def createPreimage(preimage: Preimage, hash: PaymentRHash, currency: Currency, createdAt: Instant): Unit = {
     database.withConnection { implicit conn =>
       PreimagesDAO.createPreimage(preimage, hash, currency, createdAt)

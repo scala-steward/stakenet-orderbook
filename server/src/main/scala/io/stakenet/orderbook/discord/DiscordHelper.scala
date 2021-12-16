@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
 
 import scala.util.{Failure, Success}
 
-class DiscordHelper @Inject()(
+class DiscordHelper @Inject() (
     discordConfig: DiscordConfig,
     actorSystem: ActorSystem,
     reportsRepository: ReportsRepository.FutureImpl,

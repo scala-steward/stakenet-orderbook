@@ -18,6 +18,7 @@ case class ExplorerTransaction(id: String, input: List[TransactionValue], output
 }
 
 object ExplorerTransaction {
+
   implicit val explorerTransactionReads: Reads[ExplorerTransaction] = (
     (JsPath \ "id").read[String] and
       (JsPath \ "input").read[List[TransactionValue]] and

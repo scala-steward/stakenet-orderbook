@@ -3,6 +3,7 @@ package io.stakenet.orderbook.utils
 import scala.concurrent.Future
 
 object Extensions {
+
   implicit class OptionExt[A](val value: Option[A]) extends AnyVal {
     def getOrThrow(msg: String): A = value.getOrElse(throw new RuntimeException(msg))
   }

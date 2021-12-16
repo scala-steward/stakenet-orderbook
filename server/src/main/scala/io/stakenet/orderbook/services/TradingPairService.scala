@@ -14,7 +14,7 @@ trait TradingPairService {
 
 object TradingPairService {
 
-  class TradingPairImp @Inject()(tradesRepository: TradesRepository.FutureImpl) extends TradingPairService {
+  class TradingPairImp @Inject() (tradesRepository: TradesRepository.FutureImpl) extends TradingPairService {
 
     override def getVolume(tradingPair: TradingPair, lastDays: Int): Future[TradingPairVolume] = {
       tradesRepository.getVolume(tradingPair, lastDays)

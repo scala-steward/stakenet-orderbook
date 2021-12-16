@@ -15,8 +15,9 @@ import io.stakenet.orderbook.actors.peers.PeerUser
  *       a wallet client's version
  */
 class ConnectionManagerActor extends Actor with ActorLogging {
-  override def receive: Receive = {
-    case message => log.info(s"Unexpected message: $message")
+
+  override def receive: Receive = { case message =>
+    log.info(s"Unexpected message: $message")
   }
 
   override def preStart(): Unit = {

@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WebSocketValidator @Inject()(ipInfoService: IpInfoService, featureFlags: FeatureFlags)(
-    implicit ec: ExecutionContext
+class WebSocketValidator @Inject() (ipInfoService: IpInfoService, featureFlags: FeatureFlags)(implicit
+    ec: ExecutionContext
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 

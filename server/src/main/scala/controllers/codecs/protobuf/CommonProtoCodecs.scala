@@ -45,6 +45,7 @@ trait CommonProtoCodecs {
   }
 
   implicit val satoshisCodec: SatoshisCodec = new SatoshisCodec {
+
     // NOTE: We decode the string directly to avoid allocating a huge BigInt unnecessarily
     override def decode(proto: protos.models.BigInteger): Satoshis = {
       Satoshis.from(proto.value, 8).getOrThrow("Invalid satoshis")
@@ -56,6 +57,7 @@ trait CommonProtoCodecs {
   }
 
   implicit val paymentRHashCodec: PaymentRHashCodec = new PaymentRHashCodec {
+
     override def decode(bytes: ByteString): PaymentRHash = {
       PaymentRHash.untrusted(bytes.toByteArray).getOrThrow("Invalid Payment hash")
     }
@@ -85,6 +87,7 @@ trait CommonProtoCodecs {
   }
 
   implicit val satoshisInclusiveIntervalCodec: SatoshisInclusiveIntervalCodec = new SatoshisInclusiveIntervalCodec {
+
     override def decode(proto: BigInclusiveInterval): Satoshis.InclusiveInterval = {
       val from = satoshisCodec.decode(proto.from.getOrThrow("Missing from"))
       val to = satoshisCodec.decode(proto.to.getOrThrow("Missing to"))
@@ -99,10 +102,11 @@ trait CommonProtoCodecs {
     }
   }
 
-  implicit def orderCodec(
-      implicit satoshisCodec: SatoshisCodec,
+  implicit def orderCodec(implicit
+      satoshisCodec: SatoshisCodec,
       orderDetailsCodec: OrderDetailsCodec
   ): OrderCodec = new OrderCodec {
+
     override def decode(proto: protos.models.Order): TradingOrder = {
       val pair = decodeTradingPair(proto.tradingPair)
       val side = OrderSide.withNameInsensitiveOption(proto.side.toString).getOrThrow("Missing or invalid order side")
@@ -155,6 +159,7 @@ trait CommonProtoCodecs {
   }
 
   implicit def tradeCodec(implicit satoshisCodec: SatoshisCodec): TradeCodec = new TradeCodec {
+
     override def decode(proto: protos.models.Trade): Trade = {
       val id = Try(UUID.fromString(proto.id)).map(Trade.Id.apply).toOption.getOrThrow("Invalid or missing order id")
       val pair = decodeTradingPair(proto.tradingPair)
@@ -198,6 +203,7 @@ trait CommonProtoCodecs {
   }
 
   implicit def barsCodec(implicit satoshisCodec: SatoshisCodec): BarsCodec = new BarsCodec {
+
     override def decode(proto: protos.models.BarPrices): Bars = {
       val openProto = proto.open.getOrThrow("Missing or invalid open")
       val highProto = proto.high.getOrThrow("Missing or invalid high")
@@ -232,6 +238,7 @@ trait CommonProtoCodecs {
   }
 
   implicit val tradingPairCodec: TradingPairCodec = new TradingPairCodec {
+
     override def decode(proto: protos.models.TradingPair): TradingPair = {
       decodeTradingPair(proto.id)
     }
@@ -252,6 +259,7 @@ trait CommonProtoCodecs {
   }
 
   implicit val refundablePaymentCodec: RefundablePaymentCodec = new RefundablePaymentCodec {
+
     override def decode(proto: protos.models.RefundablePayment): RefundablePayment = {
       val paymentHash = paymentRHashCodec.decode(proto.paymentHash)
       val paidAmount = satoshisCodec.decode(proto.paidAmount.getOrThrow("Invalid initial amount"))
@@ -267,6 +275,7 @@ trait CommonProtoCodecs {
   }
 
   implicit val orderSummaryCodec: OrderSummaryCodec = new OrderSummaryCodec {
+
     override def decode(proto: protos.models.OrderSummary): OrderSummary = {
       val price = satoshisCodec.decode(proto.price.getOrThrow("Invalid price"))
       val amount = satoshisCodec.decode(proto.amount.getOrThrow("Invalid amount"))

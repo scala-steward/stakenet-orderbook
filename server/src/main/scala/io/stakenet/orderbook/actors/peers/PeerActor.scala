@@ -41,8 +41,8 @@ class PeerActor(
     tradesRepository: TradesRepository.FutureImpl,
     peerUser: PeerUser,
     tradingPairsConfig: TradingPairsConfig
-)(
-    implicit ec: ExecutionContext
+)(implicit
+    ec: ExecutionContext
 ) extends Actor
     with ActorLogging {
 
@@ -66,6 +66,7 @@ class PeerActor(
     peerActorOps = peerActorOps
   )
   private val historicDataHandler: HistoricDataCommandHandler = new HistoricDataCommandHandler(tradesRepository)
+
   private val uncategorizedHandler: UncategorizedCommandHandler =
     new UncategorizedCommandHandler(orderManager, peerActorOps, tradingPairsConfig)
   private val orderFeeCommandHandler: OrderFeeCommandHandler = new OrderFeeCommandHandler(peerActorOps)
@@ -102,8 +103,8 @@ class PeerActor(
     }
   }
 
-  override def receive: Receive = {
-    case x => log.warning(s"${peerUser.name}: Unexpected message: $x")
+  override def receive: Receive = { case x =>
+    log.warning(s"${peerUser.name}: Unexpected message: $x")
   }
 
   private def processServerEvent(event: => Event.ServerEvent): Unit = {
@@ -264,7 +265,7 @@ class PeerActor(
 object PeerActor { self =>
   sealed abstract class Ref(val actor: ActorRef)
 
-  class Factory @Inject()(
+  class Factory @Inject() (
       orderManager: OrderManagerActor.Ref,
       messageFilter: PeerMessageFilterActor.Ref,
       connectionManager: connection.ConnectionManagerActor.Ref,
@@ -280,8 +281,8 @@ object PeerActor { self =>
       makerPaymentService: MakerPaymentService,
       connextHelper: ConnextHelper,
       channelRentalConfig: ChannelRentalConfig
-  )(
-      implicit system: ActorSystem,
+  )(implicit
+      system: ActorSystem,
       ec: ExecutionContext
   ) {
 

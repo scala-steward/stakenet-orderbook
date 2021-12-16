@@ -25,7 +25,7 @@ object FeeRefundsRepository {
   type Id[T] = T
   trait Blocking extends FeeRefundsRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends FeeRefundsRepository[scala.concurrent.Future] {
 
     override def createRefund(

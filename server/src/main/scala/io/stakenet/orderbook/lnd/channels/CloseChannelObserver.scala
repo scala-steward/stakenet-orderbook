@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
-class CloseChannelObserver(expiredChannel: LndChannel, channelService: ChannelService)(
-    implicit ec: ExecutionContext
+class CloseChannelObserver(expiredChannel: LndChannel, channelService: ChannelService)(implicit
+    ec: ExecutionContext
 ) extends StreamObserver[CloseStatusUpdate] {
   private val logger = LoggerFactory.getLogger(this.getClass)
 

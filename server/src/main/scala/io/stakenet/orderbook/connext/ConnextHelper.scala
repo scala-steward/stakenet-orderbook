@@ -22,8 +22,8 @@ import play.api.libs.ws.WSClient
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ConnextHelper @Inject()(configBuilder: ConnextConfigBuilder, ws: WSClient)(
-    implicit ec: ExecutionContext
+class ConnextHelper @Inject() (configBuilder: ConnextConfigBuilder, ws: WSClient)(implicit
+    ec: ExecutionContext
 ) {
   private val logger = LoggerFactory.getLogger(this.getClass)
 
@@ -325,9 +325,11 @@ object ConnextHelper {
   trait ResolveTransferError
 
   object ResolveTransferError {
+
     final case class NoChannelWithCounterParty(
         counterPartyPublicIdentifier: Identifier.ConnextPublicIdentifier
     ) extends ResolveTransferError
+
     final case class TransferNotFound(
         channelAddress: ConnextChannelAddress,
         paymentHash: PaymentRHash

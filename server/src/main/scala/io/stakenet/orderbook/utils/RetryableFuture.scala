@@ -24,15 +24,14 @@ object RetryableFuture {
   )(
       shouldRetry: Try[A] => Boolean
   )(f: => Future[A])(implicit ec: ExecutionContext, scheduler: Scheduler): Future[A] = {
-    delays.foldLeft(f) {
-      case (result, delay) =>
-        result.transformWith { t =>
-          if (shouldRetry(t)) {
-            after(delay, scheduler, ec, Future.successful(1)).flatMap(_ => f)
-          } else {
-            result
-          }
+    delays.foldLeft(f) { case (result, delay) =>
+      result.transformWith { t =>
+        if (shouldRetry(t)) {
+          after(delay, scheduler, ec, Future.successful(1)).flatMap(_ => f)
+        } else {
+          result
         }
+      }
     }
   }
 

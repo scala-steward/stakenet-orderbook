@@ -32,8 +32,9 @@ object LiquidityProvidersRepository {
   type Id[T] = T
   trait Blocking extends LiquidityProvidersRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends LiquidityProvidersRepository[Future] {
+
     override def createLiquidityProvider(
         id: LiquidityProviderId,
         clientId: ClientId,

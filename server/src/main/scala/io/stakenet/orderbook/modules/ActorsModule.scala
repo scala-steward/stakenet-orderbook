@@ -45,7 +45,7 @@ class ActorsModule extends AbstractModule {
 
 object ActorsModule {
 
-  class TradePersisterActorProvider @Inject()(
+  class TradePersisterActorProvider @Inject() (
       orderManager: OrderManagerActor.Ref,
       tradesRepository: TradesRepository.FutureImpl
   )(implicit ec: ExecutionContext, actorSystem: ActorSystem)

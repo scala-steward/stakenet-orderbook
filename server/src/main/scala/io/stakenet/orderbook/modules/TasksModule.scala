@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule
 import io.stakenet.orderbook.tasks._
 
 class TasksModule extends AbstractModule {
+
   override def configure(): Unit = {
     bind(classOf[UnlinkAllFeesTask]).asEagerSingleton()
     bind(classOf[CloseExpiredChannelsTask]).asEagerSingleton()

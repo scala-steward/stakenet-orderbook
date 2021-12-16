@@ -138,6 +138,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   ]
 
   implicit val commandFailedCodec: CommandFailedCodec = new CommandFailedCodec {
+
     override def decode(proto: protos.commands.CommandFailed): protocol.Event.CommandResponse.CommandFailed = {
       proto.value match {
         case protos.commands.CommandFailed.Value.Empty =>
@@ -162,6 +163,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val pingResponseCodec: PingResponseCodec = new PingResponseCodec {
+
     override def decode(proto: protos.commands.PingResponse): protocol.Event.CommandResponse.PingResponse = {
       protocol.Event.CommandResponse.PingResponse()
     }
@@ -172,6 +174,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val getTradingPairsResponseCodec: GetTradingPairsResponseCodec = new GetTradingPairsResponseCodec {
+
     override def decode(
         proto: protos.commands.GetTradingPairsResponse
     ): protocol.Event.CommandResponse.GetTradingPairsResponse = {
@@ -188,6 +191,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val subscribeResponseCodec: SubscribeResponseCodec = new SubscribeResponseCodec {
+
     override def decode(
         proto: protos.commands.SubscribeResponse
     ): protocol.Event.CommandResponse.SubscribeResponse = {
@@ -211,6 +215,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val unsubscribeResponseCodec: UnsubscribeResponseCodec = new UnsubscribeResponseCodec {
+
     override def decode(
         proto: protos.commands.UnsubscribeResponse
     ): protocol.Event.CommandResponse.UnsubscribeResponse = {
@@ -226,6 +231,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val getOpenOrdersResponseCodec: GetOpenOrdersResponseCodec = new GetOpenOrdersResponseCodec {
+
     override def decode(
         proto: protos.commands.GetOpenOrdersResponse
     ): protocol.Event.CommandResponse.GetOpenOrdersResponse = {
@@ -250,6 +256,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val getHistoricTradesResponseCodec: GetHistoricTradesResponseCodec = new GetHistoricTradesResponseCodec {
+
     override def decode(
         proto: protos.commands.GetHistoricTradesResponse
     ): protocol.Event.CommandResponse.GetHistoricTradesResponse = {
@@ -266,6 +273,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val getBarsPricesResponseCodec: GetBarsPricesResponseCodec = new GetBarsPricesResponseCodec {
+
     override def decode(
         proto: protos.commands.GetBarsPricesResponse
     ): protocol.Event.CommandResponse.GetBarsPricesResponse = {
@@ -284,6 +292,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val placeOrderResponseCodec: PlaceOrderResponseCodec = new PlaceOrderResponseCodec {
+
     override def decode(
         proto: protos.commands.PlaceOrderResponse
     ): protocol.Event.CommandResponse.PlaceOrderResponse = {
@@ -330,6 +339,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val getOpenOrderByIdResponseCodec: GetOpenOrderByIdResponseCodec = new GetOpenOrderByIdResponseCodec {
+
     override def decode(
         proto: protos.commands.GetOpenOrderByIdResponse
     ): protocol.Event.CommandResponse.GetOpenOrderByIdResponse = {
@@ -346,6 +356,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val cancelOpenOrderResponseCodec: CancelOpenOrderResponseCodec = new CancelOpenOrderResponseCodec {
+
     override def decode(
         proto: protos.commands.CancelOpenOrderResponse
     ): protocol.Event.CommandResponse.CancelOpenOrderResponse = {
@@ -362,6 +373,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val sendOrderMessageResponseCodec: SendOrderMessageResponseCodec = new SendOrderMessageResponseCodec {
+
     override def decode(
         proto: protos.commands.SendOrderMessageResponse
     ): protocol.Event.CommandResponse.SendOrderMessageResponse = {
@@ -376,6 +388,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   }
 
   implicit val cancelMatchedOrderResponseCodec: CancelMatchedOrderResponseCodec = new CancelMatchedOrderResponseCodec {
+
     override def decode(
         proto: protos.commands.CancelMatchedOrderResponse
     ): protocol.Event.CommandResponse.CancelMatchedOrderResponse = {
@@ -393,6 +406,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val cleanTradingPairOrdersResponseCodec: CleanTradingPairOrdersResponseCodec =
     new CleanTradingPairOrdersResponseCodec {
+
       override def decode(
           proto: protos.commands.CleanTradingPairOrdersResponse
       ): protocol.Event.CommandResponse.CleanTradingPairOrdersResponse = {
@@ -419,6 +433,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val getLndPaymentInvoiceResponseCodec: GetLndPaymentInvoiceResponseCodec =
     new GetLndPaymentInvoiceResponseCodec {
+
       override def decode(
           proto: protos.commands.GetLndPaymentInvoiceResponse
       ): protocol.Event.CommandResponse.GetInvoicePaymentResponse = {
@@ -444,6 +459,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val generateInvoiceToRentChannelResponseCodec: GenerateInvoiceToRentChannelResponseCodec =
     new GenerateInvoiceToRentChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.GenerateInvoiceToRentChannelResponse
       ): protocol.Event.CommandResponse.GenerateInvoiceToRentChannelResponse = {
@@ -473,6 +489,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val rentChannelResponseCodec: RentChannelResponseCodec =
     new RentChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.RentChannelResponse
       ): protocol.Event.CommandResponse.RentChannelResponse = {
@@ -551,6 +568,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val getChannelStatusResponseCodec: GetChannelStatusResponseCodec =
     new GetChannelStatusResponseCodec {
+
       override def decode(
           proto: protos.commands.GetChannelStatusResponse
       ): protocol.Event.CommandResponse.GetChannelStatusResponse = {
@@ -573,7 +591,8 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
           case protos.commands.GetChannelStatusResponse.Status.Connext(value) =>
             val status = protocol.Event.CommandResponse.ChannelStatus.Connext(
-              status = ConnextChannelStatus.withNameInsensitiveOption(value.status).getOrThrow("Invalid channel status"),
+              status =
+                ConnextChannelStatus.withNameInsensitiveOption(value.status).getOrThrow("Invalid channel status"),
               expiresAt = Option.when(value.expiresAt > 0)(Instant.ofEpochSecond(value.expiresAt))
             )
 
@@ -621,6 +640,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val getFeeToRentChannelResponseCodec: GetFeeToRentChannelResponseCodec =
     new GetFeeToRentChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.GetFeeToRentChannelResponse
       ): protocol.Event.CommandResponse.GetFeeToRentChannelResponse = {
@@ -649,6 +669,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val refundFeeResponseCodec: RefundFeeResponseCodec =
     new RefundFeeResponseCodec {
+
       override def decode(
           proto: protos.commands.RefundFeeResponse
       ): protocol.Event.CommandResponse.RefundFeeResponse = {
@@ -680,6 +701,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val getRefundableAmountResponseCodec: GetRefundableAmountResponseCodec =
     new GetRefundableAmountResponseCodec {
+
       override def decode(
           proto: protos.commands.GetRefundableAmountResponse
       ): protocol.Event.CommandResponse.GetRefundableAmountResponse = {
@@ -704,6 +726,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val getFeeToExtendRentedChannelResponseCodec: GetFeeToExtendRentedChannelResponseCodec =
     new GetFeeToExtendRentedChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.GetFeeToExtendRentedChannelResponse
       ): protocol.Event.CommandResponse.GetFeeToExtendRentedChannelResponse = {
@@ -723,6 +746,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val generateInvoiceToExtendRentedChannelResponseCodec: GenerateInvoiceToExtendRentedChannelResponseCodec =
     new GenerateInvoiceToExtendRentedChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.GenerateInvoiceToExtendRentedChannelResponse
       ): protocol.Event.CommandResponse.GenerateInvoiceToExtendRentedChannelResponse = {
@@ -750,6 +774,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   implicit val generatePaymentHashToExtendConnextRentedChannelResponseCodec
       : GeneratePaymentHashToExtendConnextRentedChannelResponseCodec =
     new GeneratePaymentHashToExtendConnextRentedChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.GeneratePaymentHashToExtendConnextRentedChannelResponse
       ): protocol.Event.CommandResponse.GeneratePaymentHashToExtendConnextRentedChannelResponse = {
@@ -776,6 +801,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val extendRentedChannelTimeResponseCodec: ExtendRentedChannelTimeResponseCodec =
     new ExtendRentedChannelTimeResponseCodec {
+
       override def decode(
           proto: protos.commands.ExtendRentedChannelTimeResponse
       ): protocol.Event.CommandResponse.ExtendRentedChannelTimeResponse = {
@@ -800,6 +826,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val registerPublicKeyResponseCodec: RegisterPublicKeyResponseCodec =
     new RegisterPublicKeyResponseCodec {
+
       override def decode(
           proto: protos.commands.RegisterPublicKeyResponse
       ): protocol.Event.CommandResponse.RegisterPublicKeyResponse = {
@@ -824,6 +851,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val registerPublicIdentifierResponseCodec: RegisterPublicIdentifierResponseCodec =
     new RegisterPublicIdentifierResponseCodec {
+
       override def decode(
           proto: protos.commands.RegisterPublicIdentifierResponse
       ): protocol.Event.CommandResponse.RegisterPublicIdentifierResponse = {
@@ -849,6 +877,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val getConnextPaymentInformationResponseCodec: GetConnextPaymentInformationResponseCodec =
     new GetConnextPaymentInformationResponseCodec {
+
       override def decode(
           proto: protos.commands.GetConnextPaymentInformationResponse
       ): protocol.Event.CommandResponse.GetConnextPaymentInformationResponse = {
@@ -878,6 +907,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
 
   implicit val generatePaymentHashToRentChannelResponseCodec: GeneratePaymentHashToRentChannelResponseCodec =
     new GeneratePaymentHashToRentChannelResponseCodec {
+
       override def decode(
           proto: protos.commands.GeneratePaymentHashToRentChannelResponse
       ): protocol.Event.CommandResponse.GeneratePaymentHashToRentChannelResponse = {
@@ -910,6 +940,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   implicit val registerConnextChannelContractDeploymentFeeResponseCodec
       : RegisterConnextChannelContractDeploymentFeeResponseCodec =
     new RegisterConnextChannelContractDeploymentFeeResponseCodec {
+
       override def decode(
           proto: protos.commands.RegisterConnextChannelContractDeploymentFeeResponse
       ): protocol.Event.CommandResponse.RegisterConnextChannelContractDeploymentFeeResponse = {
@@ -928,6 +959,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
   implicit val getConnextChannelContractDeploymentFeeResponseCodec
       : GetConnextChannelContractDeploymentFeeResponseCodec =
     new GetConnextChannelContractDeploymentFeeResponseCodec {
+
       override def decode(
           proto: protos.commands.GetConnextChannelContractDeploymentFeeResponse
       ): protocol.Event.CommandResponse.GetConnextChannelContractDeploymentFeeResponse = {
@@ -947,6 +979,7 @@ trait CommandResponseCodecs extends CommonProtoCodecs {
     }
 
   implicit val commandResponseCodec: CommandResponseCodec = new CommandResponseCodec {
+
     override def decode(proto: protos.api.Event.CommandResponse): TaggedCommandResponse = {
       val response: protocol.Event.CommandResponse = proto.value match {
         case protos.api.Event.CommandResponse.Value.Empty =>

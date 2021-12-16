@@ -45,7 +45,7 @@ object ClientsRepository {
   type Id[T] = T
   trait Blocking extends ClientsRepository[Id]
 
-  class FutureImpl @Inject()(blocking: Blocking)(implicit ec: DatabaseExecutionContext)
+  class FutureImpl @Inject() (blocking: Blocking)(implicit ec: DatabaseExecutionContext)
       extends ClientsRepository[scala.concurrent.Future] {
 
     override def createWalletClient(walletId: WalletId): Future[ClientId] = Future {

@@ -9,6 +9,7 @@ trait PeerEventCodecs extends CommandResponseCodecs with ServerEventCodecs {
   type EventCodec = ProtoCodec[protos.api.Event, peers.ws.WebSocketOutgoingMessage]
 
   implicit val eventCodec: EventCodec = new EventCodec {
+
     override def decode(proto: protos.api.Event): peers.ws.WebSocketOutgoingMessage = {
       val (requestId, e) = proto.value match {
         case protos.api.Event.Value.Empty => throw new RuntimeException("Missing or invalid event")
