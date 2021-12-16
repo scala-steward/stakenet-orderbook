@@ -90,7 +90,7 @@ class OrderCommandHandler(
           .find(_ != orderId)
           .getOrElse(throw new RuntimeException("Impossible, the second order wasn't found"))
 
-        val result = Packet.validate(message.toArray).map { case Packet(swap, _) =>
+        val result = Packet.validate(message.toArray).map { case Packet(swap, _, _) =>
           log.info(s"$orderId received a swap message $swap")
           swap match {
             case Swap.Fail(_) =>
