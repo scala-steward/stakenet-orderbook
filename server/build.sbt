@@ -87,7 +87,7 @@ libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18"
 libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.4"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.6"
 
-libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
+libraryDependencies += "io.scalaland" %% "chimney" % "0.6.1"
 
 libraryDependencies += "io.sentry" % "sentry-logback" % "4.1.0"
 
