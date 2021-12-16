@@ -65,14 +65,14 @@ import play.sbt.routes.RoutesKeys
 RoutesKeys.routesImport := Seq.empty
 
 //
-libraryDependencies += "com.google.inject" % "guice" % "4.2.3"
+libraryDependencies += "com.google.inject" % "guice" % "5.0.1"
 
-libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.30"
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.32"
 libraryDependencies += "ch.qos.logback" % "logback-core" % "1.2.3"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test
-libraryDependencies += "org.mockito" %% "mockito-scala" % "1.16.23" % Test
+libraryDependencies += "org.mockito" %% "mockito-scala" % "1.16.49" % Test
 
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.6.10" % Test
 libraryDependencies += "com.typesafe.akka" %% "akka-stream-typed" % "2.6.10"
@@ -82,21 +82,21 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.4.0" % Compile exclude ("org.slf4j", "slf4j-simple")
-libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18"
+libraryDependencies += "org.apache.commons" % "commons-compress" % "1.21"
 
-libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.4"
-libraryDependencies += "org.postgresql" % "postgresql" % "42.2.6"
+libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.10"
+libraryDependencies += "org.postgresql" % "postgresql" % "42.2.24"
 
-libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
+libraryDependencies += "io.scalaland" %% "chimney" % "0.6.1"
 
-libraryDependencies += "io.sentry" % "sentry-logback" % "4.1.0"
+libraryDependencies += "io.sentry" % "sentry-logback" % "4.3.0"
 
-libraryDependencies += "io.kamon" %% "kamon-bundle" % "2.1.11"
-libraryDependencies += "io.kamon" %% "kamon-apm-reporter" % "2.1.11"
+libraryDependencies += "io.kamon" %% "kamon-bundle" % "2.1.21"
+libraryDependencies += "io.kamon" %% "kamon-apm-reporter" % "2.1.21"
 
 libraryDependencies ++= Seq(
   "com.spotify" % "docker-client" % "8.16.0" % "test",
-  "com.whisk" %% "docker-testkit-scalatest" % "0.9.9" % "test",
+  "com.whisk" %% "docker-testkit-scalatest" % "0.11.0" % "test",
   "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
 )
 
