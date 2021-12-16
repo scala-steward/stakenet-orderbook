@@ -3,7 +3,7 @@ name := "orderbook-server"
 organization := "io.stakenet"
 scalaVersion := "2.13.3"
 
-fork in Test := true
+(Test / fork) := true
 
 scalacOptions ++= Seq(
   "-Werror",
@@ -23,7 +23,7 @@ scalacOptions ++= Seq(
   "-Ywarn-unused"
 )
 
-scalacOptions in (Compile, doc) ++= Seq(
+(Compile / doc / scalacOptions) ++= Seq(
   "-no-link-warnings"
 )
 
@@ -34,23 +34,23 @@ lazy val root = (project in file("."))
 
 // Some options are very noisy when using the console and prevent us using it smoothly, let's disable them
 val consoleDisabledOptions = Seq("-Xfatal-warnings", "-Ywarn-unused", "-Ywarn-unused-import")
-scalacOptions in (Compile, console) ~= (_ filterNot consoleDisabledOptions.contains)
+(Compile / console / scalacOptions) ~= (_ filterNot consoleDisabledOptions.contains)
 
 // initialization script for the console
 val consoleInitialCommandsFile = "console.scala"
 excludeFilter := HiddenFileFilter || consoleInitialCommandsFile
 lazy val consoleScript = scala.util.Try(scala.io.Source.fromFile(consoleInitialCommandsFile).mkString).getOrElse("")
-initialCommands in console := consoleScript
+(console / initialCommands) := consoleScript
 
 // docs are huge and unnecessary
-sources in (Compile, doc) := Nil
+(Compile / doc / sources) := Nil
 
 // play specific dependencies
 libraryDependencies ++= Seq(guice, evolutions, jdbc, ws)
 
 // scalapb
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value
+(Compile / PB.targets) := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value
 )
 
 libraryDependencies ++= Seq(
