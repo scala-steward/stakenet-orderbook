@@ -85,7 +85,7 @@ libraryDependencies += "com.github.andyglow" %% "websocket-scala-client" % "0.3.
 libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18"
 
 libraryDependencies += "org.playframework.anorm" %% "anorm" % "2.6.4"
-libraryDependencies += "org.postgresql" % "postgresql" % "42.2.6"
+libraryDependencies += "org.postgresql" % "postgresql" % "42.2.24"
 
 libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
 
