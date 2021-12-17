@@ -103,8 +103,8 @@ object OrderValidator {
   sealed trait Error
 
   object Error {
-    final case class InvalidFunds(given: Satoshis, expected: InclusiveInterval) extends OrderValidator.Error
-    final case class InvalidPrice(given: Satoshis, expected: InclusiveInterval) extends OrderValidator.Error
+    final case class InvalidFunds(got: Satoshis, expected: InclusiveInterval) extends OrderValidator.Error
+    final case class InvalidPrice(got: Satoshis, expected: InclusiveInterval) extends OrderValidator.Error
     final case class MaxValueExceeded() extends OrderValidator.Error
     final case class CouldNotVerifyOrderValue() extends OrderValidator.Error
   }
