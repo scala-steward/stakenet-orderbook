@@ -108,7 +108,7 @@ class LndFeeService @Inject() (
 
             Left(error)
           } else {
-            //if the payment is bigger than the placed value, we store that amount
+            // if the payment is bigger than the placed value, we store that amount
             val paidAmount = fundsPaidFor.max(order.funds)
             val request = LinkFeeToOrderRequest(hash, feeCurrency, paidAmount, order.id, paidAt, order.feePercent)
             discordHelper

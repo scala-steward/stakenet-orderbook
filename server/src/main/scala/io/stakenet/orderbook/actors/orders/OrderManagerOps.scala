@@ -14,9 +14,8 @@ private[orders] object OrderManagerOps {
 
   import OrderManagerActor._
 
-  /**
-   * Find the orders involving the given trading pair, and send them to the given actor.
-   */
+  /** Find the orders involving the given trading pair, and send them to the given actor.
+    */
   def sendOrders(pair: TradingPair, replyTo: ActorRef)(implicit
       state: OrderManagerState
   ): List[ActorMessage] = {
@@ -34,14 +33,17 @@ private[orders] object OrderManagerOps {
     )
   }
 
-  /**
-   * A peer is cancelling the given order, sends a receipt on completion.
-   *
-   * @param id the id of the order to cancel
-   * @param owner the peer to notify on successful cancellation
-   * @param state the current state
-   * @return the new state after cancelling the given order
-   */
+  /** A peer is cancelling the given order, sends a receipt on completion.
+    *
+    * @param id
+    *   the id of the order to cancel
+    * @param owner
+    *   the peer to notify on successful cancellation
+    * @param state
+    *   the current state
+    * @return
+    *   the new state after cancelling the given order
+    */
   def cancelOrder(id: OrderId, owner: ActorRef, sender: ActorRef)(implicit
       state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {
@@ -73,19 +75,23 @@ private[orders] object OrderManagerOps {
     }
   }
 
-  /**
-   * Place an order, if there is a candidate to match the new order, match them, otherwise,
-   * add the order to the existing list.
-   *
-   * - The peer gets notified if the order is placed or rejected.
-   * - If the order is matched, both peers are notified.
-   *
-   * @param log the logger
-   * @param orderMatcher the service that knows how to match orders
-   * @param peerOrder the order to place with its owner information
-   * @param state the curent state
-   * @return the new state after placing or matching the order
-   */
+  /** Place an order, if there is a candidate to match the new order, match them, otherwise, add the order to the
+    * existing list.
+    *
+    *   - The peer gets notified if the order is placed or rejected.
+    *   - If the order is matched, both peers are notified.
+    *
+    * @param log
+    *   the logger
+    * @param orderMatcher
+    *   the service that knows how to match orders
+    * @param peerOrder
+    *   the order to place with its owner information
+    * @param state
+    *   the curent state
+    * @return
+    *   the new state after placing or matching the order
+    */
   def placeOrder(
       log: LoggingAdapter,
       orderMatcher: OrderMatcherService,
@@ -172,13 +178,15 @@ private[orders] object OrderManagerOps {
     orderMatcher.matchOrder(orderMatching).fold(handleOrderNotMatched)(handleOrderMatched)
   }
 
-  /**
-   * Remove all the orders submitted by the given actor.
-   *
-   * @param owner the actor
-   * @param state the current state
-   * @return the new state after removing the orders
-   */
+  /** Remove all the orders submitted by the given actor.
+    *
+    * @param owner
+    *   the actor
+    * @param state
+    *   the current state
+    * @return
+    *   the new state after removing the orders
+    */
   def removeOrders(owner: ActorRef)(implicit state: OrderManagerState): UpdateStateResult[OrderManagerState] = {
     // TODO: Decouple from PeerActor
     val notificationEvents = for {
@@ -192,13 +200,15 @@ private[orders] object OrderManagerOps {
     UpdateStateResult(state.remove(owner), notificationEvents.toList)
   }
 
-  /**
-   * Find and send all orders to the given actor
-   *
-   * @param log the logger
-   * @param replyTo the actor interested in getting all the orders
-   * @param state the current state
-   */
+  /** Find and send all orders to the given actor
+    *
+    * @param log
+    *   the logger
+    * @param replyTo
+    *   the actor interested in getting all the orders
+    * @param state
+    *   the current state
+    */
   def sendAllOrders(log: LoggingAdapter, replyTo: ActorRef)(implicit state: OrderManagerState): List[ActorMessage] = {
     val orders = state.getOrders.map(_.order)
     log.info(s"GetAllOrders -> ${orders.size}")
@@ -216,14 +226,17 @@ private[orders] object OrderManagerOps {
     List(InstantMessage(replyTo, result))
   }
 
-  /**
-   * Remove all orders from one trading pair submitted by the given actor.
-   *
-   * @param owner the actor
-   * @param tradingPair the trading pair to be removed
-   * @param state the current state
-   * @return the new state after removing the open orders
-   */
+  /** Remove all orders from one trading pair submitted by the given actor.
+    *
+    * @param owner
+    *   the actor
+    * @param tradingPair
+    *   the trading pair to be removed
+    * @param state
+    *   the current state
+    * @return
+    *   the new state after removing the open orders
+    */
   def cleanOpenOrders(tradingPair: TradingPair, owner: ActorRef, replyTo: ActorRef)(implicit
       state: OrderManagerState
   ): UpdateStateResult[OrderManagerState] = {

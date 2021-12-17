@@ -4,19 +4,19 @@ import enumeratum._
 import io.stakenet.orderbook.models._
 import play.api.libs.json.{JsError, JsSuccess, Reads}
 
-/**
- * Represents a pair that can be traded, there is a limited known number of such pairs, for example:
- * - XSN_BTC
- * - XSN_LTC
- *
- * The names are based on how the pairs are displayed on coinmarketcap, see https://coinmarketcap.com/currencies/stakenet/#markets
- * For example, for the XSN_BTC pair, there two currencies involved:
- * - BTC is the principal currency, which is used to specify most values in orders/trades.
- * - XSN is the secondary currency.
- */
+/** Represents a pair that can be traded, there is a limited known number of such pairs, for example:
+  *   - XSN_BTC
+  *   - XSN_LTC
+  *
+  * The names are based on how the pairs are displayed on coinmarketcap, see
+  * https://coinmarketcap.com/currencies/stakenet/#markets For example, for the XSN_BTC pair, there two currencies
+  * involved:
+  *   - BTC is the principal currency, which is used to specify most values in orders/trades.
+  *   - XSN is the secondary currency.
+  */
 sealed abstract class TradingPair extends EnumEntry with Product with Serializable with Ordered[TradingPair] { self =>
   // TODO: check at compile time
-  //require(principal != secondary, s"A trading pair must have different currencies, only $principal found")
+  // require(principal != secondary, s"A trading pair must have different currencies, only $principal found")
 
   def secondary: Currency
   def principal: Currency
@@ -44,9 +44,8 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
 
   override def compare(that: TradingPair): Int = this.entryName.compare(that.entryName)
 
-  /**
-   * An order tied for this trading pair.
-   */
+  /** An order tied for this trading pair.
+    */
   sealed trait Order extends Product with Serializable {
     def tradingPair: TradingPair = self
     def id: OrderId
@@ -74,9 +73,9 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
     // The funds to trade, specified in the currency you own, for buy order is the principal, for sell order is the secondary.
     def funds: Satoshis
 
-    /**
-     * @return true if this order can be matched with the given order
-     */
+    /** @return
+      *   true if this order can be matched with the given order
+      */
     def matches(other: LimitOrder): Boolean
 
     override def toString: String = this match {
@@ -107,9 +106,8 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
     }
   }
 
-  /**
-   * Order to buy/sell the [[principal]] currency at the market price.
-   */
+  /** Order to buy/sell the [[principal]] currency at the market price.
+    */
   case class MarketOrder(id: OrderId, side: OrderSide, funds: Satoshis) extends Order {
 
     override def matches(other: LimitOrder): Boolean = {
@@ -117,20 +115,18 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
     }
   }
 
-  /**
-   * Order to buy/sell the [[principal]] currency at the given price.
-   *
-   * 100_000_000 (satoshis) [[principal]] = price [[secondary]]
-   */
+  /** Order to buy/sell the [[principal]] currency at the given price.
+    *
+    * 100_000_000 (satoshis) [[principal]] = price [[secondary]]
+    */
   case class LimitOrder(side: OrderSide, details: LimitOrderDetails) extends Order {
     override def id: OrderId = details.id
     override def funds: Satoshis = details.funds
 
-    /**
-     * A Sell order will take all buy orders with a higher price
-     *
-     * A Buy order will take all sell orders with lower price
-     */
+    /** A Sell order will take all buy orders with a higher price
+      *
+      * A Buy order will take all sell orders with lower price
+      */
     override def matches(other: LimitOrder): Boolean = {
       (this.side, other.side) match {
         case (OrderSide.Sell, OrderSide.Buy) => details.price <= other.details.price
@@ -140,13 +136,15 @@ sealed abstract class TradingPair extends EnumEntry with Product with Serializab
     }
   }
 
-  /**
-   * Details for a limit order
-   *
-   * @param id order id
-   * @param funds order funds the amount you own, for buy orders is the principal currency, for sell orders is the secondary
-   * @param price order price in the principal currency, for XSN_BTC, the price is in BTC
-   */
+  /** Details for a limit order
+    *
+    * @param id
+    *   order id
+    * @param funds
+    *   order funds the amount you own, for buy orders is the principal currency, for sell orders is the secondary
+    * @param price
+    *   order price in the principal currency, for XSN_BTC, the price is in BTC
+    */
   case class LimitOrderDetails(id: OrderId, funds: Satoshis, price: Satoshis)
 
 }

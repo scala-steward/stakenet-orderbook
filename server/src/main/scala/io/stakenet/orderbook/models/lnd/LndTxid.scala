@@ -4,17 +4,17 @@ import javax.xml.bind.DatatypeConverter
 
 import scala.util.Try
 
-/**
- * Represents a txid from lnd
- *
- * Such txid has some problems, as returns the bytes in little-endian, while, the string
- * txid that you see on the explorers use big-endian.
- *
- * To avoid confusion, it's simpler to just normalize everything to big-endian, and,
- * use little-endian when dealing directly with lnd.
- *
- * @param bigEndianBytes the txid bytes in big-endian
- */
+/** Represents a txid from lnd
+  *
+  * Such txid has some problems, as returns the bytes in little-endian, while, the string txid that you see on the
+  * explorers use big-endian.
+  *
+  * To avoid confusion, it's simpler to just normalize everything to big-endian, and, use little-endian when dealing
+  * directly with lnd.
+  *
+  * @param bigEndianBytes
+  *   the txid bytes in big-endian
+  */
 case class LndTxid(bigEndianBytes: Vector[Byte]) extends AnyVal {
   // lnd requires little-endian txids
   def lndBytes: Array[Byte] = bigEndianBytes.reverse.toArray

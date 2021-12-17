@@ -8,11 +8,10 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-/**
- * Processes the events produced by discord, we are particularly interested on:
- * - Ready
- * - Guild Create
- */
+/** Processes the events produced by discord, we are particularly interested on:
+  *   - Ready
+  *   - Guild Create
+  */
 private[discord] class DiscordEventHandler(
     discordAPI: DiscordAPI,
     sharedState: SharedState,

@@ -22,16 +22,16 @@ import kamon.Kamon
 
 import scala.concurrent.ExecutionContext
 
-/**
- * Each PeerActor is the connection between the server and the connected client.
- *
- * This acts as the layer to protect the websocket client to only receive what it requires,
- * as well as to validate the commands that the websocket client can actually execute based
- * on its known state.
- *
- * @param client the underlying websocket actor client
- * @param orderManager the actor managing the available orders
- */
+/** Each PeerActor is the connection between the server and the connected client.
+  *
+  * This acts as the layer to protect the websocket client to only receive what it requires, as well as to validate the
+  * commands that the websocket client can actually execute based on its known state.
+  *
+  * @param client
+  *   the underlying websocket actor client
+  * @param orderManager
+  *   the actor managing the available orders
+  */
 class PeerActor(
     client: ActorRef,
     peerActorOps: PeerActorOps,
@@ -82,9 +82,8 @@ class PeerActor(
     context become withState(PeerState.empty)
   }
 
-  /**
-   * The method is called when the websocket client is disconnected.
-   */
+  /** The method is called when the websocket client is disconnected.
+    */
   override def postStop(): Unit = {
     log.info(s"${peerUser.name}: Peer disconnected: $self")
     activeClientsMetric.decrement()
@@ -111,9 +110,8 @@ class PeerActor(
     self ! event
   }
 
-  /**
-   * Handle commands from the web socket client.
-   */
+  /** Handle commands from the web socket client.
+    */
   private def handleCommand()(implicit ctx: CommandContext): CommandHandler.Result = ctx.cmd match {
     case cmd: UncategorizedCommand =>
       uncategorizedHandler.handle(cmd)
@@ -134,13 +132,12 @@ class PeerActor(
       channelCommandHandler.handle(cmd)
   }
 
-  /**
-   * This method handles the events from the order manager, it has these responsibilities:
-   * - Updating the internal state on events related this client data.
-   * - Forwarding the necessary events to the ws client.
-   *
-   * It is assumed that command responses are already handled by another method, hence, they can be safely ignored.
-   */
+  /** This method handles the events from the order manager, it has these responsibilities:
+    *   - Updating the internal state on events related this client data.
+    *   - Forwarding the necessary events to the ws client.
+    *
+    * It is assumed that command responses are already handled by another method, hence, they can be safely ignored.
+    */
   private def handleOrderManagerEvent(evt: OrderManagerActor.Event, state: PeerState): Unit = evt match {
     case OrderManagerActor.Event.MyOrderMatched(trade, orderMatchedWith) =>
       processServerEvent {
@@ -201,22 +198,21 @@ class PeerActor(
         }
 
       case msg @ TaggedCommandResponse(_, Event.CommandResponse.CancelOpenOrderResponse(Some(order))) =>
-        /**
-         * This is the same as the TaggedCommandResponse handler, but it cancels an open order once we get confirmation
-         * from the order manager,
-         *
-         * TODO: Refactor the code to avoid this trick.
-         */
+        /** This is the same as the TaggedCommandResponse handler, but it cancels an open order once we get confirmation
+          * from the order manager,
+          *
+          * TODO: Refactor the code to avoid this trick.
+          */
         val message = WebSocketOutgoingMessage(state.messageCounter, Some(msg.requestId), msg.value)
         client ! message
         context become withState(state.consumeMessage.cancelOpenOrder(order.value.id))
 
       case msg: TaggedCommandResponse =>
-        /**
-         * Handle a tagged response, which generates a message id and forwards it to the actual web socket client
-         *
-         * The state is mutated to increase the message id, at this point, the state should have been updated by another message.
-         */
+        /** Handle a tagged response, which generates a message id and forwards it to the actual web socket client
+          *
+          * The state is mutated to increase the message id, at this point, the state should have been updated by
+          * another message.
+          */
         val message = WebSocketOutgoingMessage(state.messageCounter, Some(msg.requestId), msg.value)
         client ! message
         context become withState(state.consumeMessage)
@@ -252,9 +248,8 @@ class PeerActor(
 
         timer.stop()
 
-      /**
-       * Debug unexpected messages.
-       */
+      /** Debug unexpected messages.
+        */
       case x => log.warning(s"${peerUser.name}: Unexpected message: $x")
     }
     peerTrades = state.matched

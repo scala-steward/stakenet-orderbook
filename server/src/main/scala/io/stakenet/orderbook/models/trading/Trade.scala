@@ -32,14 +32,13 @@ object Trade {
 
   case class Id(value: UUID) extends AnyVal
 
-  /**
-   * Construct a trade from two orders, the executingOrder order is the most recent one,
-   * and the existingOrder is the one that was already stored on the orderbook.
-   *
-   * This means that we'll use the existingOrder order price.
-   *
-   * This doesn't validate whether the orders are compatible to be traded, that's supposed to be already verified.
-   */
+  /** Construct a trade from two orders, the executingOrder order is the most recent one, and the existingOrder is the
+    * one that was already stored on the orderbook.
+    *
+    * This means that we'll use the existingOrder order price.
+    *
+    * This doesn't validate whether the orders are compatible to be traded, that's supposed to be already verified.
+    */
   def from(pair: TradingPair)(
       executingOrder: pair.Order,
       existingOrder: pair.LimitOrder

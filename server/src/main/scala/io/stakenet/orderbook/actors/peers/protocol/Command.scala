@@ -8,10 +8,9 @@ import io.stakenet.orderbook.models.clients.Identifier
 import io.stakenet.orderbook.models.lnd.{ChannelFeePayment, PaymentRHash, RefundablePayment}
 import io.stakenet.orderbook.models.trading.{Resolution, Trade, TradingOrder, TradingPair}
 
-/**
- * A command strictly arrives from a websocket client, it means, that the
- * subclasses specify the available actions that the websocket client can perform.
- */
+/** A command strictly arrives from a websocket client, it means, that the subclasses specify the available actions that
+  * the websocket client can perform.
+  */
 sealed trait Command extends Product with Serializable
 sealed trait UncategorizedCommand extends Command
 sealed trait SubscriptionCommand extends Command
@@ -22,9 +21,8 @@ sealed trait ChannelCommand extends Command
 
 object Command {
 
-  /**
-   * When the received command can't be parsed this command will be used as a default
-   */
+  /** When the received command can't be parsed this command will be used as a default
+    */
   final case class InvalidCommand(reason: String) extends UncategorizedCommand
   final case class Ping() extends UncategorizedCommand
   final case class GetTradingPairs() extends UncategorizedCommand
@@ -49,15 +47,14 @@ object Command {
   final case class CancelOpenOrder(id: OrderId) extends OrderCommand
   final case class CancelMatchedOrder(id: OrderId) extends OrderCommand
 
-  /**
-   * When an order is matched, the order pair is moved to the trading state,
-   * in this state, the peers are allowed to exchange messages.
-   *
-   * This command is for sending a message to the peer that has a matched order
-   * against the given order that belongs to me.
-   *
-   * The server needs to route the message to the right peer.
-   */
+  /** When an order is matched, the order pair is moved to the trading state, in this state, the peers are allowed to
+    * exchange messages.
+    *
+    * This command is for sending a message to the peer that has a matched order against the given order that belongs to
+    * me.
+    *
+    * The server needs to route the message to the right peer.
+    */
   final case class SendOrderMessage(orderMessage: OrderMessage) extends OrderCommand
 
   final case class GetInvoicePayment(currency: Currency, amount: Satoshis) extends OrderFeeCommand

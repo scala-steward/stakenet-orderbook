@@ -9,9 +9,8 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-/**
- * A high-level API to interact with discord based on our config
- */
+/** A high-level API to interact with discord based on our config
+  */
 class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(implicit
     c: CacheSnapshot,
     ec: ExecutionContext
@@ -19,9 +18,8 @@ class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(imp
 
   private val logger = LoggerFactory.getLogger(this.getClass)
 
-  /**
-   * Get the guilds where the bot is installed, and where the app is configured to use.
-   */
+  /** Get the guilds where the bot is installed, and where the app is configured to use.
+    */
   def getSupportedGuilds: Future[Seq[GetUserGuildsGuild]] = {
     getGuilds()
       .map { guilds =>
@@ -29,9 +27,8 @@ class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(imp
       }
   }
 
-  /**
-   * Gets the guild channel that the bot uses to send notifications.
-   */
+  /** Gets the guild channel that the bot uses to send notifications.
+    */
   def getNotificationChannel(guildId: GuildId): Future[Option[GuildChannel]] = {
     getChannels(guildId)
       .map { channels =>
@@ -39,9 +36,8 @@ class DiscordAPI(discordConfig: DiscordConfig, discordClient: DiscordClient)(imp
       }
   }
 
-  /**
-   * Send a message to the given channel, in case of failure, just log a warning.
-   */
+  /** Send a message to the given channel, in case of failure, just log a warning.
+    */
   def sendMessage(channel: GuildChannel, msg: String): Unit = {
     // TODO: Extract to another class, and write tests for it
     def keepUntil(text: String, maxSize: Int): List[String] = {

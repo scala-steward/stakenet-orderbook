@@ -4,11 +4,11 @@ import akka.actor.ActorRef
 import io.stakenet.orderbook.models.OrderId
 import io.stakenet.orderbook.models.trading.TradingPair
 
-/**
- * The order book state.
- *
- * @param orderPeerMap the way to get the peer that placed an order
- */
+/** The order book state.
+  *
+  * @param orderPeerMap
+  *   the way to get the peer that placed an order
+  */
 private[orders] case class OrderManagerState(
     private val orderPeerMap: Map[OrderId, PeerOrder],
     private val peerOrdersMap: Map[ActorRef, Set[OrderId]],
@@ -16,18 +16,16 @@ private[orders] case class OrderManagerState(
     groupedOrders: GroupedOrders
 ) {
 
-  /**
-   * This is a very slow operation, use it with care.
-   */
+  /** This is a very slow operation, use it with care.
+    */
   def getOrders: List[PeerOrder] = {
     orderPeerMap.values.toList
   }
 
-  /**
-   * Add an order.
-   *
-   * This takes O(log N).
-   */
+  /** Add an order.
+    *
+    * This takes O(log N).
+    */
   def add(order: PeerOrder): OrderManagerState = {
     val pair = order.order.pair
     val limitOrder = pair.useLimitOrder(order.order.value).getOrElse(throw new RuntimeException("Impossible"))
@@ -43,39 +41,35 @@ private[orders] case class OrderManagerState(
     )
   }
 
-  /**
-   * Find an order.
-   *
-   * This takes O(1).
-   */
+  /** Find an order.
+    *
+    * This takes O(1).
+    */
   def find(owner: ActorRef): Set[PeerOrder] = {
     peerOrdersMap.getOrElse(owner, Set.empty).map(orderPeerMap.apply)
   }
 
-  /**
-   * Find an order.
-   *
-   * This takes O(1).
-   */
+  /** Find an order.
+    *
+    * This takes O(1).
+    */
   def find(orderId: OrderId): Option[PeerOrder] = {
     orderPeerMap.get(orderId)
   }
 
-  /**
-   * Find an order.
-   *
-   * This takes O(1).
-   */
+  /** Find an order.
+    *
+    * This takes O(1).
+    */
   def find(orderId: OrderId, owner: ActorRef): Option[PeerOrder] = {
     find(orderId)
       .filter(_.peer == owner)
   }
 
-  /**
-   * Find an order.
-   *
-   * This takes O(M), M being the number of orders on the owner.
-   */
+  /** Find an order.
+    *
+    * This takes O(M), M being the number of orders on the owner.
+    */
   def find(owner: ActorRef, pair: TradingPair): Set[PeerOrder] = {
     find(owner).filter(_.order.pair == pair)
   }

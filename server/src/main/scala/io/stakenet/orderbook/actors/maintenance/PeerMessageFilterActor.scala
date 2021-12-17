@@ -11,15 +11,14 @@ import io.stakenet.orderbook.actors.peers.protocol.Event.CommandResponse.Command
 import io.stakenet.orderbook.actors.peers.protocol.Event.ServerEvent
 import io.stakenet.orderbook.actors.peers.protocol.TaggedCommandResponse
 
-/**
- * Filters messages sent to the peer actor
- *
- *  - if server maintenance is active when a message is received the message is discarded and ServerInMaintenance is
- *    sent to the peer actor instead.
- *  - if server maintenance is not active then the message is sent to the peer actor as received
- *
- * This actor also has a list of active peers and notifies them when server maintenance is started/completed
- */
+/** Filters messages sent to the peer actor
+  *
+  *   - if server maintenance is active when a message is received the message is discarded and ServerInMaintenance is
+  *     sent to the peer actor instead.
+  *   - if server maintenance is not active then the message is sent to the peer actor as received
+  *
+  * This actor also has a list of active peers and notifies them when server maintenance is started/completed
+  */
 class PeerMessageFilterActor extends Actor with ActorLogging {
 
   override def receive: Receive = { case message =>

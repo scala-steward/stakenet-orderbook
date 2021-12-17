@@ -10,14 +10,16 @@ import scala.util.{Random, Try}
 
 object RetryableFuture {
 
-  /**
-   * Retries a future if the result fulfills the specified conditions
-   *
-   * @param delays how much time will be waited between each retry, also @delays.length is the number of times
-   *               the future will be retried.
-   * @param shouldRetry indicates whether or not retry the future depending on the current result
-   * @param f the future to be retried
-   */
+  /** Retries a future if the result fulfills the specified conditions
+    *
+    * @param delays
+    *   how much time will be waited between each retry, also @delays.length is the number of times the future will be
+    *   retried.
+    * @param shouldRetry
+    *   indicates whether or not retry the future depending on the current result
+    * @param f
+    *   the future to be retried
+    */
   @nowarn
   def apply[A](
       delays: List[FiniteDuration]
@@ -35,11 +37,12 @@ object RetryableFuture {
     }
   }
 
-  /**
-   * creates a RetryableFuture with delays that double with each retry until max delay is reached
-   * @param initialDelay the delay for the first retry
-   * @param maxDelay the max delay that will be waited while retrying the future
-   */
+  /** creates a RetryableFuture with delays that double with each retry until max delay is reached
+    * @param initialDelay
+    *   the delay for the first retry
+    * @param maxDelay
+    *   the max delay that will be waited while retrying the future
+    */
   def withExponentialBackoff[A](
       initialDelay: FiniteDuration,
       maxDelay: FiniteDuration
@@ -57,11 +60,12 @@ object RetryableFuture {
     RetryableFuture[A](delays) _
   }
 
-  /**
-   * creates a RetryableFuture with delays that double with each retry
-   * @param initialDelay the delay for the first retry
-   * @param maxRetries the number of times the future will be retried
-   */
+  /** creates a RetryableFuture with delays that double with each retry
+    * @param initialDelay
+    *   the delay for the first retry
+    * @param maxRetries
+    *   the number of times the future will be retried
+    */
   def withExponentialBackoff[A](
       initialDelay: FiniteDuration,
       maxRetries: Int
@@ -72,15 +76,15 @@ object RetryableFuture {
     RetryableFuture[A](delays) _
   }
 
-  /**
-   * calculates the delay for the given retry number
-   * @param baseDelay the delay for the first retry
-   * @param retry the retry for which the delay is being calculated
-   * @param factor how much the delay will grow with each retry.
-   *               for example:
-   *                 2 -> double the delay with each retry
-   *                 3 -> triples the delay with each retry
-   */
+  /** calculates the delay for the given retry number
+    * @param baseDelay
+    *   the delay for the first retry
+    * @param retry
+    *   the retry for which the delay is being calculated
+    * @param factor
+    *   how much the delay will grow with each retry. for example: 2 -> double the delay with each retry 3 -> triples
+    *   the delay with each retry
+    */
   private[utils] def getDelay(
       baseDelay: Long,
       retry: Int,

@@ -4,16 +4,15 @@ import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
 import io.stakenet.orderbook.actors.connection.ConnectionManagerActor.Command._
 import io.stakenet.orderbook.actors.peers.PeerUser
 
-/**
- * Managed clients connected through a websocket
- *
- *   - Wallet and Bot clients can only have one connection open at a time, attempts to open more connections will be
- *     rejected until current connections is closed
- *   - For Web clients there is no connection limit
- *
- * TODO: Move the single connection validation to a Handshake command that also validates a client's location and
- *       a wallet client's version
- */
+/** Managed clients connected through a websocket
+  *
+  *   - Wallet and Bot clients can only have one connection open at a time, attempts to open more connections will be
+  *     rejected until current connections is closed
+  *   - For Web clients there is no connection limit
+  *
+  * TODO: Move the single connection validation to a Handshake command that also validates a client's location and a
+  * wallet client's version
+  */
 class ConnectionManagerActor extends Actor with ActorLogging {
 
   override def receive: Receive = { case message =>

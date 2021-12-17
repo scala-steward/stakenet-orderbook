@@ -2,12 +2,13 @@ package io.stakenet.orderbook.actors.peers
 
 import io.stakenet.orderbook.models.clients.ClientId
 
-/**
- * Represents a user connected on the websocket.
- *
- * @param name the name to identify the user
- * @param maxAllowedOrders the maximum number of orders that can be queued by this user
- */
+/** Represents a user connected on the websocket.
+  *
+  * @param name
+  *   the name to identify the user
+  * @param maxAllowedOrders
+  *   the maximum number of orders that can be queued by this user
+  */
 sealed abstract class PeerUser(val name: String, val maxAllowedOrders: Int)
 
 object PeerUser {

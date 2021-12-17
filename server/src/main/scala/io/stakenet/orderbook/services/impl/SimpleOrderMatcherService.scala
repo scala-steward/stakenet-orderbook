@@ -13,13 +13,12 @@ class SimpleOrderMatcherService extends OrderMatcherService {
     }
   }
 
-  /**
-   * For matching a market order:
-   * - Only limit orders are considered.
-   * - For buy order, the sell order with the lowest price is selected.
-   * - For sell order, the buy order with the highest price is selected
-   * TODO: It might be worth to ensure the order can be fulfilled instead
-   */
+  /** For matching a market order:
+    *   - Only limit orders are considered.
+    *   - For buy order, the sell order with the lowest price is selected.
+    *   - For sell order, the buy order with the highest price is selected TODO: It might be worth to ensure the order
+    *     can be fulfilled instead
+    */
   private def matchMarketOrder(pair: TradingPair)(
       source: pair.MarketOrder,
       available: List[pair.LimitOrder]
@@ -38,16 +37,15 @@ class SimpleOrderMatcherService extends OrderMatcherService {
     }
   }
 
-  /**
-   * For matching a limit order:
-   * - Only limit orders are considered.
-   * - For buy order, the sell order with the lowest price is selected.
-   * - For sell order, the buy order with the highest price is selected
-   *  Note: Market orders aren't supposed to be available because this can lead to a peer
-   *       selling an overpriced order when there are only market orders to match.
-   *
-   * TODO: It might be worth to ensure the order can be fulfilled instead
-   */
+  /** For matching a limit order:
+    *   - Only limit orders are considered.
+    *   - For buy order, the sell order with the lowest price is selected.
+    *   - For sell order, the buy order with the highest price is selected Note: Market orders aren't supposed to be
+    *     available because this can lead to a peer selling an overpriced order when there are only market orders to
+    *     match.
+    *
+    * TODO: It might be worth to ensure the order can be fulfilled instead
+    */
   private def matchLimitOrder(pair: TradingPair)(
       source: pair.LimitOrder,
       available: List[pair.LimitOrder]
@@ -66,10 +64,9 @@ class SimpleOrderMatcherService extends OrderMatcherService {
     }
   }
 
-  /**
-   * Find the highest price in the candidate orders
-   * in case of two orders with the same price, it will take the one with the higher funds
-   */
+  /** Find the highest price in the candidate orders in case of two orders with the same price, it will take the one
+    * with the higher funds
+    */
   private def findMaxPrice(pair: TradingPair)(targetOrders: List[pair.LimitOrder]): Option[pair.LimitOrder] = {
     if (targetOrders.isEmpty) {
       None
@@ -81,10 +78,9 @@ class SimpleOrderMatcherService extends OrderMatcherService {
     }
   }
 
-  /**
-   * find the lowest price in the candidate orders
-   * in case of two orders with the same price, it will take the one with the higher funds
-   */
+  /** find the lowest price in the candidate orders in case of two orders with the same price, it will take the one with
+    * the higher funds
+    */
   private def findMinPrice(pair: TradingPair)(targetOrders: List[pair.LimitOrder]): Option[pair.LimitOrder] = {
     if (targetOrders.isEmpty) {
       None

@@ -9,12 +9,11 @@ import io.stakenet.orderbook.models.trading.{OrderSummary, Trade, TradingOrder, 
 import io.stakenet.orderbook.services.OrderMatcherService
 import kamon.Kamon
 
-/**
- * This actor acts like the actual orderbook, it has the active orders and supports commands for
- * updating the book.
- *
- * @param orderMatcher the service that knows what orders should be paired/matched.
- */
+/** This actor acts like the actual orderbook, it has the active orders and supports commands for updating the book.
+  *
+  * @param orderMatcher
+  *   the service that knows what orders should be paired/matched.
+  */
 class OrderManagerActor(orderMatcher: OrderMatcherService, tradesConfig: TradesConfig) extends Actor with ActorLogging {
 
   import OrderManagerActor._
@@ -98,9 +97,8 @@ class OrderManagerActor(orderMatcher: OrderMatcherService, tradesConfig: TradesC
 
   private def withState(implicit state: OrderManagerState): Receive = {
 
-    /**
-     * Handle commands.
-     */
+    /** Handle commands.
+      */
     case cmd: Command =>
       val name = cmd match {
         case _: Command.PlaceOrder => "PlaceOrder"
@@ -123,9 +121,8 @@ class OrderManagerActor(orderMatcher: OrderMatcherService, tradesConfig: TradesC
 
       timer.stop()
 
-    /**
-     * Debug logs.
-     */
+    /** Debug logs.
+      */
     case x => log.info(s"withState - Unexpected message: $x")
   }
 }
