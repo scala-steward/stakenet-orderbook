@@ -75,17 +75,16 @@ class PeerEventCodecsSpec extends AnyWordSpec with PeerEventCodecs {
   val codec = implicitly[EventCodec]
 
   "EventCodec" should {
-    tests.foreach {
-      case (name, evt) =>
-        s"encode and decode the same event: $name" in {
-          val model = evt match {
-            case _: Event.ServerEvent => WebSocketOutgoingMessage(10, None, evt)
-            case _ => WebSocketOutgoingMessage(10, Some("id"), evt)
-          }
-          val proto = codec.encode(model)
-          val decoded = codec.decode(proto)
-          decoded must be(model)
+    tests.foreach { case (name, evt) =>
+      s"encode and decode the same event: $name" in {
+        val model = evt match {
+          case _: Event.ServerEvent => WebSocketOutgoingMessage(10, None, evt)
+          case _ => WebSocketOutgoingMessage(10, Some("id"), evt)
         }
+        val proto = codec.encode(model)
+        val decoded = codec.decode(proto)
+        decoded must be(model)
+      }
     }
   }
 }

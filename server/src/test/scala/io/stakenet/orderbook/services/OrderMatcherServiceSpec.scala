@@ -35,9 +35,8 @@ class OrderMatcherServiceSpec extends AnyWordSpec {
   }
 
   private def doTest(input: TradingOrderMatching, expected: Option[Trade]): Unit = {
-    services.foreach {
-      case (name, service) =>
-        doTest(name, service, input, expected)
+    services.foreach { case (name, service) =>
+      doTest(name, service, input, expected)
     }
   }
 

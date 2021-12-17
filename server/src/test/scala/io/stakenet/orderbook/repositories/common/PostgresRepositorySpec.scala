@@ -11,20 +11,19 @@ import org.scalatest.matchers.must.Matchers
 import play.api.db.evolutions.Evolutions
 import play.api.db.{Database, Databases}
 
-/**
- * Allow us to write integration tests depending in a postgres database.
- *
- * The database is launched in a docker instance using docker-it-scala library.
- *
- * When the database is started, play evolutions are automatically applied, the
- * idea is to let you write tests like this:
- * {{{
- *   class UserPostgresDALSpec extends PostgresRepositorySpec {
- *     lazy val dal = new UserPostgresDAL(database)
- *     ...
- *   }
- * }}}
- */
+/** Allow us to write integration tests depending in a postgres database.
+  *
+  * The database is launched in a docker instance using docker-it-scala library.
+  *
+  * When the database is started, play evolutions are automatically applied, the idea is to let you write tests like
+  * this:
+  * {{{
+  *   class UserPostgresDALSpec extends PostgresRepositorySpec {
+  *     lazy val dal = new UserPostgresDAL(database)
+  *     ...
+  *   }
+  * }}}
+  */
 trait PostgresRepositorySpec
     extends AnyWordSpecLike
     with Matchers

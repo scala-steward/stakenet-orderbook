@@ -243,8 +243,8 @@ class ReportCommandSpec extends PostgresRepositorySpec {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
 
@@ -363,8 +363,8 @@ class ReportCommandSpec extends PostgresRepositorySpec {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
 
@@ -465,8 +465,8 @@ class ReportCommandSpec extends PostgresRepositorySpec {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
 

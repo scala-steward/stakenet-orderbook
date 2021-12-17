@@ -20,12 +20,11 @@ class TradesPostgresRepositorySpec extends PostgresRepositorySpec with BeforeAnd
 
   private lazy val repository = new TradesPostgresRepository(database, new TradesDAO)
 
-  /**
-   * A custom ordering for UUID is required one because the one from Java doesn't actually compares the bytes
-   * but their signed representations which could cause weird tests failures on tests.
-   *
-   * Postgres actually sorts UUIDs by their byte representation.
-   */
+  /** A custom ordering for UUID is required one because the one from Java doesn't actually compares the bytes but their
+    * signed representations which could cause weird tests failures on tests.
+    *
+    * Postgres actually sorts UUIDs by their byte representation.
+    */
   implicit val tradeIdOrdering: Ordering[Trade.Id] = (x: Trade.Id, y: Trade.Id) => {
     val a = x.value.toString.replace("-", "")
     val b = y.value.toString.replace("-", "")
@@ -92,9 +91,8 @@ class TradesPostgresRepositorySpec extends PostgresRepositorySpec with BeforeAnd
       val result = repository.getTrades(10, None, XSN_BTC)
 
       result.size must be(3)
-      result.zip(List(trade2, trade3, trade1)).foreach {
-        case (actual, expected) =>
-          actual must be(expected)
+      result.zip(List(trade2, trade3, trade1)).foreach { case (actual, expected) =>
+        actual must be(expected)
       }
     }
 
@@ -117,9 +115,8 @@ class TradesPostgresRepositorySpec extends PostgresRepositorySpec with BeforeAnd
       val result = repository.getTrades(10, Some(trade3.id), XSN_LTC)
       result.size must be(3)
 
-      result.zip(List(trade4, trade1, trade2)).foreach {
-        case (actual, expected) =>
-          actual must be(expected)
+      result.zip(List(trade4, trade1, trade2)).foreach { case (actual, expected) =>
+        actual must be(expected)
       }
     }
 

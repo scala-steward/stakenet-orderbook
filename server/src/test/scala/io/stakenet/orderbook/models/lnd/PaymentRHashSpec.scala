@@ -19,12 +19,11 @@ class PaymentRHashSpec extends AnyWordSpec {
       "missing byte" -> "a13a667d36fa6e492823e882281b287114dc70c41609555fc64aa4ec7f991c"
     )
 
-    invalidInputs.foreach {
-      case (kind, input) =>
-        s"fail on invalid input: $kind" in {
-          val result = PaymentRHash.untrusted(input)
-          result must be(empty)
-        }
+    invalidInputs.foreach { case (kind, input) =>
+      s"fail on invalid input: $kind" in {
+        val result = PaymentRHash.untrusted(input)
+        result must be(empty)
+      }
     }
   }
 

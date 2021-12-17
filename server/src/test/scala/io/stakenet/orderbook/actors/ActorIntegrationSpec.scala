@@ -30,38 +30,36 @@ class ActorIntegrationSpec extends PeerSpecBase("ActorIntegrationSpec") {
 
   "The actors" must {
     "the manager must store all the orders" in {
-      withPeers()() {
-        case TestData(_, orderManager, _) =>
-          val probe = TestProbe()
-          val orders = List(XSN_BTC_BUY_LIMIT_1, XSN_BTC_BUY_LIMIT_2, XSN_LTC_BUY_LIMIT_1)
-          orders.foreach { order =>
-            orderManager.ref ! OrderManagerActor.Command.PlaceOrder(order, ClientId.random(), probe.ref)
-          }
-          orderManager.ref.tell(OrderManagerActor.Command.GetAllOrders, probe.ref)
-          probe.expectMsg(OrderManagerActor.Event.OrdersRetrieved(orders))
+      withPeers()() { case TestData(_, orderManager, _) =>
+        val probe = TestProbe()
+        val orders = List(XSN_BTC_BUY_LIMIT_1, XSN_BTC_BUY_LIMIT_2, XSN_LTC_BUY_LIMIT_1)
+        orders.foreach { order =>
+          orderManager.ref ! OrderManagerActor.Command.PlaceOrder(order, ClientId.random(), probe.ref)
+        }
+        orderManager.ref.tell(OrderManagerActor.Command.GetAllOrders, probe.ref)
+        probe.expectMsg(OrderManagerActor.Event.OrdersRetrieved(orders))
       }
     }
 
     "disconnecting alice removes its orders" in {
-      withPeers()("alice", "bob") {
-        case TestData(alice :: bob :: Nil, orderManager, _) =>
-          val aliceOrder = XSN_LTC_BUY_LIMIT_1
-          val bobOrder = XSN_BTC_BUY_LIMIT_2
+      withPeers()("alice", "bob") { case TestData(alice :: bob :: Nil, orderManager, _) =>
+        val aliceOrder = XSN_LTC_BUY_LIMIT_1
+        val bobOrder = XSN_BTC_BUY_LIMIT_2
 
-          alice.actor ! peers.ws
-            .WebSocketIncomingMessage("id", peers.protocol.Command.PlaceOrder(aliceOrder, Some(xsnRHash)))
-          discardMsg(alice) // order placed
+        alice.actor ! peers.ws
+          .WebSocketIncomingMessage("id", peers.protocol.Command.PlaceOrder(aliceOrder, Some(xsnRHash)))
+        discardMsg(alice) // order placed
 
-          bob.actor ! peers.ws
-            .WebSocketIncomingMessage("id", peers.protocol.Command.PlaceOrder(bobOrder, Some(xsnRHash)))
-          discardMsg(bob) // order placed
+        bob.actor ! peers.ws
+          .WebSocketIncomingMessage("id", peers.protocol.Command.PlaceOrder(bobOrder, Some(xsnRHash)))
+        discardMsg(bob) // order placed
 
-          // killing alice removes its orders
-          alice.actor ! PoisonPill
-          val probe = TestProbe()
-          val orders = List(bobOrder)
-          orderManager.ref.tell(OrderManagerActor.Command.GetAllOrders, probe.ref)
-          probe.expectMsg(OrderManagerActor.Event.OrdersRetrieved(orders))
+        // killing alice removes its orders
+        alice.actor ! PoisonPill
+        val probe = TestProbe()
+        val orders = List(bobOrder)
+        orderManager.ref.tell(OrderManagerActor.Command.GetAllOrders, probe.ref)
+        probe.expectMsg(OrderManagerActor.Event.OrdersRetrieved(orders))
       }
     }
 
@@ -171,26 +169,24 @@ class ActorIntegrationSpec extends PeerSpecBase("ActorIntegrationSpec") {
     }
 
     "PeerMessageFilterActor notifies subscribed peers when maintenance starts" in {
-      withPeers()("alice", "bob") {
-        case TestData(alice :: bob :: Nil, _, maintenanceManager) =>
-          maintenanceManager.ref ! PeerMessageFilterActor.Command.PeerDisconnected(alice.actor)
-          maintenanceManager.ref ! PeerMessageFilterActor.Command.StartMaintenance()
+      withPeers()("alice", "bob") { case TestData(alice :: bob :: Nil, _, maintenanceManager) =>
+        maintenanceManager.ref ! PeerMessageFilterActor.Command.PeerDisconnected(alice.actor)
+        maintenanceManager.ref ! PeerMessageFilterActor.Command.StartMaintenance()
 
-          alice.client.expectNoMessage()
-          bob.client.expectMsg(WebSocketOutgoingMessage(1, None, ServerEvent.MaintenanceInProgress()))
+        alice.client.expectNoMessage()
+        bob.client.expectMsg(WebSocketOutgoingMessage(1, None, ServerEvent.MaintenanceInProgress()))
       }
     }
 
     "PeerMessageFilterActor notifies subscribed peers when maintenance is completed" in {
-      withPeers()("alice", "bob") {
-        case TestData(alice :: bob :: Nil, _, maintenanceManager) =>
-          maintenanceManager.ref ! PeerMessageFilterActor.Command.PeerDisconnected(alice.actor)
-          maintenanceManager.ref ! PeerMessageFilterActor.Command.StartMaintenance()
-          maintenanceManager.ref ! PeerMessageFilterActor.Command.CompleteMaintenance()
+      withPeers()("alice", "bob") { case TestData(alice :: bob :: Nil, _, maintenanceManager) =>
+        maintenanceManager.ref ! PeerMessageFilterActor.Command.PeerDisconnected(alice.actor)
+        maintenanceManager.ref ! PeerMessageFilterActor.Command.StartMaintenance()
+        maintenanceManager.ref ! PeerMessageFilterActor.Command.CompleteMaintenance()
 
-          alice.client.expectNoMessage()
-          bob.client.expectMsg(WebSocketOutgoingMessage(1, None, ServerEvent.MaintenanceInProgress()))
-          bob.client.expectMsg(WebSocketOutgoingMessage(2, None, ServerEvent.MaintenanceCompleted()))
+        alice.client.expectNoMessage()
+        bob.client.expectMsg(WebSocketOutgoingMessage(1, None, ServerEvent.MaintenanceInProgress()))
+        bob.client.expectMsg(WebSocketOutgoingMessage(2, None, ServerEvent.MaintenanceCompleted()))
       }
     }
   }
@@ -243,9 +239,9 @@ class ActorIntegrationSpec extends PeerSpecBase("ActorIntegrationSpec") {
       case peers.ws.WebSocketOutgoingMessage(_, None, peers.protocol.Event.ServerEvent.OrdersMatched(trade)) =>
         trade
       case peers.ws.WebSocketOutgoingMessage(
-          _,
-          _,
-          Event.CommandResponse.PlaceOrderResponse(PlaceOrderResult.OrderMatched(trade, order))
+            _,
+            _,
+            Event.CommandResponse.PlaceOrderResponse(PlaceOrderResult.OrderMatched(trade, order))
           ) =>
         order mustBe aliceMatchedOrder
         trade

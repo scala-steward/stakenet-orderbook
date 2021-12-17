@@ -37,15 +37,14 @@ class ServerEventCodecsSpec extends AnyWordSpec with ServerEventCodecs {
   val codec = implicitly[ServerEventCodec]
 
   "EventCodec" should {
-    tests.foreach {
-      case (name, evt) =>
-        s"encode and decode the same Server Event: $name" in {
+    tests.foreach { case (name, evt) =>
+      s"encode and decode the same Server Event: $name" in {
 
-          val model = evt
-          val proto = codec.encode(model)
-          val decoded = codec.decode(proto)
-          decoded must be(model)
-        }
+        val model = evt
+        val proto = codec.encode(model)
+        val decoded = codec.decode(proto)
+        decoded must be(model)
+      }
     }
   }
 }

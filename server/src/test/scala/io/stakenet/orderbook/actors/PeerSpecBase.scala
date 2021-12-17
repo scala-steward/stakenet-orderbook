@@ -55,14 +55,14 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
   }
 
   protected def discardMsg(peer: Peer): Unit = {
-    peer.client.expectMsgPF() {
-      case msg => println(s"Discarding message: $msg")
+    peer.client.expectMsgPF() { case msg =>
+      println(s"Discarding message: $msg")
     }
   }
 
   protected def nextMsg(peer: Peer): Any = {
-    peer.client.expectMsgPF() {
-      case msg => msg
+    peer.client.expectMsgPF() { case msg =>
+      msg
     }
   }
 
@@ -166,8 +166,8 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       makerPaymentService,
       preimagesRepository,
       ethService
-    )("alice") {
-      case TestData(alice :: Nil, _, _) => f(alice)
+    )("alice") { case TestData(alice :: Nil, _, _) =>
+      f(alice)
     }
   }
 
@@ -206,8 +206,8 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       makerPaymentService,
       preimagesRepository,
       ethService
-    )("alice", "bob") {
-      case TestData(alice :: bob :: Nil, _, _) => f(alice, bob)
+    )("alice", "bob") { case TestData(alice :: bob :: Nil, _, _) =>
+      f(alice, bob)
     }
   }
 
@@ -254,8 +254,8 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       makerPaymentService: MakerPaymentService,
       preimagesRepository: PreimagesRepository.Blocking,
       ethService: ETHService
-  )(
-      implicit system: ActorSystem
+  )(implicit
+      system: ActorSystem
   ): Peer = {
     val client = TestProbe()
 

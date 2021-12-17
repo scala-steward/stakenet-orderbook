@@ -228,9 +228,8 @@ class GroupedOrdersSpec extends AnyWordSpec {
   }
 
   private def countOrders(pair: TradingPair)(orders: TreeMap[Satoshis, TreeSet[pair.LimitOrder]]): Int = {
-    orders.foldLeft(0) {
-      case (count, (_, orders)) =>
-        count + orders.size
+    orders.foldLeft(0) { case (count, (_, orders)) =>
+      count + orders.size
     }
   }
 }

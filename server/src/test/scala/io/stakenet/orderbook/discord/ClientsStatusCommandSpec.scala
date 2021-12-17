@@ -76,8 +76,8 @@ class ClientsStatusCommandSpec extends PostgresRepositorySpec with Matchers {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
 
@@ -130,8 +130,8 @@ class ClientsStatusCommandSpec extends PostgresRepositorySpec with Matchers {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
 
@@ -183,8 +183,8 @@ class ClientsStatusCommandSpec extends PostgresRepositorySpec with Matchers {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
 
@@ -213,8 +213,8 @@ class ClientsStatusCommandSpec extends PostgresRepositorySpec with Matchers {
       val expectedLines = expected.linesIterator.toList
       val actualLines = captor.getValue.linesIterator.toList
 
-      expectedLines.zip(actualLines).foreach {
-        case (expectedLine, actualLine) => actualLine mustBe expectedLine
+      expectedLines.zip(actualLines).foreach { case (expectedLine, actualLine) =>
+        actualLine mustBe expectedLine
       }
     }
   }

@@ -114,14 +114,13 @@ class RetryableFutureSpec extends AsyncWordSpec with Matchers with BeforeAndAfte
 
       val expecetedDelays = List(50.millis, 100.millis, 200.millis, 400.millis)
 
-      result.map(
-        _ =>
-          expecetedDelays
-            .zip(operation.getDelays)
-            .map {
-              case (d1, d2) => isCloseTo(d1.toMillis, d2.toMillis)
-            }
-            .forall(a => a) must be(true)
+      result.map(_ =>
+        expecetedDelays
+          .zip(operation.getDelays)
+          .map { case (d1, d2) =>
+            isCloseTo(d1.toMillis, d2.toMillis)
+          }
+          .forall(a => a) must be(true)
       )
     }
 
@@ -134,14 +133,13 @@ class RetryableFutureSpec extends AsyncWordSpec with Matchers with BeforeAndAfte
 
       val expecetedDelays = List(50.millis, 100.millis, 200.millis, 400.millis)
 
-      result.map(
-        _ =>
-          expecetedDelays
-            .zip(operation.getDelays)
-            .map {
-              case (d1, d2) => isCloseTo(d1.toMillis, d2.toMillis)
-            }
-            .forall(a => a) must be(true)
+      result.map(_ =>
+        expecetedDelays
+          .zip(operation.getDelays)
+          .map { case (d1, d2) =>
+            isCloseTo(d1.toMillis, d2.toMillis)
+          }
+          .forall(a => a) must be(true)
       )
     }
   }

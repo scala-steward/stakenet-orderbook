@@ -51,34 +51,31 @@ class WebSocketControllerSpec extends PlaySpec {
 
   "WebSocketController" should {
     "allow to subscribe to a currency" in {
-      withClients(clients = List(walletUserHeaders)) {
-        case Right(alice) :: Nil =>
-          alice.sendCommand(peers.protocol.Command.Subscribe(TradingPair.LTC_BTC, retrieveOrdersSummary = false))
-          alice.expectEvent() must be(
-            peers.protocol.Event.CommandResponse.SubscribeResponse(TradingPair.LTC_BTC, List.empty, List.empty)
-          )
+      withClients(clients = List(walletUserHeaders)) { case Right(alice) :: Nil =>
+        alice.sendCommand(peers.protocol.Command.Subscribe(TradingPair.LTC_BTC, retrieveOrdersSummary = false))
+        alice.expectEvent() must be(
+          peers.protocol.Event.CommandResponse.SubscribeResponse(TradingPair.LTC_BTC, List.empty, List.empty)
+        )
       }
     }
 
     "Fails on malformed command" in {
-      withClients(clients = List(walletUserHeaders)) {
-        case Right(alice) :: Nil =>
-          val malformedCommand = Array[Byte](0x52, 0x61, 0x75, 0x6c)
-          alice.ws.sendBinaryFrame(malformedCommand)
-          alice.expectEvent() must be(
-            peers.protocol.Event.CommandResponse.CommandFailed(
-              "While parsing a protocol message, the input ended unexpectedly in the middle of a field.  This could mean either that the input has been truncated or that an embedded message misreported its own length."
-            )
+      withClients(clients = List(walletUserHeaders)) { case Right(alice) :: Nil =>
+        val malformedCommand = Array[Byte](0x52, 0x61, 0x75, 0x6c)
+        alice.ws.sendBinaryFrame(malformedCommand)
+        alice.expectEvent() must be(
+          peers.protocol.Event.CommandResponse.CommandFailed(
+            "While parsing a protocol message, the input ended unexpectedly in the middle of a field.  This could mean either that the input has been truncated or that an embedded message misreported its own length."
           )
+        )
       }
     }
 
     "Fails on unknown command" in {
-      withClients(clients = List(walletUserHeaders)) {
-        case Right(alice) :: Nil =>
-          val unknownCommand = Array[Byte](10, 2, 105, 100, -126, -126, -126, 100, 0)
-          alice.ws.sendBinaryFrame(unknownCommand)
-          alice.expectEvent() must be(peers.protocol.Event.CommandResponse.CommandFailed("Missing command"))
+      withClients(clients = List(walletUserHeaders)) { case Right(alice) :: Nil =>
+        val unknownCommand = Array[Byte](10, 2, 105, 100, -126, -126, -126, 100, 0)
+        alice.ws.sendBinaryFrame(unknownCommand)
+        alice.expectEvent() must be(peers.protocol.Event.CommandResponse.CommandFailed("Missing command"))
       }
     }
 
@@ -118,19 +115,18 @@ class WebSocketControllerSpec extends PlaySpec {
         Some(BotMakerClient("bot1.xsnbot.com", ClientId.random(), false))
       )
 
-      withClients(clients = List(headers), clientsRepository = clientsRepository) {
-        case Right(botMaker) :: Nil =>
-          val order = SampleOrders.XSN_LTC_BUY_LIMIT_1
-          botMaker.sendCommand(PlaceOrder(order, None))
+      withClients(clients = List(headers), clientsRepository = clientsRepository) { case Right(botMaker) :: Nil =>
+        val order = SampleOrders.XSN_LTC_BUY_LIMIT_1
+        botMaker.sendCommand(PlaceOrder(order, None))
 
-          botMaker.expectEvent() match {
-            case response: Event.CommandResponse.PlaceOrderResponse =>
-              response.result match {
-                case OrderPlaced(orderReceived) => CustomMatchers.matchOrderIgnoreId(orderReceived, order)
-                case _ => fail("Invalid event received")
-              }
-            case _ => fail("Invalid event received")
-          }
+        botMaker.expectEvent() match {
+          case response: Event.CommandResponse.PlaceOrderResponse =>
+            response.result match {
+              case OrderPlaced(orderReceived) => CustomMatchers.matchOrderIgnoreId(orderReceived, order)
+              case _ => fail("Invalid event received")
+            }
+          case _ => fail("Invalid event received")
+        }
       }
     }
 
@@ -143,13 +139,12 @@ class WebSocketControllerSpec extends PlaySpec {
         Some(BotMakerClient("Azuki", ClientId.random(), true))
       )
 
-      withClients(clients = List(headers), clientsRepository = clientsRepository) {
-        case Right(botMaker) :: Nil =>
-          val order = SampleOrders.XSN_LTC_BUY_LIMIT_1
-          botMaker.sendCommand(PlaceOrder(order, None))
+      withClients(clients = List(headers), clientsRepository = clientsRepository) { case Right(botMaker) :: Nil =>
+        val order = SampleOrders.XSN_LTC_BUY_LIMIT_1
+        botMaker.sendCommand(PlaceOrder(order, None))
 
-          val error = "A fee is required but no payment was provided"
-          botMaker.expectEvent() mustBe PlaceOrderResponse(OrderRejected(error))
+        val error = "A fee is required but no payment was provided"
+        botMaker.expectEvent() mustBe PlaceOrderResponse(OrderRejected(error))
       }
     }
 
@@ -162,15 +157,14 @@ class WebSocketControllerSpec extends PlaySpec {
         Some(BotMakerClient("bot1.xsnbot.com", ClientId.random(), true))
       )
 
-      withClients(clients = List(headers), clientsRepository = clientsRepository) {
-        case Right(alice) :: Nil =>
-          alice.sendCommand(GetTradingPairs())
+      withClients(clients = List(headers), clientsRepository = clientsRepository) { case Right(alice) :: Nil =>
+        alice.sendCommand(GetTradingPairs())
 
-          alice.expectEvent() match {
-            case GetTradingPairsResponse(tradingPairs, true) =>
-              tradingPairs.sorted mustBe TradingPair.values.toList.sorted
-            case event => fail(s"Unexpected response: $event")
-          }
+        alice.expectEvent() match {
+          case GetTradingPairsResponse(tradingPairs, true) =>
+            tradingPairs.sorted mustBe TradingPair.values.toList.sorted
+          case event => fail(s"Unexpected response: $event")
+        }
       }
     }
 
@@ -183,27 +177,25 @@ class WebSocketControllerSpec extends PlaySpec {
         Some(BotMakerClient("bot1.xsnbot.com", ClientId.random(), false))
       )
 
-      withClients(clients = List(headers), clientsRepository = clientsRepository) {
-        case Right(alice) :: Nil =>
-          alice.sendCommand(GetTradingPairs())
+      withClients(clients = List(headers), clientsRepository = clientsRepository) { case Right(alice) :: Nil =>
+        alice.sendCommand(GetTradingPairs())
 
-          alice.expectEvent() match {
-            case GetTradingPairsResponse(tradingPairs, false) =>
-              tradingPairs.sorted mustBe TradingPair.values.toList.sorted
-            case event => fail(s"Unexpected response: $event")
-          }
+        alice.expectEvent() match {
+          case GetTradingPairsResponse(tradingPairs, false) =>
+            tradingPairs.sorted mustBe TradingPair.values.toList.sorted
+          case event => fail(s"Unexpected response: $event")
+        }
       }
     }
 
     "Return ServerInMaintenance when server is in maintenance" in {
-      withClients(clients = List(walletUserHeaders), inMaintenance = true) {
-        case Right(alice) :: Nil =>
-          alice.sendCommand(GetTradingPairs())
+      withClients(clients = List(walletUserHeaders), inMaintenance = true) { case Right(alice) :: Nil =>
+        alice.sendCommand(GetTradingPairs())
 
-          (alice.expectEvent(), alice.expectEvent()) match {
-            case (MaintenanceInProgress(), CommandFailed.ServerInMaintenance()) => succeed
-            case events => fail(s"Unexpected response: $events")
-          }
+        (alice.expectEvent(), alice.expectEvent()) match {
+          case (MaintenanceInProgress(), CommandFailed.ServerInMaintenance()) => succeed
+          case events => fail(s"Unexpected response: $events")
+        }
       }
     }
 
@@ -323,17 +315,16 @@ object WebSocketControllerSpec extends PeerCommandCodecs with PeerEventCodecs {
     }
   }
 
-  private def createWSClient(
-      implicit port: play.api.http.Port = new play.api.http.Port(-1),
+  private def createWSClient(implicit
+      port: play.api.http.Port = new play.api.http.Port(-1),
       scheme: String = "http"
   ) = {
     new WsTestClient.InternalWSClient(scheme, port.value)
   }
 
-  /**
-   * A dummy [[Database]] and [[DBApi]] just to allow a play application
-   * to start without connecting to a real database from application.conf.
-   */
+  /** A dummy [[Database]] and [[DBApi]] just to allow a play application to start without connecting to a real database
+    * from application.conf.
+    */
   private val dummyDB = Databases.inMemory()
   private val dummyDBApi = new DBApi {
     override def databases(): Seq[Database] = List(dummyDB)
@@ -341,12 +332,10 @@ object WebSocketControllerSpec extends PeerCommandCodecs with PeerEventCodecs {
     override def shutdown(): Unit = dummyDB.shutdown()
   }
 
-  /**
-   * Loads configuration disabling evolutions on default database.
-   *
-   * This allows to not write a custom application.conf for testing
-   * and ensure play evolutions are disabled.
-   */
+  /** Loads configuration disabling evolutions on default database.
+    *
+    * This allows to not write a custom application.conf for testing and ensure play evolutions are disabled.
+    */
   private def loadConfigWithoutEvolutions(env: Environment): Configuration = {
     val map = Map("play.evolutions.db.default.enabled" -> false)
 
@@ -422,9 +411,8 @@ object WebSocketControllerSpec extends PeerCommandCodecs with PeerEventCodecs {
   )(
       f: PartialFunction[List[Either[Int, ActiveWebSocket]], T]
   ): T = {
-    withClientsAndApp(clients, clientsRepository, makerPaymentsRepository, inMaintenance) {
-      case (_, list) =>
-        f(list)
+    withClientsAndApp(clients, clientsRepository, makerPaymentsRepository, inMaintenance) { case (_, list) =>
+      f(list)
     }
   }
 

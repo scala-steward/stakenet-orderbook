@@ -175,16 +175,15 @@ class CommandResponseCodecsSpec extends AnyWordSpec with CommandResponseCodecs {
   val codec = implicitly[CommandResponseCodec]
 
   "EventCodec" should {
-    tests.foreach {
-      case (name, evt) =>
-        s"encode and decode the same CommandResponse: $name" in {
+    tests.foreach { case (name, evt) =>
+      s"encode and decode the same CommandResponse: $name" in {
 
-          val model = TaggedCommandResponse("response-Id", evt)
+        val model = TaggedCommandResponse("response-Id", evt)
 
-          val proto = codec.encode(model)
-          val decoded = codec.decode(proto)
-          decoded must be(model)
-        }
+        val proto = codec.encode(model)
+        val decoded = codec.decode(proto)
+        decoded must be(model)
+      }
     }
   }
 }

@@ -26,8 +26,8 @@ class CleanTradingPairOrdersSpec extends PeerSpecBase("CleanTradingPairOrdersSpe
           discardMsg(alice)
 
           bob.actor ! WebSocketIncomingMessage("id", PlaceOrder(order3, None))
-          discardMsg(bob) //order matched
-          discardMsg(alice) //order matched
+          discardMsg(bob) // order matched
+          discardMsg(alice) // order matched
 
           alice.actor ! WebSocketIncomingMessage("id", CleanTradingPairOrders(pair))
 

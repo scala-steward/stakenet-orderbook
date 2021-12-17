@@ -23,8 +23,8 @@ class CancelMatchedOrderSpec extends PeerSpecBase("CancelMatchedOrderSpec") {
           bob.actor ! WebSocketIncomingMessage("id", PlaceOrder(bobOrder, None))
           discardMsg(bob) // order matched
 
-          val trade = alice.client.expectMsgPF() {
-            case WebSocketOutgoingMessage(_, _, MyOrderMatched(trade, _)) => trade
+          val trade = alice.client.expectMsgPF() { case WebSocketOutgoingMessage(_, _, MyOrderMatched(trade, _)) =>
+            trade
           }
 
           alice.actor ! WebSocketIncomingMessage("id", CancelMatchedOrder(aliceOrder.id))
@@ -44,8 +44,8 @@ class CancelMatchedOrderSpec extends PeerSpecBase("CancelMatchedOrderSpec") {
         bob.actor ! WebSocketIncomingMessage("id", PlaceOrder(bobOrder, None))
         discardMsg(bob) // order matched
 
-        val trade = alice.client.expectMsgPF() {
-          case WebSocketOutgoingMessage(_, _, MyOrderMatched(trade, _)) => trade
+        val trade = alice.client.expectMsgPF() { case WebSocketOutgoingMessage(_, _, MyOrderMatched(trade, _)) =>
+          trade
         }
 
         alice.actor ! WebSocketIncomingMessage("id", CancelMatchedOrder(aliceOrder.id))
@@ -64,8 +64,8 @@ class CancelMatchedOrderSpec extends PeerSpecBase("CancelMatchedOrderSpec") {
         bob.actor ! WebSocketIncomingMessage("id", PlaceOrder(bobOrder, None))
         discardMsg(bob) // order matched
 
-        val trade = alice.client.expectMsgPF() {
-          case WebSocketOutgoingMessage(_, _, MyOrderMatched(trade, _)) => trade
+        val trade = alice.client.expectMsgPF() { case WebSocketOutgoingMessage(_, _, MyOrderMatched(trade, _)) =>
+          trade
         }
 
         bob.actor ! WebSocketIncomingMessage("id", CancelMatchedOrder(bobOrder.id))

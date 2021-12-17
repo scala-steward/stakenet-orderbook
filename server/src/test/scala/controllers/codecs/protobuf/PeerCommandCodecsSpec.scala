@@ -83,32 +83,30 @@ class PeerCommandCodecsSpec extends AnyWordSpec with PeerCommandCodecs {
   private val codec: CommandCodec = implicitly[CommandCodec]
 
   "CommandCodec" should {
-    tests.foreach {
-      case (name, cmd) =>
-        s"encode and decode the same command: $name" in {
-          val model = WebSocketIncomingMessage("requestId", cmd)
-          val proto = codec.encode(model)
-          val decoded = codec.decode(proto)
-          decoded must be(model)
-        }
+    tests.foreach { case (name, cmd) =>
+      s"encode and decode the same command: $name" in {
+        val model = WebSocketIncomingMessage("requestId", cmd)
+        val proto = codec.encode(model)
+        val decoded = codec.decode(proto)
+        decoded must be(model)
+      }
     }
 
-    testPlaceOrder.foreach {
-      case (name, cmd) =>
-        s"encode and decode the placeOrder command: $name ignoring the order id" in {
-          val model = WebSocketIncomingMessage("requestId", cmd)
-          val proto = codec.encode(model)
-          val decoded = codec.decode(proto)
-          decoded.clientMessageId mustBe (model.clientMessageId)
-          (decoded.command, model.command) match {
-            case (decodedCommand: Command.PlaceOrder, modelCommand: Command.PlaceOrder) =>
-              decodedCommand.paymentHash mustBe modelCommand.paymentHash
-              decodedCommand.order.pair mustBe modelCommand.order.pair
-              CustomMatchers.matchOrderIgnoreId(decodedCommand.order, modelCommand.order)
+    testPlaceOrder.foreach { case (name, cmd) =>
+      s"encode and decode the placeOrder command: $name ignoring the order id" in {
+        val model = WebSocketIncomingMessage("requestId", cmd)
+        val proto = codec.encode(model)
+        val decoded = codec.decode(proto)
+        decoded.clientMessageId mustBe (model.clientMessageId)
+        (decoded.command, model.command) match {
+          case (decodedCommand: Command.PlaceOrder, modelCommand: Command.PlaceOrder) =>
+            decodedCommand.paymentHash mustBe modelCommand.paymentHash
+            decodedCommand.order.pair mustBe modelCommand.order.pair
+            CustomMatchers.matchOrderIgnoreId(decodedCommand.order, modelCommand.order)
 
-            case _ => fail("only PlaceOrder command is allowed")
-          }
+          case _ => fail("only PlaceOrder command is allowed")
         }
+      }
     }
   }
 }

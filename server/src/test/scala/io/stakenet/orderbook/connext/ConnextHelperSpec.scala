@@ -427,9 +427,8 @@ class ConnextHelperSpec extends AsyncWordSpec with Matchers {
   private def getActiveTransfersResponse(transfer: (PaymentRHash, Int)*): JsValue = {
     Json.parse(
       transfer
-        .map {
-          case (paymentHash, amount) =>
-            s"""{
+        .map { case (paymentHash, amount) =>
+          s"""{
           |  "inDispute": false,
           |  "channelFactoryAddress": "0x345cA3e014Aaf5dcA488057592ee47305D9B3e10",
           |  "assetId": "0x0000000000000000000000000000000000000000",

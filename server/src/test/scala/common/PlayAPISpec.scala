@@ -12,9 +12,8 @@ import play.api.{Application, Mode}
 
 import scala.concurrent.Future
 
-/**
- * A PlayAPISpec allow us to write tests for the API calls.
- */
+/** A PlayAPISpec allow us to write tests for the API calls.
+  */
 trait PlayAPISpec extends PlaySpec with ScalaFutures {
 
   protected def guiceApplicationBuilder: GuiceApplicationBuilder =
@@ -28,7 +27,7 @@ trait PlayAPISpec extends PlaySpec with ScalaFutures {
 
   protected def log[T](request: FakeRequest[T], response: Future[Result]): Unit
 
-  /** Syntactic sugar for calling APIs **/
+  /** Syntactic sugar for calling APIs * */
   def GET(url: String, extraHeaders: (String, String)*): Future[Result] = {
     val headers = JsonHeader :: extraHeaders.toList
     val request = FakeRequest("GET", url)
@@ -91,11 +90,10 @@ object PlayAPISpec {
 
       def toQueryString: String = {
         params
-          .map {
-            case (key, value) =>
-              val encodedKey = URLEncoder.encode(key, "UTF-8")
-              val encodedValue = URLEncoder.encode(value, "UTF-8")
-              List(encodedKey, encodedValue).mkString("=")
+          .map { case (key, value) =>
+            val encodedKey = URLEncoder.encode(key, "UTF-8")
+            val encodedValue = URLEncoder.encode(value, "UTF-8")
+            List(encodedKey, encodedValue).mkString("=")
           }
           .mkString("&")
       }
