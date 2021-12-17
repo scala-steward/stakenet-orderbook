@@ -96,7 +96,7 @@ libraryDependencies += "io.kamon" %% "kamon-apm-reporter" % "2.4.2"
 
 libraryDependencies ++= Seq(
   "com.spotify" % "docker-client" % "8.16.0" % "test",
-  "com.whisk" %% "docker-testkit-scalatest" % "0.11.0" % "test",
+  "com.whisk" %% "docker-testkit-scalatest" % "0.9.9" % "test",
   "com.whisk" %% "docker-testkit-impl-spotify" % "0.9.9" % "test"
 )
 
