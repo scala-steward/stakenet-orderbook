@@ -74,8 +74,8 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.9"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test
 libraryDependencies += "org.mockito" %% "mockito-scala" % "1.16.49" % Test
 
-libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.6.17" % Test
-libraryDependencies += "com.typesafe.akka" %% "akka-stream-typed" % "2.6.17"
+libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.6.18" % Test
+libraryDependencies += "com.typesafe.akka" %% "akka-stream-typed" % "2.6.18"
 
 libraryDependencies ++= Seq(
   "com.beachape" %% "enumeratum" % "1.7.0"
@@ -104,6 +104,6 @@ resolvers += Resolver.JCenterRepository
 libraryDependencies += "net.katsstuff" %% "ackcord" % "0.17.1"
 
 // required because AckCord is overriding the akka version to 2.6.6, see https://github.com/akka/akka/issues/29351
-libraryDependencies += "com.typesafe.akka" %% "akka-serialization-jackson" % "2.6.17"
+libraryDependencies += "com.typesafe.akka" %% "akka-serialization-jackson" % "2.6.18"
 
 libraryDependencies += "org.web3j" % "core" % "5.0.0"
