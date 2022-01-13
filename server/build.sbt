@@ -1,7 +1,7 @@
 import scalapb.compiler.Version.{grpcJavaVersion, scalapbVersion}
 name := "orderbook-server"
 organization := "io.stakenet"
-scalaVersion := "2.13.7"
+scalaVersion := "2.13.8"
 
 (Test / fork) := true
 
