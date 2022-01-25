@@ -55,7 +55,7 @@ libraryDependencies ++= Seq(guice, evolutions, jdbc, ws)
 
 libraryDependencies ++= Seq(
   "io.grpc" % "grpc-netty-shaded" % grpcJavaVersion,
-  "io.netty" % "netty-tcnative-boringssl-static" % "2.0.46.Final",
+  "io.netty" % "netty-tcnative-boringssl-static" % "2.0.48.Final",
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf",
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapbVersion
 )
