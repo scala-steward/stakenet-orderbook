@@ -188,7 +188,7 @@ class LndFeeService @Inject() (
           .map { result =>
             result.left.map {
               case _: NoChannelWithCounterParty => s"no channel with client $clientId"
-              case _: TransferNotFound => s"transfer not found for payment has $hash"
+              case _: TransferNotFound => s"transfer not found for payment hash $hash"
               case _: CouldNotResolveTransfer => s"An error ocurred resolving the fee transfer"
             }
           }

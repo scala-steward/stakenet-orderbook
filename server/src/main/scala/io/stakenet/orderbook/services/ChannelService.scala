@@ -127,8 +127,7 @@ object ChannelService {
       clientsRepository: ClientsRepository.FutureImpl,
       connextHelper: ConnextHelper,
       channelDepositMonitor: ChannelDepositMonitor,
-      feeService: FeeService,
-      ethService: ETHService
+      feeService: FeeService
   )(implicit
       ec: ExecutionContext,
       scheduler: Scheduler
@@ -629,17 +628,20 @@ object ChannelService {
       val hubAddress = channelRentalConfig.connextHubAddress
       val expectedFee = channelRentalConfig.connextChannelContractFee
 
-      ethService.getTransaction(transactionHash).flatMap {
-        case transaction if transaction.to != hubAddress =>
+      explorerService.getTransaction(Currency.ETH, transactionHash).flatMap {
+        case Right(transaction) if !transaction.to.equalsIgnoreCase(hubAddress) =>
           Future.successful(Left(s"Transaction must be paid to $hubAddress"))
 
-        case transaction if transaction.value != expectedFee =>
+        case Right(transaction) if transaction.value != expectedFee =>
           Future.successful(Left(s"expected $expectedFee, got ${transaction.value}"))
 
-        case _ =>
+        case Right(_) =>
           channelsRepository
             .createConnextChannelContractDeploymentFee(transactionHash, clientId, expectedFee)
             .map(Right.apply)
+
+        case Left(error) =>
+          Future.successful(Left(error.getMessage))
       }
     }
 

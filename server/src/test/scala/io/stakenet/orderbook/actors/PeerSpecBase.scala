@@ -35,7 +35,6 @@ import io.stakenet.orderbook.services.impl.{LndFeeService, SimpleOrderMatcherSer
 import io.stakenet.orderbook.services.validators.OrderValidator
 import io.stakenet.orderbook.services.{
   CurrencyConverter,
-  ETHService,
   ExplorerService,
   MakerPaymentService,
   PaymentService,
@@ -82,7 +81,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       connextHelper: ConnextHelper = mock[ConnextHelper],
       makerPaymentService: MakerPaymentService = mock[MakerPaymentService],
       preimagesRepository: PreimagesRepository.Blocking = mock[PreimagesRepository.Blocking],
-      ethService: ETHService = mock[ETHService]
+      explorerService: ExplorerService = dummyExplorerService
   )(
       names: String*
   )(f: PartialFunction[TestData, T]): T = {
@@ -117,7 +116,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
         connextHelper,
         makerPaymentService,
         preimagesRepository,
-        ethService
+        explorerService
       )
     }
     val data = TestData(peers.toList, orderManager, peerMessageFilter)
@@ -145,7 +144,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       connextHelper: ConnextHelper = mock[ConnextHelper],
       makerPaymentService: MakerPaymentService = mock[MakerPaymentService],
       preimagesRepository: PreimagesRepository.Blocking = mock[PreimagesRepository.Blocking],
-      ethService: ETHService = mock[ETHService]
+      explorerService: ExplorerService = dummyExplorerService
   )(
       f: Peer => T
   ): T = {
@@ -165,7 +164,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       connextHelper,
       makerPaymentService,
       preimagesRepository,
-      ethService
+      explorerService
     )("alice") { case TestData(alice :: Nil, _, _) =>
       f(alice)
     }
@@ -187,7 +186,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       connextHelper: ConnextHelper = mock[ConnextHelper],
       makerPaymentService: MakerPaymentService = mock[MakerPaymentService],
       preimagesRepository: PreimagesRepository.Blocking = mock[PreimagesRepository.Blocking],
-      ethService: ETHService = mock[ETHService]
+      explorerService: ExplorerService = dummyExplorerService
   )(f: (Peer, Peer) => T): T = {
     withPeers(
       feesEnabled,
@@ -205,7 +204,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       connextHelper,
       makerPaymentService,
       preimagesRepository,
-      ethService
+      explorerService
     )("alice", "bob") { case TestData(alice :: bob :: Nil, _, _) =>
       f(alice, bob)
     }
@@ -253,7 +252,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       connextHelper: ConnextHelper,
       makerPaymentService: MakerPaymentService,
       preimagesRepository: PreimagesRepository.Blocking,
-      ethService: ETHService
+      explorerService: ExplorerService
   )(implicit
       system: ActorSystem
   ): Peer = {
@@ -263,24 +262,6 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
     val reportService = new reports.ReportsRepository.FutureImpl(reportsRepository)(Executors.databaseEC)
     val tradesRepositoryAsync = new TradesRepository.FutureImpl(tradesRepository)(Executors.databaseEC)
     val channelsRepositoryAsync = new channels.ChannelsRepository.FutureImpl(channelsRepository)(Executors.databaseEC)
-
-    object explorerService extends ExplorerService {
-      override def getUSDPrice(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, BigDecimal]] =
-        Future.successful(Right(1))
-
-      override def getPrices(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, CurrencyPrices]] =
-        Future.successful(
-          Right(CurrencyPrices(currency, BigDecimal(1), BigDecimal(1), Instant.now))
-        )
-
-      override def getTransactionFee(
-          currency: Currency,
-          transactionHash: String
-      ): Future[Either[ExplorerService.ExplorerErrors, Satoshis]] = Future.successful(Right(Satoshis.One))
-
-      override def getEstimateFee(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, EstimatedFee]] =
-        Future.successful(Right(EstimatedFee(currency.networkFee)))
-    }
 
     val priceApi = new PriceApi(
       tradesRepositoryAsync,
@@ -310,7 +291,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
     )
 
     val channelDepositMonitor = new ChannelDepositMonitor(
-      ethService,
+      explorerService,
       connextHelper,
       channelsRepositoryAsync,
       defaultRetryConfig
@@ -329,8 +310,7 @@ class PeerSpecBase(actorSystemName: String) extends TestKit(ActorSystem(actorSys
       new ClientsRepository.FutureImpl(clientsRepository)(Executors.databaseEC),
       connextHelper,
       channelDepositMonitor,
-      feeService,
-      ethService
+      feeService
     )(Executors.globalEC, system.scheduler)
 
     val peerActorFactory = new PeerActor.Factory(
@@ -368,3 +348,31 @@ case class TestData(
     orderManagerActor: OrderManagerActor.Ref,
     messageFilter: PeerMessageFilterActor.Ref
 )
+
+object dummyExplorerService extends ExplorerService {
+  override def getUSDPrice(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, BigDecimal]] =
+    Future.successful(Right(1))
+
+  override def getPrices(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, CurrencyPrices]] =
+    Future.successful(
+      Right(CurrencyPrices(currency, BigDecimal(1), BigDecimal(1), Instant.now))
+    )
+
+  override def getTransactionFee(
+      currency: Currency,
+      transactionHash: String
+  ): Future[Either[ExplorerService.ExplorerErrors, Satoshis]] = Future.successful(Right(Satoshis.One))
+
+  override def getEstimateFee(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, EstimatedFee]] =
+    Future.successful(Right(EstimatedFee(currency.networkFee)))
+
+  override def getLatestBlockNumber(currency: Currency): Future[Either[ExplorerService.ExplorerErrors, BigInt]] =
+    Future.successful(Right(123))
+
+  override def getTransaction(
+      currency: Currency,
+      transactionHash: String
+  ): Future[Either[ExplorerService.ExplorerErrors, ExplorerService.Transaction]] = {
+    Future.successful(Right(ExplorerService.Transaction(123, "0x123", Satoshis.One)))
+  }
+}

@@ -7,12 +7,12 @@ import io.stakenet.orderbook.actors.peers.protocol.Event.CommandResponse.{
   RegisterConnextChannelContractDeploymentFeeResponse
 }
 import io.stakenet.orderbook.actors.peers.ws.{WebSocketIncomingMessage, WebSocketOutgoingMessage}
-import io.stakenet.orderbook.models.Satoshis
+import io.stakenet.orderbook.models.{Currency, Satoshis}
 import io.stakenet.orderbook.models.clients.ClientId
 import io.stakenet.orderbook.repositories.channels.ChannelsRepository
-import io.stakenet.orderbook.services.ETHService
-import org.mockito.MockitoSugar._
+import io.stakenet.orderbook.services.ExplorerService
 import org.mockito.ArgumentMatchersSugar._
+import org.mockito.MockitoSugar._
 import org.scalatest.OptionValues._
 
 import scala.concurrent.Future
@@ -20,15 +20,19 @@ import scala.concurrent.Future
 class RegisterConnextChannelContractDeploymentFeeSpec extends PeerSpecBase("GetBarsPricesSpec") {
   "RegisterConnextChannelContractDeploymentFee" should {
     val channelsRepository = mock[ChannelsRepository.Blocking]
-    val ethService = mock[ETHService]
+    val ethService = mock[ExplorerService]
 
     s"register the fee payment" in {
-      withSinglePeer(channelsRepository = channelsRepository, ethService = ethService) { alice =>
+      withSinglePeer(channelsRepository = channelsRepository, explorerService = ethService) { alice =>
         val requestId = "id"
         val transactionHash = "hash"
-        val transaction = ETHService.Transaction(BigInt(20), "hubAddress", Satoshis.from(BigDecimal("0.015")).value)
+        val transaction = ExplorerService.Transaction(
+          blockNumber = BigInt(20),
+          to = "hubAddress",
+          value = Satoshis.from(BigDecimal("0.015")).value
+        )
 
-        when(ethService.getTransaction(transactionHash)).thenReturn(Future.successful(transaction))
+        when(ethService.getTransaction(Currency.ETH, transactionHash)).thenReturn(Future.successful(Right(transaction)))
         when(
           channelsRepository.createConnextChannelContractDeploymentFee(
             eqTo(transactionHash),
@@ -50,12 +54,16 @@ class RegisterConnextChannelContractDeploymentFeeSpec extends PeerSpecBase("GetB
     }
 
     s"fail when transaction is not paid to the hub address" in {
-      withSinglePeer(channelsRepository = channelsRepository, ethService = ethService) { alice =>
+      withSinglePeer(channelsRepository = channelsRepository, explorerService = ethService) { alice =>
         val requestId = "id"
         val transactionHash = "hash"
-        val transaction = ETHService.Transaction(BigInt(20), "notHubAddress", Satoshis.from(BigDecimal("0.015")).value)
+        val transaction = ExplorerService.Transaction(
+          blockNumber = BigInt(20),
+          to = "notHubAddress",
+          value = Satoshis.from(BigDecimal("0.015")).value
+        )
 
-        when(ethService.getTransaction(transactionHash)).thenReturn(Future.successful(transaction))
+        when(ethService.getTransaction(Currency.ETH, transactionHash)).thenReturn(Future.successful(Right(transaction)))
 
         alice.actor ! WebSocketIncomingMessage(requestId, RegisterConnextChannelContractDeploymentFee(transactionHash))
 
@@ -66,12 +74,16 @@ class RegisterConnextChannelContractDeploymentFeeSpec extends PeerSpecBase("GetB
     }
 
     s"fail when paid fee does not match expected fee" in {
-      withSinglePeer(channelsRepository = channelsRepository, ethService = ethService) { alice =>
+      withSinglePeer(channelsRepository = channelsRepository, explorerService = ethService) { alice =>
         val requestId = "id"
         val transactionHash = "hash"
-        val transaction = ETHService.Transaction(BigInt(20), "hubAddress", Satoshis.from(BigDecimal("0.0151")).value)
+        val transaction = ExplorerService.Transaction(
+          blockNumber = BigInt(20),
+          to = "hubAddress",
+          value = Satoshis.from(BigDecimal("0.0151")).value
+        )
 
-        when(ethService.getTransaction(transactionHash)).thenReturn(Future.successful(transaction))
+        when(ethService.getTransaction(Currency.ETH, transactionHash)).thenReturn(Future.successful(Right(transaction)))
 
         alice.actor ! WebSocketIncomingMessage(requestId, RegisterConnextChannelContractDeploymentFee(transactionHash))
 
@@ -86,12 +98,16 @@ class RegisterConnextChannelContractDeploymentFeeSpec extends PeerSpecBase("GetB
     }
 
     s"fail when repository fails" in {
-      withSinglePeer(channelsRepository = channelsRepository, ethService = ethService) { alice =>
+      withSinglePeer(channelsRepository = channelsRepository, explorerService = ethService) { alice =>
         val requestId = "id"
         val transactionHash = "hash"
-        val transaction = ETHService.Transaction(BigInt(20), "hubAddress", Satoshis.from(BigDecimal("0.015")).value)
+        val transaction = ExplorerService.Transaction(
+          blockNumber = BigInt(20),
+          to = "hubAddress",
+          value = Satoshis.from(BigDecimal("0.015")).value
+        )
 
-        when(ethService.getTransaction(transactionHash)).thenReturn(Future.successful(transaction))
+        when(ethService.getTransaction(Currency.ETH, transactionHash)).thenReturn(Future.successful(Right(transaction)))
         when(
           channelsRepository.createConnextChannelContractDeploymentFee(
             eqTo(transactionHash),

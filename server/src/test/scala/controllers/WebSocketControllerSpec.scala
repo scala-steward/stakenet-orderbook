@@ -8,7 +8,7 @@ import akka.util.Timeout
 import controllers.codecs.protobuf.{PeerCommandCodecs, PeerEventCodecs, WebSocket}
 import io.stakenet.orderbook.actors.maintenance.PeerMessageFilterActor
 import io.stakenet.orderbook.actors.orders.OrderManagerActor
-import io.stakenet.orderbook.actors.peers
+import io.stakenet.orderbook.actors.{dummyExplorerService, peers}
 import io.stakenet.orderbook.actors.peers.protocol.Command.{GetTradingPairs, PlaceOrder}
 import io.stakenet.orderbook.actors.peers.protocol.Event
 import io.stakenet.orderbook.actors.peers.protocol.Event.CommandResponse._
@@ -25,7 +25,7 @@ import io.stakenet.orderbook.modules.{DiscordModule, TasksModule}
 import io.stakenet.orderbook.protos
 import io.stakenet.orderbook.repositories.clients.ClientsRepository
 import io.stakenet.orderbook.repositories.makerPayments.MakerPaymentsRepository
-import io.stakenet.orderbook.services.{IpInfoErrors, IpInfoService}
+import io.stakenet.orderbook.services.{ExplorerService, IpInfoErrors, IpInfoService}
 import org.mockito.MockitoSugar._
 import org.scalatest.OptionValues._
 import org.scalatest.concurrent.Eventually._
@@ -364,6 +364,7 @@ object WebSocketControllerSpec extends PeerCommandCodecs with PeerEventCodecs {
       .overrides(bind[IpInfoService].to(dummyIpInfo))
       .overrides(bind[ClientsRepository.Blocking].to(clientsRepository))
       .overrides(bind[MakerPaymentsRepository.Blocking].to(makerPaymentsRepository))
+      .overrides(bind[ExplorerService].to(dummyExplorerService))
   }
 
   private def withClientsAndApp[T](

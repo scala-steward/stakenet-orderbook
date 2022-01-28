@@ -10,6 +10,7 @@ class TasksModule extends AbstractModule {
     bind(classOf[CloseExpiredChannelsTask]).asEagerSingleton()
     bind(classOf[WithdrawExpiredConnextChannelsTask]).asEagerSingleton()
     bind(classOf[ChannelStatusUpdaterTask]).asEagerSingleton()
+    bind(classOf[ConnextChannelStatusUpdater]).asEagerSingleton()
     bind(classOf[ClientStatusLoggerTask]).asEagerSingleton()
     bind(classOf[CurrencyPricesLoggerTask]).asEagerSingleton()
   }

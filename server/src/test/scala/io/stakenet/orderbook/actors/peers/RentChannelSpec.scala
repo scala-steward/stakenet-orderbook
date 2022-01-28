@@ -1,8 +1,5 @@
 package io.stakenet.orderbook.actors.peers
 
-import java.time.Instant
-import java.util.concurrent.TimeUnit
-
 import com.google.protobuf.ByteString
 import helpers.Helpers
 import io.stakenet.orderbook.actors.PeerSpecBase
@@ -20,12 +17,14 @@ import io.stakenet.orderbook.models.{Channel, Currency, Preimage, Satoshis}
 import io.stakenet.orderbook.repositories.channels.ChannelsRepository
 import io.stakenet.orderbook.repositories.clients.ClientsRepository
 import io.stakenet.orderbook.repositories.preimages.PreimagesRepository
-import io.stakenet.orderbook.services.{ETHService, PaymentService}
+import io.stakenet.orderbook.services.{ExplorerService, PaymentService}
 import lnrpc.rpc.{OpenStatusUpdate, PendingUpdate}
 import org.mockito.ArgumentMatchersSugar.{any, eqTo}
 import org.mockito.MockitoSugar._
 import org.mockito.{ArgumentCaptor, Mockito}
 
+import java.time.Instant
+import java.util.concurrent.TimeUnit
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
@@ -95,7 +94,7 @@ class RentChannelSpec extends PeerSpecBase("RentChannelSpec") {
       val clientsRepository = mock[ClientsRepository.Blocking]
       val connext = mock[ConnextHelper]
       val preimageRepository = mock[PreimagesRepository.Blocking]
-      val eth = mock[ETHService]
+      val eth = mock[ExplorerService]
 
       withSinglePeer(
         paymentService = paymentService,
@@ -103,7 +102,7 @@ class RentChannelSpec extends PeerSpecBase("RentChannelSpec") {
         clientsRepository = clientsRepository,
         connextHelper = connext,
         preimagesRepository = preimageRepository,
-        ethService = eth
+        explorerService = eth
       ) { alice =>
         val requestId = "id"
         val paymentRHash = Helpers.randomPaymentHash()
@@ -132,9 +131,9 @@ class RentChannelSpec extends PeerSpecBase("RentChannelSpec") {
         when(connext.channelDeposit(address.value, capacity, Currency.ETH)).thenReturn(Future.successful("hash"))
         when(channelsRepository.createChannel(any[Channel.ConnextChannel], eqTo("hash"))).thenReturn(())
 
-        when(eth.getLatestBlockNumber()).thenReturn(Future.successful(BigInt(50)))
-        when(eth.getTransaction("hash")).thenReturn(
-          Future.successful(ETHService.Transaction(BigInt(20), "address", Satoshis.One))
+        when(eth.getLatestBlockNumber(Currency.ETH)).thenReturn(Future.successful(Right(BigInt(50))))
+        when(eth.getTransaction(Currency.ETH, "hash")).thenReturn(
+          Future.successful(Right(ExplorerService.Transaction(BigInt(20), "address", Satoshis.One)))
         )
 
         alice.actor ! WebSocketIncomingMessage(requestId, RentChannel(paymentRHash, Currency.ETH))

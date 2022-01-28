@@ -8,18 +8,18 @@ import io.stakenet.orderbook.executors.DatabaseExecutionContext
 import io.stakenet.orderbook.helpers.{Executors, SampleChannels}
 import io.stakenet.orderbook.models.clients.ClientIdentifier.ClientConnextPublicIdentifier
 import io.stakenet.orderbook.models.clients.Identifier.ConnextPublicIdentifier
-import io.stakenet.orderbook.models.{Channel, ChannelIdentifier, ConnextChannelStatus, Currency, Satoshis}
+import io.stakenet.orderbook.models._
 import io.stakenet.orderbook.repositories.channels
 import io.stakenet.orderbook.repositories.channels.ChannelsPostgresRepository
 import io.stakenet.orderbook.repositories.clients.ClientsPostgresRepository
 import io.stakenet.orderbook.repositories.common.PostgresRepositorySpec
-import io.stakenet.orderbook.services.ETHService
+import io.stakenet.orderbook.services.ExplorerService
 import org.mockito.MockitoSugar._
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues._
 import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.Eventually._
+import org.scalatest.matchers.must.Matchers
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -36,7 +36,7 @@ class ChannelDepositMonitorSpec extends PostgresRepositorySpec with TestKitBase 
 
   "monitor" should {
     "should update channel balance after 12 confirmations" in {
-      val ethService = mock[ETHService]
+      val ethService = mock[ExplorerService]
       val connextHelper = mock[ConnextHelper]
       val monitor = getMonitor(ethService, connextHelper)
 
@@ -45,10 +45,10 @@ class ChannelDepositMonitorSpec extends PostgresRepositorySpec with TestKitBase 
       val currency = Currency.WETH
 
       val channel = createChannelWithAddress(channelAddress)
-      val transaction = ETHService.Transaction(BigInt(20), "address", Satoshis.Zero)
+      val transaction = ExplorerService.Transaction(BigInt(20), "address", Satoshis.Zero)
 
-      when(ethService.getTransaction(transactionHash)).thenReturn(Future.successful(transaction))
-      when(ethService.getLatestBlockNumber()).thenReturn(Future.successful(35))
+      when(ethService.getTransaction(currency, transactionHash)).thenReturn(Future.successful(Right(transaction)))
+      when(ethService.getLatestBlockNumber(currency)).thenReturn(Future.successful(Right(35)))
       when(connextHelper.updateChannelBalance(channelAddress, currency)).thenReturn(Future.unit)
 
       monitor.monitor(channelAddress, transactionHash, currency)
@@ -62,7 +62,7 @@ class ChannelDepositMonitorSpec extends PostgresRepositorySpec with TestKitBase 
     }
 
     "should keep retrying until transactions has 12 confirmations" in {
-      val ethService = mock[ETHService]
+      val ethService = mock[ExplorerService]
       val connextHelper = mock[ConnextHelper]
       val monitor = getMonitor(ethService, connextHelper)
 
@@ -71,13 +71,13 @@ class ChannelDepositMonitorSpec extends PostgresRepositorySpec with TestKitBase 
       val currency = Currency.WETH
 
       val channel = createChannelWithAddress(channelAddress)
-      val transaction = ETHService.Transaction(BigInt(20), "address", Satoshis.Zero)
+      val transaction = ExplorerService.Transaction(BigInt(20), "address", Satoshis.Zero)
 
-      when(ethService.getTransaction(transactionHash)).thenReturn(Future.successful(transaction))
-      when(ethService.getLatestBlockNumber()).thenReturn(
-        Future.successful(20),
-        Future.successful(25),
-        Future.successful(35)
+      when(ethService.getTransaction(currency, transactionHash)).thenReturn(Future.successful(Right(transaction)))
+      when(ethService.getLatestBlockNumber(currency)).thenReturn(
+        Future.successful(Right(20)),
+        Future.successful(Right(25)),
+        Future.successful(Right(35))
       )
       when(connextHelper.updateChannelBalance(channelAddress, currency)).thenReturn(Future.unit)
 
@@ -89,7 +89,7 @@ class ChannelDepositMonitorSpec extends PostgresRepositorySpec with TestKitBase 
       )
 
       eventually {
-        verify(ethService, times(3)).getLatestBlockNumber()
+        verify(ethService, times(3)).getLatestBlockNumber(currency)
         verify(connextHelper).updateChannelBalance(channelAddress, currency)
 
         val result = channelsRepository.findConnextChannel(channel.paymentRHash, channel.payingCurrency).value
@@ -98,7 +98,7 @@ class ChannelDepositMonitorSpec extends PostgresRepositorySpec with TestKitBase 
     }
   }
 
-  private def getMonitor(ethService: ETHService, connextHelper: ConnextHelper): ChannelDepositMonitor = {
+  private def getMonitor(ethService: ExplorerService, connextHelper: ConnextHelper): ChannelDepositMonitor = {
     implicit val ec: DatabaseExecutionContext = Executors.databaseEC
     implicit val scheduler: Scheduler = system.scheduler
 

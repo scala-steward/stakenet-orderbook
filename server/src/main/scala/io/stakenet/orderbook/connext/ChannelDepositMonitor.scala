@@ -6,15 +6,15 @@ import io.stakenet.orderbook.config.RetryConfig
 import io.stakenet.orderbook.models.ChannelIdentifier.ConnextChannelAddress
 import io.stakenet.orderbook.models.Currency
 import io.stakenet.orderbook.repositories.channels.ChannelsRepository
-import io.stakenet.orderbook.services.ETHService
+import io.stakenet.orderbook.services.ExplorerService
 import io.stakenet.orderbook.utils.RetryableFuture
 import org.slf4j.LoggerFactory
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Success, Try}
 
 class ChannelDepositMonitor @Inject() (
-    ethService: ETHService,
+    explorerService: ExplorerService,
     connextHelper: ConnextHelper,
     channelsRepository: ChannelsRepository.FutureImpl,
     retryConfig: RetryConfig
@@ -37,8 +37,15 @@ class ChannelDepositMonitor @Inject() (
 
     val confirmations = waitForConfirmation(shouldWait) {
       for {
-        transaction <- ethService.getTransaction(transactionHash)
-        latestBlockNumber <- ethService.getLatestBlockNumber()
+        transaction <- explorerService.getTransaction(currency, transactionHash).flatMap {
+          case Right(transaction) => Future.successful(transaction)
+          case Left(error) => Future.failed(new RuntimeException(error.getMessage))
+        }
+
+        latestBlockNumber <- explorerService.getLatestBlockNumber(currency).flatMap {
+          case Right(blockNumber) => Future.successful(blockNumber)
+          case Left(error) => Future.failed(new RuntimeException(error.getMessage))
+        }
       } yield latestBlockNumber - transaction.blockNumber
     }
 
