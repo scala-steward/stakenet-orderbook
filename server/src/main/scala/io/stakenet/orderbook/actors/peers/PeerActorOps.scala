@@ -482,8 +482,8 @@ private[peers] class PeerActorOps @Inject() (
         } yield {
           discordHelper.sendMessage(
             s"New channel fee paid: ${paymentData.amount
-              .toString(payingCurrency)}, for currency = ${feePayment.currency}, capacity = ${feePayment.capacity
-              .toString(feePayment.currency)}, lifetime = ${feePayment.lifeTimeDays} days"
+                .toString(payingCurrency)}, for currency = ${feePayment.currency}, capacity = ${feePayment.capacity
+                .toString(feePayment.currency)}, lifetime = ${feePayment.lifeTimeDays} days"
           )
 
           Event.CommandResponse.RentChannelResponse(
